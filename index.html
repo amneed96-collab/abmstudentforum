@@ -1,0 +1,2793 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>শিক্ষার্থী ফোরাম</title>
+<link rel="icon" id="faviconLink" href="data:,">
+<style>
+/* ============================================================
+   ডিজাইন টোকেন
+   প্যালেট: গভীর সবুজ (ঐতিহ্য/প্রতিষ্ঠান) + পুরনো সোনালি (সম্মাননা/সনদ)
+   টাইপ: Hind Siliguri (হেডিং, ভারী ওজন) + Noto Sans Bengali (বডি)
+   ============================================================ */
+@import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Noto+Sans+Bengali:wght@400;500;600&display=swap');
+
+:root {
+  --ink: #1a2e22;
+  --forest: #1f4d3a;
+  --forest-deep: #123023;
+  --forest-soft: #e8f0ea;
+  --gold: #b8863b;
+  --gold-bright: #d4a24e;
+  --paper: #faf7f0;
+  --paper-raised: #ffffff;
+  --line: #d8d0bd;
+  --text-muted: #5c6b62;
+  --danger: #a83232;
+  --shadow: 0 4px 16px rgba(18, 48, 35, 0.08);
+  --shadow-lg: 0 12px 32px rgba(18, 48, 35, 0.14);
+  --radius: 10px;
+  --radius-sm: 6px;
+  --font-display: 'Hind Siliguri', 'Noto Sans Bengali', sans-serif;
+  --font-body: 'Noto Sans Bengali', 'Hind Siliguri', sans-serif;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font-body);
+  background: var(--paper);
+  color: var(--ink);
+  line-height: 1.65;
+  min-height: 100vh;
+}
+
+img { max-width: 100%; display: block; }
+a { color: inherit; text-decoration: none; }
+button { font-family: inherit; cursor: pointer; }
+
+::selection { background: var(--gold-bright); color: var(--forest-deep); }
+
+/* ছবি লোড ব্যর্থ হলে দেখানো প্লেসহোল্ডার (initial অক্ষর) */
+.img-fallback {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--forest-soft);
+  color: var(--forest);
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 22px;
+}
+
+/* ===================== লেআউট শেল ===================== */
+.container {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* ===================== হেডার ===================== */
+.site-header {
+  background: linear-gradient(180deg, var(--forest-deep) 0%, var(--forest) 100%);
+  color: #f4efe1;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: var(--shadow-lg);
+}
+
+.header-top {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 18px 20px;
+  max-width: 1180px;
+  margin: 0 auto;
+}
+
+.header-logo {
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  border: 2px solid var(--gold-bright);
+  object-fit: cover;
+  background: #fff;
+  flex-shrink: 0;
+}
+
+.header-logo-placeholder {
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  border: 2px solid var(--gold-bright);
+  background: var(--forest-soft);
+  color: var(--forest-deep);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 22px;
+  flex-shrink: 0;
+}
+
+.header-text { flex: 1; min-width: 0; }
+
+.header-forum-name {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(20px, 4vw, 28px);
+  letter-spacing: 0.3px;
+  color: #fff;
+}
+
+.header-tagline {
+  font-size: 13px;
+  color: var(--gold-bright);
+  margin-top: 2px;
+}
+
+.header-slogan {
+  font-size: 12px;
+  color: #cfd9d1;
+  font-style: italic;
+  margin-top: 1px;
+  display: none;
+}
+
+@media (min-width: 640px) {
+  .header-slogan { display: block; }
+}
+
+/* নেভিগেশন */
+.site-nav {
+  background: var(--forest-deep);
+  border-top: 1px solid rgba(212, 162, 78, 0.2);
+}
+
+.nav-inner {
+  max-width: 1180px;
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.nav-link {
+  padding: 13px 18px;
+  font-size: 14.5px;
+  font-weight: 500;
+  color: #dbe4dd;
+  white-space: nowrap;
+  border-bottom: 3px solid transparent;
+  transition: all 0.2s ease;
+}
+
+.nav-link:hover { color: #fff; background: rgba(255,255,255,0.04); }
+
+.nav-link.active {
+  color: var(--gold-bright);
+  border-bottom-color: var(--gold-bright);
+  font-weight: 600;
+}
+
+/* ড্রপডাউন মেনু (শিক্ষার্থী / শিক্ষক) */
+.nav-dropdown { position: relative; }
+
+.dropdown-toggle {
+  background: none;
+  border: none;
+  font-family: inherit;
+  padding: 13px 18px;
+  font-size: 14.5px;
+  font-weight: 500;
+  color: #dbe4dd;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  white-space: nowrap;
+  border-bottom: 3px solid transparent;
+  transition: all 0.2s ease;
+}
+.dropdown-toggle:hover { color: #fff; background: rgba(255,255,255,0.04); }
+.dropdown-toggle .caret { font-size: 10px; transition: transform 0.2s ease; }
+.nav-dropdown.open .dropdown-toggle .caret { transform: rotate(180deg); }
+
+.dropdown-toggle.active {
+  color: var(--gold-bright);
+  border-bottom-color: var(--gold-bright);
+  font-weight: 600;
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  min-width: 180px;
+  background: var(--forest-deep);
+  border-top: 2px solid var(--gold-bright);
+  box-shadow: var(--shadow-lg);
+  z-index: 150;
+  flex-direction: column;
+  display: none;
+}
+.dropdown-menu.open { display: flex; }
+
+@media (min-width: 861px) {
+  .nav-dropdown:hover .dropdown-menu { display: flex; }
+}
+
+.dropdown-menu a {
+  padding: 12px 18px;
+  font-size: 14px;
+  color: #dbe4dd;
+  border-bottom: 1px solid rgba(255,255,255,0.07);
+  transition: all 0.15s ease;
+}
+.dropdown-menu a:last-child { border-bottom: none; }
+.dropdown-menu a:hover { background: rgba(255,255,255,0.06); color: var(--gold-bright); }
+.dropdown-menu a.active { color: var(--gold-bright); font-weight: 600; }
+
+/* ===================== প্যানেল সিস্টেম (এক মেনু = এক প্যানেল) ===================== */
+.view-panel { display: none; animation: fadeIn 0.25s ease; }
+.view-panel.active { display: block; }
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.page-section { padding: 36px 0 60px; }
+
+.section-title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(22px, 3.5vw, 30px);
+  color: var(--forest-deep);
+  margin-bottom: 6px;
+}
+
+.section-subtitle {
+  color: var(--text-muted);
+  font-size: 14.5px;
+  margin-bottom: 28px;
+}
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--gold);
+  letter-spacing: 0.6px;
+  margin-bottom: 8px;
+}
+.eyebrow::before {
+  content: '';
+  width: 20px;
+  height: 2px;
+  background: var(--gold);
+}
+
+/* ===================== ড্যাশবোর্ড কার্ড ===================== */
+.stat-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+}
+
+.stat-card {
+  background: var(--paper-raised);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 20px;
+  box-shadow: var(--shadow);
+  position: relative;
+  overflow: hidden;
+}
+
+.stat-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 4px; height: 100%;
+  background: var(--gold-bright);
+}
+
+.stat-number {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 32px;
+  color: var(--forest-deep);
+  line-height: 1;
+}
+
+.stat-label {
+  font-size: 13.5px;
+  color: var(--text-muted);
+  margin-top: 8px;
+}
+
+.stat-card.wide {
+  grid-column: span 2;
+}
+@media (max-width: 520px) {
+  .stat-card.wide { grid-column: span 1; }
+}
+
+.breakdown-list {
+  margin-top: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.breakdown-pill {
+  background: var(--forest-soft);
+  color: var(--forest-deep);
+  font-size: 12px;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-weight: 500;
+}
+
+/* ===================== বাটন ===================== */
+.btn {
+  -webkit-appearance: none;
+  appearance: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 11px 22px;
+  border-radius: var(--radius-sm);
+  font-size: 14.5px;
+  font-weight: 600;
+  border: none;
+  outline: none;
+  box-shadow: 0 2px 8px rgba(18, 48, 35, 0.16);
+  transition: all 0.18s ease;
+}
+
+.btn:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(18, 48, 35, 0.22); }
+.btn:active { transform: translateY(0); box-shadow: 0 1px 4px rgba(18, 48, 35, 0.16); }
+.btn:focus-visible { outline: 2px solid var(--gold-bright); outline-offset: 2px; }
+
+.btn-primary {
+  background: var(--forest);
+  color: #fff;
+}
+.btn-primary:hover { background: var(--forest-deep); }
+
+.btn-gold {
+  background: var(--gold-bright);
+  color: var(--forest-deep);
+}
+.btn-gold:hover { background: var(--gold); }
+
+.btn-outline {
+  background: var(--paper-raised);
+  border: 1.5px solid var(--forest);
+  color: var(--forest);
+  box-shadow: 0 1px 4px rgba(18, 48, 35, 0.08);
+}
+.btn-outline:hover { background: var(--forest-soft); }
+
+.btn-danger {
+  background: var(--danger);
+  color: #fff;
+}
+
+.btn-sm { padding: 7px 14px; font-size: 13px; }
+.btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+/* ===================== ফরম ===================== */
+.form-card {
+  background: var(--paper-raised);
+  border: 1px solid var(--line);
+  border-top: 4px solid var(--gold-bright);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-lg);
+  padding: 0;
+  max-width: 820px;
+  overflow: hidden;
+}
+
+.form-letterhead {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background: linear-gradient(180deg, var(--forest-soft) 0%, var(--paper-raised) 100%);
+  border-bottom: 2px solid var(--forest);
+  padding: 22px 28px;
+}
+
+.lh-logo-box {
+  flex-shrink: 0;
+  width: 68px; height: 68px;
+  border-radius: 50%;
+  border: 2.5px solid var(--gold-bright);
+  background: #fff;
+  overflow: hidden;
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 24px;
+  color: var(--forest);
+}
+.lh-logo-box img { width: 100%; height: 100%; object-fit: cover; }
+
+.lh-center {
+  flex: 1;
+  min-width: 0;
+  text-align: center;
+}
+.lh-center .lh-forum {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(18px, 4vw, 23px);
+  color: var(--forest-deep);
+  letter-spacing: 0.2px;
+}
+.lh-center .lh-institute { font-size: 13px; color: var(--text-muted); margin-top: 2px; }
+.lh-center .lh-slogan { font-size: 12px; color: var(--gold); font-style: italic; margin-top: 5px; }
+.lh-center .lh-form-title {
+  display: inline-block;
+  margin-top: 10px;
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--forest-deep);
+  background: var(--gold-bright);
+  padding: 3px 16px;
+  border-radius: 20px;
+  letter-spacing: 0.4px;
+}
+
+.lh-photo-box {
+  flex-shrink: 0;
+  width: 84px; height: 100px;
+  border: 2px dashed var(--gold);
+  border-radius: var(--radius-sm);
+  background: #fff;
+  overflow: hidden;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  transition: border-color 0.15s ease, background 0.15s ease;
+  position: relative;
+}
+.lh-photo-box:hover { border-color: var(--forest); background: var(--forest-soft); }
+.lh-photo-box input[type="file"] { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
+.lh-photo-box img { width: 100%; height: 100%; object-fit: cover; }
+.lh-photo-inner {
+  font-size: 11px;
+  color: var(--gold);
+  text-align: center;
+  line-height: 1.5;
+  padding: 4px;
+  pointer-events: none;
+}
+
+.form-body-padding { padding: 26px 28px 28px; }
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+@media (max-width: 640px) { .form-grid { grid-template-columns: 1fr; } }
+
+.form-group { display: flex; flex-direction: column; gap: 6px; }
+.form-group.full { grid-column: 1 / -1; }
+
+.form-group label {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--forest-deep);
+}
+.form-group .req { color: var(--danger); }
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  padding: 10px 12px;
+  border: 1.5px solid var(--line);
+  border-radius: var(--radius-sm);
+  font-family: var(--font-body);
+  font-size: 14px;
+  background: var(--paper);
+  color: var(--ink);
+  transition: border-color 0.15s ease;
+}
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: var(--forest);
+  background: #fff;
+}
+
+.form-group textarea { resize: vertical; min-height: 70px; }
+
+.form-section-divider {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--forest-deep);
+  letter-spacing: 0.4px;
+  margin-top: 10px;
+  margin-bottom: -2px;
+}
+.form-section-divider::before {
+  content: '';
+  width: 8px; height: 8px;
+  background: var(--gold-bright);
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.form-section-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--line);
+}
+
+.file-preview {
+  width: 90px; height: 110px;
+  border: 1.5px dashed var(--line);
+  border-radius: var(--radius-sm);
+  display: flex; align-items: center; justify-content: center;
+  overflow: hidden;
+  background: var(--paper);
+  font-size: 11px;
+  color: var(--text-muted);
+  text-align: center;
+}
+.file-preview img { width: 100%; height: 100%; object-fit: cover; }
+
+.form-actions {
+  grid-column: 1 / -1;
+  display: flex;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.form-error {
+  grid-column: 1 / -1;
+  background: #fceceb;
+  color: var(--danger);
+  padding: 10px 14px;
+  border-radius: var(--radius-sm);
+  font-size: 13.5px;
+  display: none;
+}
+.form-error.show { display: block; }
+
+/* ===================== কার্ড গ্রিড (পোর্টাল) ===================== */
+.people-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 18px;
+  margin-top: 20px;
+}
+
+.person-card {
+  background: var(--paper-raised);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+.person-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-lg); }
+
+.person-photo {
+  width: 100%;
+  aspect-ratio: 4/3.6;
+  object-fit: cover;
+  background: var(--forest-soft);
+}
+.person-photo.img-fallback { font-size: 34px; }
+.person-photo-placeholder {
+  width: 100%; aspect-ratio: 4/3.6;
+  background: var(--forest-soft);
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-display);
+  font-size: 34px; font-weight: 700;
+  color: var(--forest);
+}
+
+.person-info { padding: 14px; }
+.person-name { font-family: var(--font-display); font-weight: 700; font-size: 16px; color: var(--forest-deep); }
+.person-meta { font-size: 12.5px; color: var(--text-muted); margin-top: 3px; }
+.person-tag {
+  display: inline-block;
+  font-size: 11px;
+  padding: 2px 9px;
+  border-radius: 20px;
+  margin-top: 8px;
+  font-weight: 600;
+}
+.tag-former { background: #f4e6cf; color: var(--gold); }
+.tag-current { background: var(--forest-soft); color: var(--forest); }
+
+.person-card .btn { width: 100%; margin-top: 10px; }
+
+.filter-bar {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 4px;
+}
+.filter-bar input, .filter-bar select {
+  padding: 9px 12px;
+  border: 1.5px solid var(--line);
+  border-radius: var(--radius-sm);
+  font-family: var(--font-body);
+  font-size: 13.5px;
+  background: var(--paper-raised);
+}
+
+.empty-state {
+  text-align: center;
+  padding: 50px 20px;
+  color: var(--text-muted);
+}
+
+/* ===================== মোডাল ===================== */
+.modal-overlay {
+  display: none;
+  position: fixed; inset: 0;
+  background: rgba(18, 48, 35, 0.55);
+  z-index: 1000;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  overflow-y: auto;
+}
+.modal-overlay.active { display: flex; }
+
+.modal-box {
+  background: var(--paper-raised);
+  border-radius: var(--radius);
+  max-width: 640px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: var(--shadow-lg);
+  animation: modalIn 0.2s ease;
+}
+@keyframes modalIn {
+  from { opacity: 0; transform: scale(0.96); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 18px 22px;
+  border-bottom: 1px solid var(--line);
+  position: sticky; top: 0;
+  background: var(--paper-raised);
+}
+.modal-header h3 { font-family: var(--font-display); color: var(--forest-deep); font-size: 18px; }
+.modal-close {
+  background: none; border: none; font-size: 22px; color: var(--text-muted);
+  line-height: 1; padding: 4px 8px;
+}
+.modal-body { padding: 22px; }
+
+.detail-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px 20px;
+}
+@media (max-width: 480px) { .detail-grid { grid-template-columns: 1fr; } }
+.detail-row .dt-label { font-size: 12px; color: var(--text-muted); }
+.detail-row .dt-value { font-size: 14.5px; font-weight: 500; color: var(--ink); }
+
+.detail-photo-wrap { text-align: center; margin-bottom: 16px; }
+.detail-photo-wrap img,
+.detail-photo-wrap .img-fallback {
+  width: 130px; height: 150px; object-fit: cover;
+  border-radius: var(--radius-sm);
+  border: 2px solid var(--gold-bright);
+  margin: 0 auto;
+  font-size: 32px;
+}
+
+/* ===================== প্রিন্ট কপি (সনদ স্টাইল) ===================== */
+.print-copy {
+  background: #fff;
+  border: 3px double var(--forest);
+  border-radius: var(--radius);
+  padding: 30px;
+  max-width: 620px;
+  margin: 0 auto;
+}
+.pc-header { text-align: center; border-bottom: 2px solid var(--gold); padding-bottom: 14px; margin-bottom: 18px; }
+.pc-header .pc-logo { width: 64px; height: 64px; border-radius: 50%; margin: 0 auto 8px; }
+.pc-header .pc-forum { font-family: var(--font-display); font-weight: 700; font-size: 21px; color: var(--forest-deep); }
+.pc-header .pc-address { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+.pc-header .pc-slogan { font-size: 12.5px; color: var(--gold); font-style: italic; margin-top: 4px; }
+
+.pc-title {
+  text-align: center;
+  font-weight: 700;
+  font-size: 15px;
+  color: var(--forest);
+  text-decoration: underline;
+  margin-bottom: 18px;
+}
+
+.pc-body { display: flex; gap: 20px; }
+.pc-photo { width: 110px; height: 130px; object-fit: cover; border: 1.5px solid var(--line); flex-shrink: 0; }
+.pc-fields { flex: 1; font-size: 13.5px; }
+.pc-fields div { padding: 4px 0; border-bottom: 1px dotted var(--line); display: flex; justify-content: space-between; gap: 10px; }
+.pc-fields .pf-label { color: var(--text-muted); }
+.pc-fields .pf-value { font-weight: 600; text-align: right; }
+
+.pc-signatures { display: flex; justify-content: space-between; margin-top: 34px; }
+.pc-sig { text-align: center; width: 45%; }
+.pc-sig img { height: 44px; object-fit: contain; margin: 0 auto 4px; }
+.pc-sig .sig-line { border-top: 1px solid var(--ink); padding-top: 4px; font-size: 12px; }
+
+.print-actions { text-align: center; margin-top: 22px; display: flex; gap: 12px; justify-content: center; }
+
+@media print {
+  .site-header, .site-nav, .site-footer, .print-actions, .no-print { display: none !important; }
+  body { background: #fff; }
+  .print-copy { border: 2px solid #000; box-shadow: none; }
+  .page-section { padding: 0; }
+}
+
+/* ===================== ফুটার ===================== */
+.site-footer {
+  background: var(--forest-deep);
+  color: #cfd9d1;
+  padding: 34px 0 20px;
+  margin-top: 40px;
+}
+.footer-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid rgba(212,162,78,0.2);
+}
+.footer-title { font-family: var(--font-display); font-weight: 700; color: #fff; margin-bottom: 8px; font-size: 15px; }
+.footer-line { font-size: 13px; margin-bottom: 4px; color: #b8c4bc; }
+.footer-bottom {
+  text-align: center;
+  font-size: 12.5px;
+  color: #8fa197;
+  padding-top: 16px;
+}
+.footer-bottom a { color: var(--gold-bright); font-weight: 600; }
+
+/* ===================== অ্যাডমিন লগইন ===================== */
+.login-wrap {
+  max-width: 380px;
+  margin: 60px auto;
+  background: var(--paper-raised);
+  border: 1px solid var(--line);
+  border-top: 4px solid var(--gold-bright);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-lg);
+  padding: 32px;
+  text-align: center;
+}
+.login-wrap .form-group input { text-align: right; }
+.login-wrap button[type="submit"] { width: 100%; }
+.login-wrap .lock-icon {
+  width: 52px; height: 52px; border-radius: 50%;
+  background: var(--forest-soft); color: var(--forest);
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 14px; font-size: 22px;
+}
+
+/* ===================== অ্যাডমিন মেনু ===================== */
+.admin-tabs {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 24px;
+  border-bottom: 1px solid var(--line);
+}
+.admin-tab {
+  padding: 10px 18px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-muted);
+  border-bottom: 3px solid transparent;
+}
+.admin-tab.active { color: var(--forest-deep); border-bottom-color: var(--gold-bright); }
+.admin-panel { display: none; }
+.admin-panel.active { display: block; }
+
+.committee-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr auto;
+  gap: 10px;
+  align-items: end;
+  margin-bottom: 12px;
+  padding: 12px;
+  background: var(--forest-soft);
+  border-radius: var(--radius-sm);
+}
+@media (max-width: 640px) { .committee-row { grid-template-columns: 1fr; } }
+
+.toast {
+  position: fixed;
+  bottom: 24px; left: 50%;
+  transform: translateX(-50%) translateY(20px);
+  background: var(--forest-deep);
+  color: #fff;
+  padding: 12px 22px;
+  border-radius: var(--radius-sm);
+  font-size: 14px;
+  box-shadow: var(--shadow-lg);
+  z-index: 2000;
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.25s ease;
+}
+.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+.toast.error { background: var(--danger); }
+
+.loading-spinner {
+  display: inline-block;
+  width: 18px; height: 18px;
+  border: 2.5px solid rgba(255,255,255,0.3);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.center-loading {
+  text-align: center;
+  padding: 60px;
+  color: var(--text-muted);
+}
+
+/* About page bits */
+.about-hero {
+  background: var(--forest-soft);
+  border-radius: var(--radius);
+  padding: 28px;
+  margin-bottom: 24px;
+}
+.about-hero .founding {
+  display: inline-block;
+  background: var(--gold-bright);
+  color: var(--forest-deep);
+  font-weight: 700;
+  font-size: 12.5px;
+  padding: 4px 12px;
+  border-radius: 20px;
+  margin-top: 10px;
+}
+.contact-chips { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 14px; }
+.contact-chip {
+  background: #fff;
+  border: 1px solid var(--line);
+  padding: 8px 14px;
+  border-radius: 20px;
+  font-size: 13px;
+  display: flex; gap: 6px; align-items: center;
+}
+
+.committee-table { width: 100%; border-collapse: collapse; margin-top: 12px; }
+.committee-table th, .committee-table td {
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--line);
+  text-align: right;
+  font-size: 14px;
+}
+.committee-table th:first-child, .committee-table td:first-child { text-align: right; }
+.committee-table th { background: var(--forest-soft); color: var(--forest-deep); font-weight: 700; }
+
+</style>
+</head>
+<body>
+
+<!-- ডেমো ব্যানার -->
+<div id="demoBanner" style="display:none;background:#b8863b;color:#fff;text-align:center;padding:8px 14px;font-size:13px;font-weight:600;">
+  ⚠️ ডেমো মোড: Google Sheet সংযুক্ত নয়। config.js ফাইলে API_URL বসিয়ে লাইভ করুন। (অ্যাডমিন পাসওয়ার্ড: demo123)
+</div>
+
+<!-- ===================== হেডার ===================== -->
+<header class="site-header">
+  <div class="header-top">
+    <div id="headerLogo" class="header-logo-placeholder">ফো</div>
+    <div class="header-text">
+      <div id="headerForumName" class="header-forum-name">শিক্ষার্থী ফোরাম</div>
+      <div id="headerTagline" class="header-tagline"></div>
+      <div id="headerSlogan" class="header-slogan"></div>
+    </div>
+  </div>
+  <nav class="site-nav">
+    <div class="nav-inner">
+      <a href="#" class="nav-link" data-nav="dashboard">ড্যাশবোর্ড</a>
+      <a href="#" class="nav-link" data-nav="about">আমাদের সম্পর্কে</a>
+
+      <div class="nav-dropdown" data-navgroup="student">
+        <button type="button" class="dropdown-toggle" onclick="toggleDropdown(this)">শিক্ষার্থী <span class="caret">▾</span></button>
+        <div class="dropdown-menu">
+          <a href="#" data-nav="studentRegister">রেজিষ্ট্রেশন</a>
+          <a href="#" data-nav="studentPortal">প্রোফাইল</a>
+        </div>
+      </div>
+
+      <div class="nav-dropdown" data-navgroup="teacher">
+        <button type="button" class="dropdown-toggle" onclick="toggleDropdown(this)">শিক্ষক <span class="caret">▾</span></button>
+        <div class="dropdown-menu">
+          <a href="#" data-nav="teacherRegister">রেজিষ্ট্রেশন</a>
+          <a href="#" data-nav="teacherPortal">প্রোফাইল</a>
+        </div>
+      </div>
+
+      <a href="#" class="nav-link" data-nav="admin">ব্যবস্থাপনা</a>
+    </div>
+  </nav>
+</header>
+
+<main class="container">
+
+  <!-- ===================== ড্যাশবোর্ড ===================== -->
+  <section id="view-dashboard" class="view-panel">
+    <div class="page-section">
+      <div class="eyebrow">ওভারভিউ</div>
+      <h1 class="section-title">ফোরাম ড্যাশবোর্ড</h1>
+      <p class="section-subtitle">সাবেক ও বর্তমান শিক্ষার্থী, শিক্ষক এবং কর্মচারীদের সার্বিক পরিসংখ্যান</p>
+      <div id="dashboardGrid" class="stat-grid">
+        <div class="center-loading">লোড হচ্ছে...</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== আমাদের সম্পর্কে ===================== -->
+  <section id="view-about" class="view-panel">
+    <div class="page-section">
+      <div class="eyebrow">পরিচিতি</div>
+      <h1 class="section-title">আমাদের সম্পর্কে</h1>
+
+      <div class="about-hero">
+        <div style="font-family:var(--font-display);font-weight:700;font-size:22px;color:var(--forest-deep)" id="aboutForumName"></div>
+        <div style="color:var(--text-muted);margin-top:2px" id="aboutInstitute"></div>
+        <div style="color:var(--gold);font-style:italic;margin-top:6px" id="aboutTagline"></div>
+        <div style="color:var(--text-muted);font-size:13px;margin-top:2px" id="aboutSlogan"></div>
+        <div class="founding" id="aboutFounding"></div>
+        <p style="margin-top:16px;line-height:1.8" id="aboutText"></p>
+        <div class="contact-chips">
+          <div class="contact-chip">📞 <span id="aboutMobile"></span></div>
+          <div class="contact-chip">✉️ <span id="aboutEmail"></span></div>
+          <div class="contact-chip">📍 <span id="aboutAddress"></span></div>
+          <div class="contact-chip">👍 <a id="aboutFacebook" href="#" target="_blank"></a></div>
+        </div>
+      </div>
+
+      <h3 style="font-family:var(--font-display);color:var(--forest-deep);margin-bottom:6px">কমিটি তালিকা</h3>
+      <div id="aboutCommitteeWrap"></div>
+    </div>
+  </section>
+
+  <!-- ===================== শিক্ষার্থী রেজিষ্ট্রেশন ===================== -->
+  <section id="view-studentRegister" class="view-panel">
+    <div class="page-section">
+      <div class="eyebrow">শিক্ষার্থী</div>
+      <h1 class="section-title">শিক্ষার্থী রেজিষ্ট্রেশন ফরম</h1>
+      <p class="section-subtitle">সঠিক তথ্য দিয়ে ফরমটি পূরণ করুন। সাবমিটের পর প্রিন্টযোগ্য কপি পাবেন।</p>
+
+      <div id="studentFormWrap">
+        <form id="studentForm" class="form-card" onsubmit="submitStudentForm(event)">
+          <div class="form-letterhead">
+            <div class="lh-logo-box" id="lhLogo1">ফো</div>
+            <div class="lh-center">
+              <div class="lh-forum" id="lhForumName1"></div>
+              <div class="lh-institute" id="lhInstitute1"></div>
+              <div class="lh-slogan" id="lhSlogan1"></div>
+              <div class="lh-form-title">শিক্ষার্থী রেজিষ্ট্রেশন ফরম</div>
+            </div>
+            <label class="lh-photo-box" title="ছবি আপলোড করতে ক্লিক করুন">
+              <input type="file" accept="image/*" onchange="handleStudentPhotoUpload(this, 'photo')">
+              <div id="sPhotoPreview" class="lh-photo-inner">ছবি<br>আপলোড</div>
+            </label>
+          </div>
+          <div class="form-body-padding">
+          <div class="form-grid">
+            <div class="form-group full form-section-divider">মৌলিক তথ্য</div>
+            <div class="form-group">
+              <label>ধরন <span class="req">*</span></label>
+              <select id="sType" required><option value="">নির্বাচন করুন</option></select>
+            </div>
+            <div class="form-group">
+              <label>লিঙ্গ <span class="req">*</span></label>
+              <select id="sGender" required><option value="">নির্বাচন করুন</option></select>
+            </div>
+            <div class="form-group">
+              <label>নাম <span class="req">*</span></label>
+              <input type="text" id="sName" required>
+            </div>
+            <div class="form-group">
+              <label>পিতার নাম <span class="req">*</span></label>
+              <input type="text" id="sFatherName" required>
+            </div>
+            <div class="form-group">
+              <label>মোবাইল নং (WhatsApp) <span class="req">*</span></label>
+              <input type="tel" id="sMobile" required>
+            </div>
+            <div class="form-group">
+              <label>বৈবাহিক অবস্থা</label>
+              <select id="sMarital"><option value="">নির্বাচন করুন</option></select>
+            </div>
+
+            <div class="form-group full form-section-divider">ঠিকানা</div>
+            <div class="form-group"><label>গ্রাম</label><input type="text" id="sVillage"></div>
+            <div class="form-group"><label>ডাকঘর</label><input type="text" id="sPostOffice"></div>
+            <div class="form-group"><label>ইউনিয়ন</label><input type="text" id="sUnion"></div>
+            <div class="form-group"><label>উপজেলা</label><input type="text" id="sUpazila"></div>
+            <div class="form-group"><label>থানা</label><input type="text" id="sThana"></div>
+            <div class="form-group">
+              <label>বর্তমান অবস্থানরত দেশ</label>
+              <select id="sCountry"><option value="">নির্বাচন করুন</option></select>
+            </div>
+
+            <div class="form-group full form-section-divider">শিক্ষা ও পেশা</div>
+            <div class="form-group">
+              <label>পেশা</label>
+              <select id="sProfession"><option value="">নির্বাচন করুন</option></select>
+            </div>
+            <div class="form-group"><label>অত্র প্রতিষ্ঠানে সর্বশেষ অধ্যয়নকৃত শ্রেণী</label><input type="text" id="sLastClass" placeholder="যদি দাখিল না দেন"></div>
+            <div class="form-group"><label>দাখিল ব্যাচ (সাল)</label><input type="text" id="sDakhilBatch" placeholder="যেমন: ২০১৫"></div>
+            <div class="form-group"><label>সর্বশেষ শিক্ষাগত যোগ্যতা (ক্লাস)</label><input type="text" id="sHighEduClass"></div>
+            <div class="form-group full"><label>সর্বশেষ শিক্ষাগত যোগ্যতা (প্রতিষ্ঠান)</label><input type="text" id="sHighEduInstitute"></div>
+
+            <div class="form-group full form-section-divider">যোগাযোগ ও অন্যান্য</div>
+            <div class="form-group"><label>Facebook ID</label><input type="text" id="sFacebook"></div>
+            <div class="form-group"><label>E-mail</label><input type="email" id="sEmail"></div>
+            <div class="form-group full"><label>মন্তব্য</label><textarea id="sComment"></textarea></div>
+            <div class="form-group">
+              <label style="display:flex;align-items:center;gap:8px;font-weight:500">
+                <input type="checkbox" id="sDeceased" style="width:auto"> শিক্ষার্থী মৃত?
+              </label>
+            </div>
+
+            <div class="form-group full form-section-divider">স্বাক্ষর</div>
+            <div class="form-group">
+              <label>শিক্ষার্থীর স্বাক্ষর</label>
+              <div class="file-preview" id="sSigPreview">স্বাক্ষর</div>
+              <input type="file" accept="image/*" onchange="handleStudentPhotoUpload(this, 'sig')">
+            </div>
+
+            <div class="form-error" id="studentFormError"></div>
+            <div class="form-actions">
+              <button type="submit" class="btn btn-primary" id="sSubmitBtn">সাবমিট করুন</button>
+              <button type="reset" class="btn btn-outline" onclick="resetStudentForm()">রিসেট করুন</button>
+            </div>
+          </div>
+          </div>
+        </form>
+      </div>
+
+      <div id="studentPrintWrap" style="display:none;"></div>
+    </div>
+  </section>
+
+  <!-- ===================== শিক্ষার্থী প্রোফাইল ===================== -->
+  <section id="view-studentPortal" class="view-panel">
+    <div class="page-section">
+      <div class="eyebrow">শিক্ষার্থী</div>
+      <h1 class="section-title">শিক্ষার্থী প্রোফাইল</h1>
+      <p class="section-subtitle">রেজিষ্ট্রেশনকৃত সকল শিক্ষার্থীর তালিকা</p>
+
+      <div class="filter-bar">
+        <input type="text" id="studentSearchInput" placeholder="নাম দিয়ে খুঁজুন..." oninput="renderStudentPortal()">
+        <select id="studentTypeFilter" onchange="renderStudentPortal()">
+          <option value="">সব ধরন</option>
+          <option value="প্রাক্তন">প্রাক্তন</option>
+          <option value="বর্তমান">বর্তমান</option>
+        </select>
+      </div>
+
+      <div id="studentPortalGrid" class="people-grid"></div>
+    </div>
+  </section>
+
+  <!-- ===================== শিক্ষক রেজিষ্ট্রেশন ===================== -->
+  <section id="view-teacherRegister" class="view-panel">
+    <div class="page-section">
+      <div class="eyebrow">শিক্ষক</div>
+      <h1 class="section-title">শিক্ষক রেজিষ্ট্রেশন ফরম</h1>
+      <p class="section-subtitle">সঠিক তথ্য দিয়ে ফরমটি পূরণ করুন। সাবমিটের পর প্রিন্টযোগ্য কপি পাবেন।</p>
+
+      <div id="teacherFormWrap">
+        <form id="teacherForm" class="form-card" onsubmit="submitTeacherForm(event)">
+          <div class="form-letterhead">
+            <div class="lh-logo-box" id="lhLogo2">ফো</div>
+            <div class="lh-center">
+              <div class="lh-forum" id="lhForumName2"></div>
+              <div class="lh-institute" id="lhInstitute2"></div>
+              <div class="lh-slogan" id="lhSlogan2"></div>
+              <div class="lh-form-title">শিক্ষক রেজিষ্ট্রেশন ফরম</div>
+            </div>
+            <label class="lh-photo-box" title="ছবি আপলোড করতে ক্লিক করুন">
+              <input type="file" accept="image/*" onchange="handleTeacherPhotoUpload(this, 'photo')">
+              <div id="tPhotoPreview" class="lh-photo-inner">ছবি<br>আপলোড</div>
+            </label>
+          </div>
+          <div class="form-body-padding">
+          <div class="form-grid">
+            <div class="form-group full form-section-divider">মৌলিক তথ্য</div>
+            <div class="form-group">
+              <label>ধরন <span class="req">*</span></label>
+              <select id="tType" required onchange="toggleRetirementField()"><option value="">নির্বাচন করুন</option></select>
+            </div>
+            <div class="form-group">
+              <label>পদবি <span class="req">*</span></label>
+              <input type="text" id="tDesignation" placeholder="যেমন: সহকারী শিক্ষক" required>
+            </div>
+            <div class="form-group">
+              <label>নাম <span class="req">*</span></label>
+              <input type="text" id="tName" required>
+            </div>
+            <div class="form-group">
+              <label>পিতার নাম <span class="req">*</span></label>
+              <input type="text" id="tFatherName" required>
+            </div>
+            <div class="form-group">
+              <label>মোবাইল নং (WhatsApp) <span class="req">*</span></label>
+              <input type="tel" id="tMobile" required>
+            </div>
+            <div class="form-group">
+              <label>বৈবাহিক অবস্থা</label>
+              <select id="tMarital"><option value="">নির্বাচন করুন</option></select>
+            </div>
+
+            <div class="form-group full form-section-divider">ঠিকানা</div>
+            <div class="form-group"><label>গ্রাম</label><input type="text" id="tVillage"></div>
+            <div class="form-group"><label>ডাকঘর</label><input type="text" id="tPostOffice"></div>
+            <div class="form-group"><label>ইউনিয়ন</label><input type="text" id="tUnion"></div>
+            <div class="form-group"><label>উপজেলা</label><input type="text" id="tUpazila"></div>
+            <div class="form-group"><label>থানা</label><input type="text" id="tThana"></div>
+
+            <div class="form-group full form-section-divider">শিক্ষা ও চাকরি</div>
+            <div class="form-group"><label>সর্বশেষ শিক্ষাগত যোগ্যতা (ক্লাস)</label><input type="text" id="tHighEduClass"></div>
+            <div class="form-group"><label>সর্বশেষ শিক্ষাগত যোগ্যতা (প্রতিষ্ঠান)</label><input type="text" id="tHighEduInstitute"></div>
+            <div class="form-group"><label>যোগদানের তারিখ</label><input type="date" id="tJoinDate"></div>
+            <div class="form-group" id="tRetirementWrap" style="display:none"><label>অবসর তারিখ</label><input type="date" id="tRetireDate"></div>
+
+            <div class="form-group full form-section-divider">যোগাযোগ ও অন্যান্য</div>
+            <div class="form-group"><label>Facebook ID</label><input type="text" id="tFacebook"></div>
+            <div class="form-group"><label>E-mail</label><input type="email" id="tEmail"></div>
+            <div class="form-group full"><label>মন্তব্য</label><textarea id="tComment"></textarea></div>
+            <div class="form-group">
+              <label style="display:flex;align-items:center;gap:8px;font-weight:500">
+                <input type="checkbox" id="tDeceased" style="width:auto"> শিক্ষক মৃত?
+              </label>
+            </div>
+
+            <div class="form-group full form-section-divider">স্বাক্ষর</div>
+            <div class="form-group">
+              <label>শিক্ষকের স্বাক্ষর</label>
+              <div class="file-preview" id="tSigPreview">স্বাক্ষর</div>
+              <input type="file" accept="image/*" onchange="handleTeacherPhotoUpload(this, 'sig')">
+            </div>
+
+            <div class="form-error" id="teacherFormError"></div>
+            <div class="form-actions">
+              <button type="submit" class="btn btn-primary" id="tSubmitBtn">সাবমিট করুন</button>
+              <button type="reset" class="btn btn-outline" onclick="resetTeacherForm()">রিসেট করুন</button>
+            </div>
+          </div>
+          </div>
+        </form>
+      </div>
+
+      <div id="teacherPrintWrap" style="display:none;"></div>
+    </div>
+  </section>
+
+  <!-- ===================== শিক্ষক প্রোফাইল ===================== -->
+  <section id="view-teacherPortal" class="view-panel">
+    <div class="page-section">
+      <div class="eyebrow">শিক্ষক</div>
+      <h1 class="section-title">শিক্ষক প্রোফাইল</h1>
+      <p class="section-subtitle">রেজিষ্ট্রেশনকৃত সকল শিক্ষকের তালিকা</p>
+
+      <div class="filter-bar">
+        <input type="text" id="teacherSearchInput" placeholder="নাম দিয়ে খুঁজুন..." oninput="renderTeacherPortal()">
+        <select id="teacherTypeFilter" onchange="renderTeacherPortal()">
+          <option value="">সব ধরন</option>
+          <option value="প্রাক্তন">প্রাক্তন</option>
+          <option value="বর্তমান">বর্তমান</option>
+        </select>
+      </div>
+
+      <div id="teacherPortalGrid" class="people-grid"></div>
+    </div>
+  </section>
+
+  <!-- ===================== ব্যবস্থাপনা ===================== -->
+  <section id="view-admin" class="view-panel">
+    <div class="page-section">
+      <div class="eyebrow">প্রশাসন</div>
+      <h1 class="section-title">ব্যবস্থাপনা মেনু</h1>
+
+      <!-- লগইন -->
+      <div id="adminLoginWrap" class="login-wrap">
+        <div class="lock-icon">🔒</div>
+        <h3 style="font-family:var(--font-display);color:var(--forest-deep);margin-bottom:6px">অ্যাডমিন লগইন</h3>
+        <p style="color:var(--text-muted);font-size:13px;margin-bottom:18px">ব্যবস্থাপনা মেনু ব্যবহারের জন্য পাসওয়ার্ড দিন</p>
+        <form onsubmit="handleAdminLogin(event)">
+          <div class="form-group" style="margin-bottom:14px;text-align:right">
+            <input type="password" id="adminPasswordInput" placeholder="পাসওয়ার্ড" required style="width:100%">
+          </div>
+          <div class="form-error" id="adminLoginError" style="display:block"></div>
+          <button type="submit" class="btn btn-primary" style="width:100%">লগইন করুন</button>
+        </form>
+      </div>
+
+      <!-- অ্যাডমিন প্যানেল -->
+      <div id="adminPanelWrap" style="display:none;">
+        <div style="display:flex;justify-content:flex-end;margin-bottom:10px;">
+          <button class="btn btn-outline btn-sm" onclick="adminLogout()">লগআউট</button>
+        </div>
+        <div class="admin-tabs">
+          <div class="admin-tab active" data-admintab="forumInfo" onclick="showAdminTab('forumInfo')">ফোরাম তথ্য</div>
+          <div class="admin-tab" data-admintab="committee" onclick="showAdminTab('committee')">কমিটি তথ্য</div>
+          <div class="admin-tab" data-admintab="specialCommittee" onclick="showAdminTab('specialCommittee')">বিশেষ কমিটি</div>
+          <div class="admin-tab" data-admintab="password" onclick="showAdminTab('password')">পাসওয়ার্ড</div>
+        </div>
+
+        <!-- ফোরাম তথ্য -->
+        <div id="adminPanel-forumInfo" class="admin-panel active">
+          <form class="form-card" style="max-width:100%" onsubmit="saveForumInfo(event)">
+            <div class="form-grid">
+              <div class="form-group"><label>ফোরামের নাম</label><input type="text" id="fiForumName"></div>
+              <div class="form-group"><label>প্রতিষ্ঠানের নাম</label><input type="text" id="fiInstituteName"></div>
+              <div class="form-group"><label>প্রতিষ্ঠাকাল</label><input type="text" id="fiFoundingYear"></div>
+              <div class="form-group"><label>ট্যাগ লাইন</label><input type="text" id="fiTagline"></div>
+              <div class="form-group full"><label>স্লোগান</label><input type="text" id="fiSlogan"></div>
+              <div class="form-group"><label>মোবাইল নং</label><input type="text" id="fiMobile"></div>
+              <div class="form-group"><label>Facebook লিংক</label><input type="text" id="fiFacebook"></div>
+              <div class="form-group"><label>E-mail</label><input type="email" id="fiEmail"></div>
+              <div class="form-group full"><label>ঠিকানা</label><input type="text" id="fiAddress"></div>
+              <div class="form-group full"><label>সংক্ষিপ্ত বিবরণ</label><textarea id="fiAboutText" style="min-height:110px"></textarea></div>
+              <div class="form-group">
+                <label>লোগো</label>
+                <div class="file-preview" id="fiLogoPreview">লোগো</div>
+                <input type="file" accept="image/*" onchange="handleAdminImageUpload(this, 'logo')">
+              </div>
+              <div class="form-group">
+                <label>সভাপতির স্বাক্ষর</label>
+                <div class="file-preview" id="fiSigPreview">স্বাক্ষর</div>
+                <input type="file" accept="image/*" onchange="handleAdminImageUpload(this, 'sig')">
+              </div>
+              <div class="form-actions">
+                <button type="submit" class="btn btn-primary" id="fiSaveBtn">সংরক্ষণ করুন</button>
+              </div>
+            </div>
+          </form>
+        </div>
+
+        <!-- কমিটি তথ্য -->
+        <div id="adminPanel-committee" class="admin-panel">
+          <form class="form-card" style="max-width:100%" onsubmit="saveCommitteeForm(event)">
+            <div class="form-grid" style="margin-bottom:16px">
+              <div class="form-group"><label>কমিটি গঠনের তারিখ</label><input type="date" id="cFormationDate"></div>
+              <div class="form-group"><label>মেয়াদকাল</label><input type="text" id="cTermLength" placeholder="যেমন: ২ বছর"></div>
+            </div>
+            <h4 style="color:var(--forest-deep);margin-bottom:10px">সদস্যদের তালিকা</h4>
+            <div id="committeeRowsContainer"></div>
+            <button type="button" class="btn btn-outline btn-sm" onclick="addCommitteeRow()" style="margin-top:6px">+ সদস্য যুক্ত করুন</button>
+            <div class="form-actions" style="margin-top:20px">
+              <button type="submit" class="btn btn-primary" id="cSaveBtn">সংরক্ষণ করুন</button>
+              <button type="button" class="btn btn-gold" onclick="printCommittee()">🖨️ প্রিন্ট করুন</button>
+            </div>
+          </form>
+        </div>
+
+        <!-- বিশেষ কমিটি -->
+        <div id="adminPanel-specialCommittee" class="admin-panel">
+          <form class="form-card" style="max-width:100%" onsubmit="saveSpecialCommitteeForm(event)">
+            <div class="form-grid" style="margin-bottom:16px">
+              <div class="form-group full"><label>কমিটির নাম</label><input type="text" id="scName" placeholder="যেমন: ঈদ পুনর্মিলনী উদযাপন কমিটি"></div>
+              <div class="form-group"><label>কমিটি গঠনের তারিখ</label><input type="date" id="scFormationDate"></div>
+              <div class="form-group"><label>মেয়াদকাল</label><input type="text" id="scTermLength"></div>
+            </div>
+            <h4 style="color:var(--forest-deep);margin-bottom:10px">সদস্যদের তালিকা</h4>
+            <div id="specialCommitteeRowsContainer"></div>
+            <button type="button" class="btn btn-outline btn-sm" onclick="addSpecialCommitteeRow()" style="margin-top:6px">+ সদস্য যুক্ত করুন</button>
+            <div class="form-actions" style="margin-top:20px">
+              <button type="submit" class="btn btn-primary" id="scSaveBtn">সংরক্ষণ করুন</button>
+              <button type="button" class="btn btn-gold" onclick="printSpecialCommittee()">🖨️ প্রিন্ট করুন</button>
+            </div>
+          </form>
+        </div>
+
+        <!-- পাসওয়ার্ড -->
+        <div id="adminPanel-password" class="admin-panel">
+          <form id="changePasswordForm" class="form-card" onsubmit="changeAdminPassword(event)">
+            <div class="form-grid">
+              <div class="form-group full"><label>বর্তমান পাসওয়ার্ড</label><input type="password" id="pwOldPassword" required></div>
+              <div class="form-group full"><label>নতুন পাসওয়ার্ড</label><input type="password" id="pwNewPassword" required></div>
+              <div class="form-group full"><label>নতুন পাসওয়ার্ড আবার লিখুন</label><input type="password" id="pwConfirmPassword" required></div>
+              <div class="form-error" id="pwError"></div>
+              <div class="form-actions"><button type="submit" class="btn btn-primary">পরিবর্তন করুন</button></div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ===================== ফুটার ===================== -->
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-title" id="footerForumName"></div>
+        <div class="footer-line" id="footerAddress"></div>
+      </div>
+      <div>
+        <div class="footer-title">যোগাযোগ</div>
+        <div class="footer-line">📞 <span id="footerMobile"></span></div>
+        <div class="footer-line">✉️ <span id="footerEmail"></span></div>
+        <div class="footer-line"><a id="footerFacebook" target="_blank"></a></div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      &copy; <span id="footerYear"></span> সর্বস্বত্ব সংরক্ষিত। | Powered by: <a href="tel:01605721296">AMShahed: 01605721296</a>
+    </div>
+  </div>
+</footer>
+
+<!-- ===================== মোডাল: শিক্ষার্থী বিস্তারিত ===================== -->
+<div class="modal-overlay" id="studentDetailModal">
+  <div class="modal-box">
+    <div class="modal-header">
+      <h3>শিক্ষার্থীর বিস্তারিত তথ্য</h3>
+      <button class="modal-close" onclick="closeModal('studentDetailModal')">&times;</button>
+    </div>
+    <div class="modal-body" id="studentDetailBody"></div>
+  </div>
+</div>
+
+<!-- ===================== মোডাল: শিক্ষক বিস্তারিত ===================== -->
+<div class="modal-overlay" id="teacherDetailModal">
+  <div class="modal-box">
+    <div class="modal-header">
+      <h3>শিক্ষকের বিস্তারিত তথ্য</h3>
+      <button class="modal-close" onclick="closeModal('teacherDetailModal')">&times;</button>
+    </div>
+    <div class="modal-body" id="teacherDetailBody"></div>
+  </div>
+</div>
+
+<script>
+
+/* ==================== config.js ==================== */
+/**
+ * ============================================================
+ * কনফিগারেশন ফাইল
+ * ============================================================
+ * নিচের API_URL টি আপনার Google Apps Script Deploy করার পর
+ * পাওয়া Web App URL দিয়ে replace করুন।
+ *
+ * উদাহরণ: https://script.google.com/macros/s/AKfycb.../exec
+ * ============================================================
+ */
+
+const CONFIG = {
+  API_URL: 'https://script.google.com/macros/s/AKfycbzdyRIrzdGZSbRYWgYE2NtFPMKLKgSWD1dUF5Sx6QBUMrouS4ZzfZx_RmPA4G770_ML/exec',
+
+  // ড্রপডাউনে ব্যবহারের জন্য পেশার তালিকা (প্রয়োজনমতো এডিট করুন)
+  PROFESSIONS: [
+    'শিক্ষকতা', 'ডাক্তার', 'ইঞ্জিনিয়ার', 'ব্যবসায়ী', 'সরকারি চাকরি',
+    'বেসরকারি চাকরি', 'প্রবাসী', 'কৃষি', 'আলেম/ইমাম', 'ছাত্র', 'অন্যান্য'
+  ],
+
+  // দেশের তালিকা
+  COUNTRIES: [
+    'বাংলাদেশ', 'সৌদি আরব', 'সংযুক্ত আরব আমিরাত', 'কাতার', 'ওমান', 'কুয়েত',
+    'মালয়েশিয়া', 'সিঙ্গাপুর', 'যুক্তরাজ্য', 'যুক্তরাষ্ট্র', 'ইতালি', 'অন্যান্য'
+  ],
+
+  MARITAL_STATUS: ['অবিবাহিত', 'বিবাহিত'],
+
+  STUDENT_TYPES: ['প্রাক্তন', 'বর্তমান'],
+
+  GENDERS: ['ছাত্র', 'ছাত্রী']
+};
+
+
+/* ==================== js/api.js ==================== */
+/**
+ * ============================================================
+ * API লেয়ার - Google Apps Script Web App এর সাথে যোগাযোগ
+ * ============================================================
+ */
+
+const API = {
+  async get(action, params = {}) {
+    const url = new URL(CONFIG.API_URL);
+    url.searchParams.set('action', action);
+    Object.keys(params).forEach(k => url.searchParams.set(k, params[k]));
+    const res = await fetch(url.toString());
+    const data = await res.json();
+    if (data.error) throw new Error(data.error);
+    return data;
+  },
+
+  async post(action, payload = {}) {
+    const res = await fetch(CONFIG.API_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' }, // Apps Script এর জন্য text/plain দরকার হয় CORS এড়াতে
+      body: JSON.stringify({ action, ...payload })
+    });
+    const data = await res.json();
+    if (data.error) throw new Error(data.error);
+    return data;
+  },
+
+  getForumInfo() { return this.get('getForumInfo'); },
+  getDashboard() { return this.get('getDashboard'); },
+  getStudents() { return this.get('getStudents'); },
+  getTeachers() { return this.get('getTeachers'); },
+  getCommittee() { return this.get('getCommittee'); },
+  getSpecialCommittee() { return this.get('getSpecialCommittee'); },
+
+  addStudent(data) { return this.post('addStudent', { data }); },
+  addTeacher(data) { return this.post('addTeacher', { data }); },
+
+  checkPassword(password) { return this.get('checkPassword', { password }); },
+
+  saveForumInfo(data, password) { return this.post('saveForumInfo', { data, password }); },
+  saveCommittee(data, password) { return this.post('saveCommittee', { data, password }); },
+  saveSpecialCommittee(data, password) { return this.post('saveSpecialCommittee', { data, password }); },
+  changePassword(newPassword, password) { return this.post('changePassword', { newPassword, password }); },
+
+  uploadImage(base64, filename, mimeType) {
+    return this.post('uploadImage', { base64, filename, mimeType });
+  }
+};
+
+// ফাইলকে base64 এ কনভার্ট করার হেল্পার
+function fileToBase64(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(reader.result.split(',')[1]);
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
+}
+
+function showToast(message, isError = false) {
+  let toast = document.getElementById('globalToast');
+  if (!toast) {
+    toast = document.createElement('div');
+    toast.id = 'globalToast';
+    toast.className = 'toast';
+    document.body.appendChild(toast);
+  }
+  toast.textContent = message;
+  toast.className = 'toast show' + (isError ? ' error' : '');
+  clearTimeout(toast._timer);
+  toast._timer = setTimeout(() => toast.classList.remove('show'), 3200);
+}
+
+
+/* ==================== js/demo-data.js ==================== */
+/**
+ * ============================================================
+ * ডেমো ডাটা - Google Sheet কানেক্ট না থাকলে সাইটের প্রিভিউ দেখানোর জন্য
+ * config.js এ API_URL সেট করলে এই ফাইলের প্রভাব বন্ধ হয়ে যাবে
+ * ============================================================
+ */
+
+function loadDemoData() {
+  STATE.forumInfo = {
+    ForumName: 'আল-ফালাহ স্টুডেন্ট ফোরাম',
+    InstituteName: 'আল-ফালাহ ইসলামিয়া দাখিল মাদ্রাসা',
+    Tagline: 'সাবেক ও বর্তমান শিক্ষার্থীদের মিলনমেলা',
+    Slogan: 'শিক্ষা, ঐক্য ও কল্যাণে একসাথে',
+    FoundingYear: '১৯৮৫',
+    Mobile: '০১৭xxxxxxxx',
+    Facebook: 'https://facebook.com/',
+    Email: 'info@alfalahforum.org',
+    Address: 'গ্রাম: রামপুর, উপজেলা: সদর, জেলা: কুমিল্লা',
+    LogoURL: '',
+    AboutText: 'আল-ফালাহ স্টুডেন্ট ফোরাম প্রতিষ্ঠানের সাবেক ও বর্তমান শিক্ষার্থীদের একত্রিত করার লক্ষ্যে ২০১০ সালে যাত্রা শুরু করে। ফোরামের উদ্দেশ্য শিক্ষার্থীদের মধ্যে সেতুবন্ধন তৈরি, শিক্ষা সহায়তা, এবং সামাজিক কল্যাণমূলক কাজে অংশগ্রহণ।',
+    PresidentSignatureURL: ''
+  };
+
+  STATE.students = [
+    { ID: '1', Type: 'প্রাক্তন', Name: 'মোঃ আব্দুল করিম', FatherName: 'মোঃ ইসমাইল হোসেন', Gender: 'ছাত্র', Mobile: '০১৭১১xxxxxx', Village: 'রামপুর', PostOffice: 'রামপুর বাজার', Union: 'রামপুর', Upazila: 'সদর', Thana: 'সদর', Profession: 'শিক্ষকতা', CurrentCountry: 'বাংলাদেশ', LastClass: 'দাখিল', DakhilBatch: '২০০৫', HighestEducationClass: 'মাস্টার্স', HighestEducationInstitute: 'ঢাকা বিশ্ববিদ্যালয়', MaritalStatus: 'বিবাহিত', Facebook: '', Email: '', Comment: '', PhotoURL: '', IsDeceased: 'না' },
+    { ID: '2', Type: 'বর্তমান', Name: 'ফাতেমা আক্তার', FatherName: 'মোঃ নূরুল ইসলাম', Gender: 'ছাত্রী', Mobile: '০১৮১২xxxxxx', Village: 'বাগানবাড়ি', PostOffice: 'বাগানবাড়ি', Union: 'রামপুর', Upazila: 'সদর', Thana: 'সদর', Profession: 'ছাত্র', CurrentCountry: 'বাংলাদেশ', LastClass: 'নবম শ্রেণী', DakhilBatch: '', HighestEducationClass: '', HighestEducationInstitute: '', MaritalStatus: 'অবিবাহিত', Facebook: '', Email: '', Comment: '', PhotoURL: '', IsDeceased: 'না' },
+    { ID: '3', Type: 'প্রাক্তন', Name: 'মোঃ শাহজাহান আলী', FatherName: 'মোঃ আব্দুর রহিম', Gender: 'ছাত্র', Mobile: '০১৯১৩xxxxxx', Village: 'দক্ষিণপাড়া', PostOffice: 'রামপুর', Union: 'রামপুর', Upazila: 'সদর', Thana: 'সদর', Profession: 'প্রবাসী', CurrentCountry: 'সৌদি আরব', LastClass: 'দাখিল', DakhilBatch: '১৯৯৮', HighestEducationClass: 'দাখিল', HighestEducationInstitute: 'আল-ফালাহ মাদ্রাসা', MaritalStatus: 'বিবাহিত', Facebook: '', Email: '', Comment: '', PhotoURL: '', IsDeceased: 'না' },
+    { ID: '4', Type: 'প্রাক্তন', Name: 'মোঃ ইউসুফ আলী', FatherName: 'মোঃ তমিজ উদ্দিন', Gender: 'ছাত্র', Mobile: '', Village: 'উত্তরপাড়া', PostOffice: 'রামপুর', Union: 'রামপুর', Upazila: 'সদর', Thana: 'সদর', Profession: 'ব্যবসায়ী', CurrentCountry: 'বাংলাদেশ', LastClass: 'দাখিল', DakhilBatch: '১৯৯০', HighestEducationClass: 'আলিম', HighestEducationInstitute: 'কামিল মাদ্রাসা', MaritalStatus: 'বিবাহিত', Facebook: '', Email: '', Comment: '', PhotoURL: '', IsDeceased: 'হ্যাঁ' },
+    { ID: '5', Type: 'বর্তমান', Name: 'মোঃ রাকিব হাসান', FatherName: 'মোঃ জসিম উদ্দিন', Gender: 'ছাত্র', Mobile: '০১৬১৪xxxxxx', Village: 'পূর্বপাড়া', PostOffice: 'রামপুর', Union: 'রামপুর', Upazila: 'সদর', Thana: 'সদর', Profession: 'ছাত্র', CurrentCountry: 'বাংলাদেশ', LastClass: 'দশম শ্রেণী', DakhilBatch: '', HighestEducationClass: '', HighestEducationInstitute: '', MaritalStatus: 'অবিবাহিত', Facebook: '', Email: '', Comment: '', PhotoURL: '', IsDeceased: 'না' },
+    { ID: '6', Type: 'প্রাক্তন', Name: 'মোঃ ডাঃ নাজমুল হক', FatherName: 'মোঃ সিরাজুল ইসলাম', Gender: 'ছাত্র', Mobile: '০১৭৫৫xxxxxx', Village: 'রামপুর', PostOffice: 'রামপুর', Union: 'রামপুর', Upazila: 'সদর', Thana: 'সদর', Profession: 'ডাক্তার', CurrentCountry: 'বাংলাদেশ', LastClass: 'দাখিল', DakhilBatch: '২০০০', HighestEducationClass: 'এমবিবিএস', HighestEducationInstitute: 'ঢাকা মেডিকেল কলেজ', MaritalStatus: 'বিবাহিত', Facebook: '', Email: '', Comment: '', PhotoURL: '', IsDeceased: 'না' }
+  ];
+
+  STATE.teachers = [
+    { ID: 't1', Type: 'বর্তমান', Name: 'মাওলানা আব্দুল হাকিম', FatherName: 'মোঃ ইউনুস আলী', Mobile: '০১৭২২xxxxxx', Village: 'রামপুর', PostOffice: 'রামপুর', Union: 'রামপুর', Upazila: 'সদর', Thana: 'সদর', Designation: 'অধ্যক্ষ', HighestEducationClass: 'কামিল', HighestEducationInstitute: 'আল-জামিয়া আল-ইসলামিয়া', MaritalStatus: 'বিবাহিত', JoiningDate: '2005-01-15', RetirementDate: '', ServiceLength: '২০ বছর ৭ মাস', Facebook: '', Email: '', Comment: '', PhotoURL: '', IsDeceased: 'না' },
+    { ID: 't2', Type: 'প্রাক্তন', Name: 'মোঃ আব্দুল মজিদ', FatherName: 'মোঃ ওয়াজেদ আলী', Mobile: '', Village: 'রামপুর', PostOffice: 'রামপুর', Union: 'রামপুর', Upazila: 'সদর', Thana: 'সদর', Designation: 'সহকারী অধ্যাপক', HighestEducationClass: 'মাস্টার্স', HighestEducationInstitute: 'চট্টগ্রাম বিশ্ববিদ্যালয়', MaritalStatus: 'বিবাহিত', JoiningDate: '1990-06-01', RetirementDate: '2020-06-01', ServiceLength: '৩০ বছর ০ মাস', Facebook: '', Email: '', Comment: '', PhotoURL: '', IsDeceased: 'হ্যাঁ' }
+  ];
+
+  STATE.committee = [
+    { Position: 'সভাপতি', MemberName: 'মোঃ আব্দুল করিম', Mobile: '০১৭১১xxxxxx', FormationDate: '2024-01-01', TermLength: '২ বছর' },
+    { Position: 'সাধারণ সম্পাদক', MemberName: 'মোঃ শাহজাহান আলী', Mobile: '০১৯১৩xxxxxx', FormationDate: '2024-01-01', TermLength: '২ বছর' },
+    { Position: 'কোষাধ্যক্ষ', MemberName: 'মোঃ ইউসুফ আলী', Mobile: '', FormationDate: '2024-01-01', TermLength: '২ বছর' }
+  ];
+
+  STATE.specialCommittee = [];
+}
+
+
+/* ==================== js/students.js ==================== */
+/**
+ * ============================================================
+ * শিক্ষার্থী মডিউল: রেজিষ্ট্রেশন ফরম + পোর্টাল + প্রিন্ট কপি
+ * ============================================================
+ */
+
+let studentPhotoBase64 = null;
+let studentSigBase64 = null;
+
+function populateFormDropdowns() {
+  fillSelect('sType', CONFIG.STUDENT_TYPES);
+  fillSelect('sGender', CONFIG.GENDERS);
+  fillSelect('sProfession', CONFIG.PROFESSIONS);
+  fillSelect('sCountry', CONFIG.COUNTRIES);
+  fillSelect('sMarital', CONFIG.MARITAL_STATUS);
+
+  fillSelect('tType', CONFIG.STUDENT_TYPES);
+  fillSelect('tMarital', CONFIG.MARITAL_STATUS);
+}
+
+function fillSelect(id, options) {
+  const sel = document.getElementById(id);
+  if (!sel) return;
+  sel.innerHTML = '<option value="">নির্বাচন করুন</option>' + options.map(o => `<option value="${esc(o)}">${esc(o)}</option>`).join('');
+}
+
+function resetStudentForm() {
+  const form = document.getElementById('studentForm');
+  if (form) form.reset();
+  studentPhotoBase64 = null;
+  studentSigBase64 = null;
+  document.getElementById('sPhotoPreview').innerHTML = 'ছবি<br>আপলোড';
+  document.getElementById('sSigPreview').innerHTML = 'স্বাক্ষর';
+  document.getElementById('studentFormError').classList.remove('show');
+  document.getElementById('studentFormWrap').style.display = 'block';
+  document.getElementById('studentPrintWrap').style.display = 'none';
+}
+
+async function handleStudentPhotoUpload(input, target) {
+  const file = input.files[0];
+  if (!file) return;
+  const preview = document.getElementById(target === 'photo' ? 'sPhotoPreview' : 'sSigPreview');
+  const reader = new FileReader();
+  reader.onload = () => {
+    preview.innerHTML = `<img src="${reader.result}">`;
+  };
+  reader.readAsDataURL(file);
+
+  const base64 = await fileToBase64(file);
+  if (target === 'photo') {
+    studentPhotoBase64 = { data: base64, filename: file.name, mimeType: file.type };
+  } else {
+    studentSigBase64 = { data: base64, filename: file.name, mimeType: file.type };
+  }
+}
+
+async function submitStudentForm(e) {
+  e.preventDefault();
+  const errorBox = document.getElementById('studentFormError');
+  errorBox.classList.remove('show');
+
+  const data = {
+    Type: val('sType'),
+    Name: val('sName'),
+    FatherName: val('sFatherName'),
+    Gender: val('sGender'),
+    Mobile: val('sMobile'),
+    Village: val('sVillage'),
+    PostOffice: val('sPostOffice'),
+    Union: val('sUnion'),
+    Upazila: val('sUpazila'),
+    Thana: val('sThana'),
+    Profession: val('sProfession'),
+    CurrentCountry: val('sCountry'),
+    LastClass: val('sLastClass'),
+    DakhilBatch: val('sDakhilBatch'),
+    HighestEducationClass: val('sHighEduClass'),
+    HighestEducationInstitute: val('sHighEduInstitute'),
+    MaritalStatus: val('sMarital'),
+    Facebook: val('sFacebook'),
+    Email: val('sEmail'),
+    Comment: val('sComment'),
+    IsDeceased: document.getElementById('sDeceased').checked ? 'হ্যাঁ' : 'না'
+  };
+
+  if (!data.Type || !data.Name || !data.FatherName || !data.Mobile || !data.Gender) {
+    errorBox.textContent = 'অনুগ্রহ করে ধরন, নাম, পিতার নাম, লিঙ্গ ও মোবাইল নং পূরণ করুন।';
+    errorBox.classList.add('show');
+    return;
+  }
+
+  const submitBtn = document.getElementById('sSubmitBtn');
+  submitBtn.disabled = true;
+  submitBtn.innerHTML = '<span class="loading-spinner"></span> সাবমিট হচ্ছে...';
+
+  try {
+    if (STATE.isDemoMode) {
+      data.ID = 'DEMO' + Date.now();
+      data.PhotoURL = studentPhotoBase64 ? URL.createObjectURL(dataURLtoBlob(studentPhotoBase64)) : '';
+      data.SignatureURL = studentSigBase64 ? URL.createObjectURL(dataURLtoBlob(studentSigBase64)) : '';
+      STATE.students.push(data);
+      showToast('ডেমো মোডে সাবমিট হয়েছে (Google Sheet সংযুক্ত নয়)');
+    } else {
+      if (studentPhotoBase64) {
+        const up = await API.uploadImage(studentPhotoBase64.data, studentPhotoBase64.filename, studentPhotoBase64.mimeType);
+        data.PhotoURL = up.url || '';
+      }
+      if (studentSigBase64) {
+        const up = await API.uploadImage(studentSigBase64.data, studentSigBase64.filename, studentSigBase64.mimeType);
+        data.SignatureURL = up.url || '';
+      }
+      const result = await API.addStudent(data);
+      data.ID = result.id;
+      showToast('রেজিষ্ট্রেশন সফল হয়েছে!');
+      await refreshDashboardData();
+    }
+
+    STATE.lastStudentSubmission = data;
+    showStudentPrintCopy(data);
+  } catch (err) {
+    errorBox.textContent = 'সমস্যা হয়েছে: ' + err.message;
+    errorBox.classList.add('show');
+  } finally {
+    submitBtn.disabled = false;
+    submitBtn.innerHTML = 'সাবমিট করুন';
+  }
+}
+
+function dataURLtoBlob(obj) {
+  const byteChars = atob(obj.data);
+  const byteNumbers = new Array(byteChars.length);
+  for (let i = 0; i < byteChars.length; i++) byteNumbers[i] = byteChars.charCodeAt(i);
+  return new Blob([new Uint8Array(byteNumbers)], { type: obj.mimeType });
+}
+
+function val(id) {
+  const el = document.getElementById(id);
+  return el ? el.value.trim() : '';
+}
+
+function showStudentPrintCopy(data) {
+  document.getElementById('studentFormWrap').style.display = 'none';
+  const wrap = document.getElementById('studentPrintWrap');
+  wrap.style.display = 'block';
+
+  const info = STATE.forumInfo;
+  wrap.innerHTML = `
+    <div class="print-copy">
+      <div class="pc-header">
+        ${info.LogoURL ? `<img src="${esc(info.LogoURL)}" class="pc-logo">` : ''}
+        <div class="pc-forum">${esc(info.ForumName)}</div>
+        <div class="pc-address">${esc(info.Address)} | ${esc(info.Mobile)}</div>
+        <div class="pc-slogan">${esc(info.Slogan)}</div>
+      </div>
+      <div class="pc-title">শিক্ষার্থী রেজিষ্ট্রেশন কপি</div>
+      <div class="pc-body">
+        ${data.PhotoURL ? `<img class="pc-photo" src="${esc(data.PhotoURL)}" alt="" onerror="fallbackAvatar(this, '${esc(initials(data.Name))}')">` : `<div class="pc-photo img-fallback">${esc(initials(data.Name))}</div>`}
+        <div class="pc-fields">
+          <div><span class="pf-label">নাম</span><span class="pf-value">${esc(data.Name)}</span></div>
+          <div><span class="pf-label">পিতার নাম</span><span class="pf-value">${esc(data.FatherName)}</span></div>
+          <div><span class="pf-label">মোবাইল নং</span><span class="pf-value">${esc(data.Mobile)}</span></div>
+          <div><span class="pf-label">দাখিল ব্যাচ</span><span class="pf-value">${esc(data.DakhilBatch || '-')}</span></div>
+          <div><span class="pf-label">সর্বশেষ শিক্ষাগত যোগ্যতা</span><span class="pf-value">${esc(data.HighestEducationClass || '-')}</span></div>
+          <div><span class="pf-label">ধরন</span><span class="pf-value">${esc(data.Type)}</span></div>
+        </div>
+      </div>
+      <div class="pc-signatures">
+        <div class="pc-sig">
+          ${data.SignatureURL ? `<img src="${esc(data.SignatureURL)}" onerror="this.style.display='none'">` : '<div style="height:44px"></div>'}
+          <div class="sig-line">শিক্ষার্থীর স্বাক্ষর</div>
+        </div>
+        <div class="pc-sig">
+          ${info.PresidentSignatureURL ? `<img src="${esc(info.PresidentSignatureURL)}" onerror="this.style.display='none'">` : '<div style="height:44px"></div>'}
+          <div class="sig-line">সভাপতির স্বাক্ষর</div>
+        </div>
+      </div>
+    </div>
+    <div class="print-actions no-print">
+      <button class="btn btn-gold" onclick="window.print()">🖨️ প্রিন্ট করুন</button>
+      <button class="btn btn-outline" onclick="resetStudentForm()">নতুন রেজিষ্ট্রেশন</button>
+    </div>
+  `;
+}
+
+function placeholderImg() {
+  return 'data:image/svg+xml;utf8,' + encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" width="110" height="130"><rect width="100%" height="100%" fill="%23e8f0ea"/></svg>`);
+}
+
+// ============================================================
+// শিক্ষার্থী পোর্টাল
+// ============================================================
+function renderStudentPortal() {
+  const grid = document.getElementById('studentPortalGrid');
+  const searchVal = (document.getElementById('studentSearchInput')?.value || '').toLowerCase();
+  const typeFilter = document.getElementById('studentTypeFilter')?.value || '';
+
+  let list = STATE.students.filter(s => {
+    const matchSearch = !searchVal || (s.Name || '').toLowerCase().includes(searchVal);
+    const matchType = !typeFilter || s.Type === typeFilter;
+    return matchSearch && matchType;
+  });
+
+  if (list.length === 0) {
+    grid.innerHTML = '<div class="empty-state">কোনো শিক্ষার্থী পাওয়া যায়নি।</div>';
+    return;
+  }
+
+  grid.innerHTML = list.map((s, idx) => {
+    const realIdx = STATE.students.indexOf(s);
+    return `
+    <div class="person-card">
+      ${s.PhotoURL ? `<img class="person-photo" src="${esc(s.PhotoURL)}" alt="" onerror="fallbackAvatar(this, '${esc(initials(s.Name))}')">` : `<div class="person-photo-placeholder">${esc(initials(s.Name))}</div>`}
+      <div class="person-info">
+        <div class="person-name">${esc(s.Name)}</div>
+        <div class="person-meta">${esc(s.Profession || '—')}</div>
+        <div class="person-meta">${s.Type === 'প্রাক্তন' ? 'দাখিল ব্যাচ: ' + esc(s.DakhilBatch || '-') : 'শ্রেণী: ' + esc(s.LastClass || '-')}</div>
+        <span class="person-tag ${s.Type === 'প্রাক্তন' ? 'tag-former' : 'tag-current'}">${esc(s.Type)}</span>
+        <button class="btn btn-outline btn-sm" onclick="showStudentDetail(${realIdx})">বিস্তারিত দেখুন</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function showStudentDetail(idx) {
+  const s = STATE.students[idx];
+  if (!s) return;
+  const body = document.getElementById('studentDetailBody');
+  body.innerHTML = `
+    <div class="detail-photo-wrap">
+      ${s.PhotoURL ? `<img src="${esc(s.PhotoURL)}" alt="" onerror="fallbackAvatar(this, '${esc(initials(s.Name))}')">` : `<div class="img-fallback">${esc(initials(s.Name))}</div>`}
+    </div>
+    <div class="detail-grid">
+      ${detailRow('নাম', s.Name)}
+      ${detailRow('পিতার নাম', s.FatherName)}
+      ${detailRow('ধরন', s.Type)}
+      ${detailRow('লিঙ্গ', s.Gender)}
+      ${detailRow('মোবাইল (WhatsApp)', s.Mobile)}
+      ${detailRow('গ্রাম', s.Village)}
+      ${detailRow('ডাকঘর', s.PostOffice)}
+      ${detailRow('ইউনিয়ন', s.Union)}
+      ${detailRow('উপজেলা', s.Upazila)}
+      ${detailRow('থানা', s.Thana)}
+      ${detailRow('পেশা', s.Profession)}
+      ${detailRow('বর্তমান অবস্থানরত দেশ', s.CurrentCountry)}
+      ${detailRow('সর্বশেষ অধ্যয়নকৃত শ্রেণী', s.LastClass)}
+      ${detailRow('দাখিল ব্যাচ', s.DakhilBatch)}
+      ${detailRow('সর্বশেষ শিক্ষাগত যোগ্যতা', (s.HighestEducationClass || '') + ' - ' + (s.HighestEducationInstitute || ''))}
+      ${detailRow('বৈবাহিক অবস্থা', s.MaritalStatus)}
+      ${detailRow('Facebook', s.Facebook)}
+      ${detailRow('E-mail', s.Email)}
+      ${detailRow('মন্তব্য', s.Comment)}
+    </div>
+  `;
+  openModal('studentDetailModal');
+}
+
+function detailRow(label, value) {
+  return `<div class="detail-row"><div class="dt-label">${esc(label)}</div><div class="dt-value">${esc(value) || '-'}</div></div>`;
+}
+
+
+/* ==================== js/teachers.js ==================== */
+/**
+ * ============================================================
+ * শিক্ষক মডিউল: রেজিষ্ট্রেশন ফরম + পোর্টাল + প্রিন্ট কপি
+ * ============================================================
+ */
+
+let teacherPhotoBase64 = null;
+let teacherSigBase64 = null;
+
+function resetTeacherForm() {
+  const form = document.getElementById('teacherForm');
+  if (form) form.reset();
+  teacherPhotoBase64 = null;
+  teacherSigBase64 = null;
+  document.getElementById('tPhotoPreview').innerHTML = 'ছবি<br>আপলোড';
+  document.getElementById('tSigPreview').innerHTML = 'স্বাক্ষর';
+  document.getElementById('teacherFormError').classList.remove('show');
+  document.getElementById('teacherFormWrap').style.display = 'block';
+  document.getElementById('teacherPrintWrap').style.display = 'none';
+  toggleRetirementField();
+}
+
+function toggleRetirementField() {
+  const type = document.getElementById('tType').value;
+  const wrap = document.getElementById('tRetirementWrap');
+  wrap.style.display = type === 'প্রাক্তন' ? 'flex' : 'none';
+}
+
+async function handleTeacherPhotoUpload(input, target) {
+  const file = input.files[0];
+  if (!file) return;
+  const preview = document.getElementById(target === 'photo' ? 'tPhotoPreview' : 'tSigPreview');
+  const reader = new FileReader();
+  reader.onload = () => { preview.innerHTML = `<img src="${reader.result}">`; };
+  reader.readAsDataURL(file);
+
+  const base64 = await fileToBase64(file);
+  if (target === 'photo') {
+    teacherPhotoBase64 = { data: base64, filename: file.name, mimeType: file.type };
+  } else {
+    teacherSigBase64 = { data: base64, filename: file.name, mimeType: file.type };
+  }
+}
+
+function calcServiceLength(joinDate, endDate) {
+  if (!joinDate) return '';
+  const start = new Date(joinDate);
+  const end = endDate ? new Date(endDate) : new Date();
+  let years = end.getFullYear() - start.getFullYear();
+  let months = end.getMonth() - start.getMonth();
+  if (months < 0) { years--; months += 12; }
+  return `${toBn(years)} বছর ${toBn(months)} মাস`;
+}
+
+async function submitTeacherForm(e) {
+  e.preventDefault();
+  const errorBox = document.getElementById('teacherFormError');
+  errorBox.classList.remove('show');
+
+  const type = val('tType');
+  const joinDate = val('tJoinDate');
+  const retireDate = val('tRetireDate');
+
+  const data = {
+    Type: type,
+    Name: val('tName'),
+    FatherName: val('tFatherName'),
+    Mobile: val('tMobile'),
+    Village: val('tVillage'),
+    PostOffice: val('tPostOffice'),
+    Union: val('tUnion'),
+    Upazila: val('tUpazila'),
+    Thana: val('tThana'),
+    Designation: val('tDesignation'),
+    HighestEducationClass: val('tHighEduClass'),
+    HighestEducationInstitute: val('tHighEduInstitute'),
+    MaritalStatus: val('tMarital'),
+    JoiningDate: joinDate,
+    RetirementDate: type === 'প্রাক্তন' ? retireDate : '',
+    ServiceLength: calcServiceLength(joinDate, type === 'প্রাক্তন' ? retireDate : null),
+    Facebook: val('tFacebook'),
+    Email: val('tEmail'),
+    Comment: val('tComment'),
+    IsDeceased: document.getElementById('tDeceased').checked ? 'হ্যাঁ' : 'না'
+  };
+
+  if (!data.Type || !data.Name || !data.FatherName || !data.Mobile || !data.Designation) {
+    errorBox.textContent = 'অনুগ্রহ করে ধরন, নাম, পিতার নাম, পদবি ও মোবাইল নং পূরণ করুন।';
+    errorBox.classList.add('show');
+    return;
+  }
+
+  const submitBtn = document.getElementById('tSubmitBtn');
+  submitBtn.disabled = true;
+  submitBtn.innerHTML = '<span class="loading-spinner"></span> সাবমিট হচ্ছে...';
+
+  try {
+    if (STATE.isDemoMode) {
+      data.ID = 'DEMO' + Date.now();
+      data.PhotoURL = teacherPhotoBase64 ? URL.createObjectURL(dataURLtoBlob(teacherPhotoBase64)) : '';
+      data.SignatureURL = teacherSigBase64 ? URL.createObjectURL(dataURLtoBlob(teacherSigBase64)) : '';
+      STATE.teachers.push(data);
+      showToast('ডেমো মোডে সাবমিট হয়েছে (Google Sheet সংযুক্ত নয়)');
+    } else {
+      if (teacherPhotoBase64) {
+        const up = await API.uploadImage(teacherPhotoBase64.data, teacherPhotoBase64.filename, teacherPhotoBase64.mimeType);
+        data.PhotoURL = up.url || '';
+      }
+      if (teacherSigBase64) {
+        const up = await API.uploadImage(teacherSigBase64.data, teacherSigBase64.filename, teacherSigBase64.mimeType);
+        data.SignatureURL = up.url || '';
+      }
+      const result = await API.addTeacher(data);
+      data.ID = result.id;
+      showToast('রেজিষ্ট্রেশন সফল হয়েছে!');
+      await refreshDashboardData();
+    }
+
+    STATE.lastTeacherSubmission = data;
+    showTeacherPrintCopy(data);
+  } catch (err) {
+    errorBox.textContent = 'সমস্যা হয়েছে: ' + err.message;
+    errorBox.classList.add('show');
+  } finally {
+    submitBtn.disabled = false;
+    submitBtn.innerHTML = 'সাবমিট করুন';
+  }
+}
+
+function showTeacherPrintCopy(data) {
+  document.getElementById('teacherFormWrap').style.display = 'none';
+  const wrap = document.getElementById('teacherPrintWrap');
+  wrap.style.display = 'block';
+
+  const info = STATE.forumInfo;
+  const dateLine = data.Type === 'প্রাক্তন'
+    ? `অবসর তারিখ: ${esc(data.RetirementDate || '-')}`
+    : `যোগদানের তারিখ: ${esc(data.JoiningDate || '-')}`;
+
+  wrap.innerHTML = `
+    <div class="print-copy">
+      <div class="pc-header">
+        ${info.LogoURL ? `<img src="${esc(info.LogoURL)}" class="pc-logo">` : ''}
+        <div class="pc-forum">${esc(info.ForumName)}</div>
+        <div class="pc-address">${esc(info.Address)} | ${esc(info.Mobile)}</div>
+        <div class="pc-slogan">${esc(info.Slogan)}</div>
+      </div>
+      <div class="pc-title">শিক্ষক রেজিষ্ট্রেশন কপি</div>
+      <div class="pc-body">
+        ${data.PhotoURL ? `<img class="pc-photo" src="${esc(data.PhotoURL)}" alt="" onerror="fallbackAvatar(this, '${esc(initials(data.Name))}')">` : `<div class="pc-photo img-fallback">${esc(initials(data.Name))}</div>`}
+        <div class="pc-fields">
+          <div><span class="pf-label">নাম</span><span class="pf-value">${esc(data.Name)}</span></div>
+          <div><span class="pf-label">ধরন</span><span class="pf-value">${esc(data.Type)}</span></div>
+          <div><span class="pf-label">পদবি</span><span class="pf-value">${esc(data.Designation)}</span></div>
+          <div><span class="pf-label">মোবাইল নং</span><span class="pf-value">${esc(data.Mobile)}</span></div>
+          <div><span class="pf-label">${data.Type === 'প্রাক্তন' ? 'অবসর তারিখ' : 'যোগদানের তারিখ'}</span><span class="pf-value">${esc(data.Type === 'প্রাক্তন' ? data.RetirementDate : data.JoiningDate)}</span></div>
+        </div>
+      </div>
+      <div class="pc-signatures">
+        <div class="pc-sig">
+          ${data.SignatureURL ? `<img src="${esc(data.SignatureURL)}" onerror="this.style.display='none'">` : '<div style="height:44px"></div>'}
+          <div class="sig-line">শিক্ষকের স্বাক্ষর</div>
+        </div>
+        <div class="pc-sig">
+          ${info.PresidentSignatureURL ? `<img src="${esc(info.PresidentSignatureURL)}" onerror="this.style.display='none'">` : '<div style="height:44px"></div>'}
+          <div class="sig-line">সভাপতির স্বাক্ষর</div>
+        </div>
+      </div>
+    </div>
+    <div class="print-actions no-print">
+      <button class="btn btn-gold" onclick="window.print()">🖨️ প্রিন্ট করুন</button>
+      <button class="btn btn-outline" onclick="resetTeacherForm()">নতুন রেজিষ্ট্রেশন</button>
+    </div>
+  `;
+}
+
+// ============================================================
+// শিক্ষক পোর্টাল
+// ============================================================
+function renderTeacherPortal() {
+  const grid = document.getElementById('teacherPortalGrid');
+  const searchVal = (document.getElementById('teacherSearchInput')?.value || '').toLowerCase();
+  const typeFilter = document.getElementById('teacherTypeFilter')?.value || '';
+
+  let list = STATE.teachers.filter(t => {
+    const matchSearch = !searchVal || (t.Name || '').toLowerCase().includes(searchVal);
+    const matchType = !typeFilter || t.Type === typeFilter;
+    return matchSearch && matchType;
+  });
+
+  if (list.length === 0) {
+    grid.innerHTML = '<div class="empty-state">কোনো শিক্ষক পাওয়া যায়নি।</div>';
+    return;
+  }
+
+  grid.innerHTML = list.map((t) => {
+    const realIdx = STATE.teachers.indexOf(t);
+    const dateLine = t.Type === 'প্রাক্তন' ? `অবসর: ${esc(t.RetirementDate || '-')}` : `যোগদান: ${esc(t.JoiningDate || '-')}`;
+    return `
+    <div class="person-card">
+      ${t.PhotoURL ? `<img class="person-photo" src="${esc(t.PhotoURL)}" alt="" onerror="fallbackAvatar(this, '${esc(initials(t.Name))}')">` : `<div class="person-photo-placeholder">${esc(initials(t.Name))}</div>`}
+      <div class="person-info">
+        <div class="person-name">${esc(t.Name)}</div>
+        <div class="person-meta">${esc(t.Designation || '—')}</div>
+        <div class="person-meta">${dateLine}</div>
+        ${t.ServiceLength ? `<div class="person-meta">চাকরিকাল: ${esc(t.ServiceLength)}</div>` : ''}
+        <span class="person-tag ${t.Type === 'প্রাক্তন' ? 'tag-former' : 'tag-current'}">${esc(t.Type)}</span>
+        <button class="btn btn-outline btn-sm" onclick="showTeacherDetail(${realIdx})">বিস্তারিত দেখুন</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function showTeacherDetail(idx) {
+  const t = STATE.teachers[idx];
+  if (!t) return;
+  const body = document.getElementById('teacherDetailBody');
+  body.innerHTML = `
+    <div class="detail-photo-wrap">
+      ${t.PhotoURL ? `<img src="${esc(t.PhotoURL)}" alt="" onerror="fallbackAvatar(this, '${esc(initials(t.Name))}')">` : `<div class="img-fallback">${esc(initials(t.Name))}</div>`}
+    </div>
+    <div class="detail-grid">
+      ${detailRow('নাম', t.Name)}
+      ${detailRow('পিতার নাম', t.FatherName)}
+      ${detailRow('ধরন', t.Type)}
+      ${detailRow('পদবি', t.Designation)}
+      ${detailRow('মোবাইল (WhatsApp)', t.Mobile)}
+      ${detailRow('গ্রাম', t.Village)}
+      ${detailRow('ডাকঘর', t.PostOffice)}
+      ${detailRow('ইউনিয়ন', t.Union)}
+      ${detailRow('উপজেলা', t.Upazila)}
+      ${detailRow('থানা', t.Thana)}
+      ${detailRow('সর্বশেষ শিক্ষাগত যোগ্যতা', (t.HighestEducationClass || '') + ' - ' + (t.HighestEducationInstitute || ''))}
+      ${detailRow('বৈবাহিক অবস্থা', t.MaritalStatus)}
+      ${detailRow('যোগদানের তারিখ', t.JoiningDate)}
+      ${t.Type === 'প্রাক্তন' ? detailRow('অবসর তারিখ', t.RetirementDate) : ''}
+      ${detailRow('চাকরিকাল', t.ServiceLength)}
+      ${detailRow('Facebook', t.Facebook)}
+      ${detailRow('E-mail', t.Email)}
+      ${detailRow('মন্তব্য', t.Comment)}
+    </div>
+  `;
+  openModal('teacherDetailModal');
+}
+
+
+/* ==================== js/admin.js ==================== */
+/**
+ * ============================================================
+ * ব্যবস্থাপনা (অ্যাডমিন) মডিউল
+ * ============================================================
+ */
+
+let adminPassword = '';
+let tempCommitteeRows = [];
+let tempSpecialCommitteeRows = [];
+let tempLogoBase64 = null;
+let tempSignatureBase64 = null;
+
+function initAdminView() {
+  if (STATE.isAdmin) {
+    showAdminPanel();
+  } else {
+    document.getElementById('adminLoginWrap').style.display = 'block';
+    document.getElementById('adminPanelWrap').style.display = 'none';
+  }
+}
+
+async function handleAdminLogin(e) {
+  e.preventDefault();
+  const pass = document.getElementById('adminPasswordInput').value;
+  const errorBox = document.getElementById('adminLoginError');
+  errorBox.classList.remove('show');
+
+  if (STATE.isDemoMode) {
+    // ডেমো মোডে যেকোনো পাসওয়ার্ড "demo123" কাজ করবে
+    if (pass === 'demo123') {
+      adminPassword = pass;
+      STATE.isAdmin = true;
+      showAdminPanel();
+    } else {
+      errorBox.textContent = 'ডেমো মোডে পাসওয়ার্ড: demo123';
+      errorBox.classList.add('show');
+    }
+    return;
+  }
+
+  try {
+    const res = await API.checkPassword(pass);
+    if (res.valid) {
+      adminPassword = pass;
+      STATE.isAdmin = true;
+      showAdminPanel();
+    } else {
+      errorBox.textContent = 'পাসওয়ার্ড সঠিক নয়।';
+      errorBox.classList.add('show');
+    }
+  } catch (err) {
+    errorBox.textContent = 'সমস্যা হয়েছে: ' + err.message;
+    errorBox.classList.add('show');
+  }
+}
+
+function showAdminPanel() {
+  document.getElementById('adminLoginWrap').style.display = 'none';
+  document.getElementById('adminPanelWrap').style.display = 'block';
+  showAdminTab('forumInfo');
+  loadForumInfoForm();
+  loadCommitteeForm();
+  loadSpecialCommitteeForm();
+}
+
+function adminLogout() {
+  STATE.isAdmin = false;
+  adminPassword = '';
+  initAdminView();
+}
+
+function showAdminTab(tab) {
+  document.querySelectorAll('.admin-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.admin-panel').forEach(p => p.classList.remove('active'));
+  document.querySelector(`[data-admintab="${tab}"]`).classList.add('active');
+  document.getElementById('adminPanel-' + tab).classList.add('active');
+}
+
+// ============================================================
+// ফোরাম তথ্য
+// ============================================================
+function loadForumInfoForm() {
+  const info = STATE.forumInfo;
+  document.getElementById('fiForumName').value = info.ForumName || '';
+  document.getElementById('fiInstituteName').value = info.InstituteName || '';
+  document.getElementById('fiFoundingYear').value = info.FoundingYear || '';
+  document.getElementById('fiTagline').value = info.Tagline || '';
+  document.getElementById('fiSlogan').value = info.Slogan || '';
+  document.getElementById('fiMobile').value = info.Mobile || '';
+  document.getElementById('fiFacebook').value = info.Facebook || '';
+  document.getElementById('fiEmail').value = info.Email || '';
+  document.getElementById('fiAddress').value = info.Address || '';
+  document.getElementById('fiAboutText').value = info.AboutText || '';
+  document.getElementById('fiLogoPreview').innerHTML = info.LogoURL ? `<img src="${esc(info.LogoURL)}" onerror="this.style.display='none';this.parentElement.textContent='লোগো লোড হয়নি'">` : 'লোগো';
+  document.getElementById('fiSigPreview').innerHTML = info.PresidentSignatureURL ? `<img src="${esc(info.PresidentSignatureURL)}" onerror="this.style.display='none';this.parentElement.textContent='স্বাক্ষর লোড হয়নি'">` : 'স্বাক্ষর';
+  tempLogoBase64 = null;
+  tempSignatureBase64 = null;
+}
+
+async function handleAdminImageUpload(input, target) {
+  const file = input.files[0];
+  if (!file) return;
+  const preview = document.getElementById(target === 'logo' ? 'fiLogoPreview' : 'fiSigPreview');
+  const reader = new FileReader();
+  reader.onload = () => { preview.innerHTML = `<img src="${reader.result}">`; };
+  reader.readAsDataURL(file);
+
+  const base64 = await fileToBase64(file);
+  const obj = { data: base64, filename: file.name, mimeType: file.type };
+  if (target === 'logo') tempLogoBase64 = obj;
+  else tempSignatureBase64 = obj;
+}
+
+async function saveForumInfo(e) {
+  e.preventDefault();
+  const btn = document.getElementById('fiSaveBtn');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="loading-spinner"></span> সংরক্ষণ হচ্ছে...';
+
+  const data = {
+    ForumName: val('fiForumName'),
+    InstituteName: val('fiInstituteName'),
+    FoundingYear: val('fiFoundingYear'),
+    Tagline: val('fiTagline'),
+    Slogan: val('fiSlogan'),
+    Mobile: val('fiMobile'),
+    Facebook: val('fiFacebook'),
+    Email: val('fiEmail'),
+    Address: val('fiAddress'),
+    AboutText: val('fiAboutText')
+  };
+
+  try {
+    if (STATE.isDemoMode) {
+      if (tempLogoBase64) data.LogoURL = URL.createObjectURL(dataURLtoBlob(tempLogoBase64));
+      if (tempSignatureBase64) data.PresidentSignatureURL = URL.createObjectURL(dataURLtoBlob(tempSignatureBase64));
+      Object.assign(STATE.forumInfo, data);
+      showToast('ডেমো মোডে সংরক্ষিত হয়েছে');
+    } else {
+      if (tempLogoBase64) {
+        const up = await API.uploadImage(tempLogoBase64.data, tempLogoBase64.filename, tempLogoBase64.mimeType);
+        data.LogoURL = up.url;
+      }
+      if (tempSignatureBase64) {
+        const up = await API.uploadImage(tempSignatureBase64.data, tempSignatureBase64.filename, tempSignatureBase64.mimeType);
+        data.PresidentSignatureURL = up.url;
+      }
+      await API.saveForumInfo(data, adminPassword);
+      Object.assign(STATE.forumInfo, data);
+      showToast('ফোরাম তথ্য সংরক্ষিত হয়েছে');
+    }
+    renderHeader();
+    renderFooter();
+    renderAbout();
+    renderFormLetterheads();
+    loadForumInfoForm();
+  } catch (err) {
+    showToast('সমস্যা হয়েছে: ' + err.message, true);
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = 'সংরক্ষণ করুন';
+  }
+}
+
+// ============================================================
+// কমিটি
+// ============================================================
+function loadCommitteeForm() {
+  tempCommitteeRows = STATE.committee.length ? [...STATE.committee] : [];
+  document.getElementById('cFormationDate').value = tempCommitteeRows[0]?.FormationDate || '';
+  document.getElementById('cTermLength').value = tempCommitteeRows[0]?.TermLength || '';
+  renderCommitteeRows();
+}
+
+function renderCommitteeRows() {
+  const container = document.getElementById('committeeRowsContainer');
+  container.innerHTML = tempCommitteeRows.map((row, idx) => `
+    <div class="committee-row">
+      <div class="form-group"><label>পদবি</label><input type="text" value="${esc(row.Position || '')}" onchange="updateCommitteeRow(${idx}, 'Position', this.value)"></div>
+      <div class="form-group"><label>নাম</label><input type="text" value="${esc(row.MemberName || '')}" list="studentNamesList" onchange="updateCommitteeRow(${idx}, 'MemberName', this.value)"></div>
+      <div class="form-group"><label>মোবাইল</label><input type="text" value="${esc(row.Mobile || '')}" onchange="updateCommitteeRow(${idx}, 'Mobile', this.value)"></div>
+      <button type="button" class="btn btn-danger btn-sm" onclick="removeCommitteeRow(${idx})">✕</button>
+    </div>
+  `).join('') || '<p style="color:var(--text-muted);font-size:13px">কোনো সদস্য যুক্ত করা হয়নি।</p>';
+
+  // শিক্ষার্থীদের নামের ডাটালিস্ট (autocomplete)
+  let datalist = document.getElementById('studentNamesList');
+  if (!datalist) {
+    datalist = document.createElement('datalist');
+    datalist.id = 'studentNamesList';
+    document.body.appendChild(datalist);
+  }
+  datalist.innerHTML = STATE.students.map(s => `<option value="${esc(s.Name)}" data-mobile="${esc(s.Mobile)}">`).join('');
+}
+
+function addCommitteeRow() {
+  tempCommitteeRows.push({ Position: '', MemberName: '', Mobile: '' });
+  renderCommitteeRows();
+}
+function removeCommitteeRow(idx) {
+  tempCommitteeRows.splice(idx, 1);
+  renderCommitteeRows();
+}
+function updateCommitteeRow(idx, field, value) {
+  tempCommitteeRows[idx][field] = value;
+  if (field === 'MemberName') {
+    const student = STATE.students.find(s => s.Name === value);
+    if (student) {
+      tempCommitteeRows[idx].Mobile = student.Mobile;
+      tempCommitteeRows[idx].MemberStudentID = student.ID;
+      renderCommitteeRows();
+    }
+  }
+}
+
+async function saveCommitteeForm(e) {
+  e.preventDefault();
+  const btn = document.getElementById('cSaveBtn');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="loading-spinner"></span> সংরক্ষণ হচ্ছে...';
+
+  const formationDate = val('cFormationDate');
+  const termLength = val('cTermLength');
+  const rows = tempCommitteeRows.map(r => ({ ...r, FormationDate: formationDate, TermLength: termLength }));
+
+  try {
+    if (STATE.isDemoMode) {
+      STATE.committee = rows;
+      showToast('ডেমো মোডে সংরক্ষিত হয়েছে');
+    } else {
+      await API.saveCommittee(rows, adminPassword);
+      STATE.committee = rows;
+      showToast('কমিটি তথ্য সংরক্ষিত হয়েছে');
+    }
+    renderAbout();
+  } catch (err) {
+    showToast('সমস্যা হয়েছে: ' + err.message, true);
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = 'সংরক্ষণ করুন';
+  }
+}
+
+function printCommittee() {
+  const info = STATE.forumInfo;
+  const w = window.open('', '_blank');
+  w.document.write(`
+    <html><head><title>কমিটি তালিকা</title>
+    <style>
+      body{font-family:'Noto Sans Bengali',sans-serif;padding:30px;}
+      h2{text-align:center;color:#1f4d3a;}
+      table{width:100%;border-collapse:collapse;margin-top:20px;}
+      th,td{border:1px solid #ccc;padding:8px 12px;text-align:right;}
+      th{background:#e8f0ea;}
+    </style></head><body>
+    <h2>${esc(info.ForumName)} — কমিটি তালিকা</h2>
+    <p style="text-align:center">গঠনের তারিখ: ${esc(tempCommitteeRows[0]?.FormationDate || '')} | মেয়াদ: ${esc(tempCommitteeRows[0]?.TermLength || '')}</p>
+    <table><thead><tr><th>পদবি</th><th>নাম</th><th>মোবাইল</th></tr></thead>
+    <tbody>${tempCommitteeRows.map(r => `<tr><td>${esc(r.Position)}</td><td>${esc(r.MemberName)}</td><td>${esc(r.Mobile)}</td></tr>`).join('')}</tbody>
+    </table></body></html>
+  `);
+  w.document.close();
+  w.print();
+}
+
+// ============================================================
+// বিশেষ কমিটি (একই প্যাটার্ন)
+// ============================================================
+function loadSpecialCommitteeForm() {
+  tempSpecialCommitteeRows = STATE.specialCommittee.length ? [...STATE.specialCommittee] : [];
+  document.getElementById('scName').value = tempSpecialCommitteeRows[0]?.CommitteeName || '';
+  document.getElementById('scFormationDate').value = tempSpecialCommitteeRows[0]?.FormationDate || '';
+  document.getElementById('scTermLength').value = tempSpecialCommitteeRows[0]?.TermLength || '';
+  renderSpecialCommitteeRows();
+}
+
+function renderSpecialCommitteeRows() {
+  const container = document.getElementById('specialCommitteeRowsContainer');
+  container.innerHTML = tempSpecialCommitteeRows.map((row, idx) => `
+    <div class="committee-row">
+      <div class="form-group"><label>পদবি</label><input type="text" value="${esc(row.Position || '')}" onchange="updateSpecialCommitteeRow(${idx}, 'Position', this.value)"></div>
+      <div class="form-group"><label>নাম</label><input type="text" value="${esc(row.MemberName || '')}" list="studentNamesList" onchange="updateSpecialCommitteeRow(${idx}, 'MemberName', this.value)"></div>
+      <div class="form-group"><label>মোবাইল</label><input type="text" value="${esc(row.Mobile || '')}" onchange="updateSpecialCommitteeRow(${idx}, 'Mobile', this.value)"></div>
+      <button type="button" class="btn btn-danger btn-sm" onclick="removeSpecialCommitteeRow(${idx})">✕</button>
+    </div>
+  `).join('') || '<p style="color:var(--text-muted);font-size:13px">কোনো সদস্য যুক্ত করা হয়নি।</p>';
+}
+
+function addSpecialCommitteeRow() {
+  tempSpecialCommitteeRows.push({ Position: '', MemberName: '', Mobile: '' });
+  renderSpecialCommitteeRows();
+}
+function removeSpecialCommitteeRow(idx) {
+  tempSpecialCommitteeRows.splice(idx, 1);
+  renderSpecialCommitteeRows();
+}
+function updateSpecialCommitteeRow(idx, field, value) {
+  tempSpecialCommitteeRows[idx][field] = value;
+  if (field === 'MemberName') {
+    const student = STATE.students.find(s => s.Name === value);
+    if (student) {
+      tempSpecialCommitteeRows[idx].Mobile = student.Mobile;
+      tempSpecialCommitteeRows[idx].MemberStudentID = student.ID;
+      renderSpecialCommitteeRows();
+    }
+  }
+}
+
+async function saveSpecialCommitteeForm(e) {
+  e.preventDefault();
+  const btn = document.getElementById('scSaveBtn');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="loading-spinner"></span> সংরক্ষণ হচ্ছে...';
+
+  const committeeName = val('scName');
+  const formationDate = val('scFormationDate');
+  const termLength = val('scTermLength');
+  const rows = tempSpecialCommitteeRows.map(r => ({ ...r, CommitteeName: committeeName, FormationDate: formationDate, TermLength: termLength }));
+
+  try {
+    if (STATE.isDemoMode) {
+      STATE.specialCommittee = rows;
+      showToast('ডেমো মোডে সংরক্ষিত হয়েছে');
+    } else {
+      await API.saveSpecialCommittee(rows, adminPassword);
+      STATE.specialCommittee = rows;
+      showToast('বিশেষ কমিটি তথ্য সংরক্ষিত হয়েছে');
+    }
+  } catch (err) {
+    showToast('সমস্যা হয়েছে: ' + err.message, true);
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = 'সংরক্ষণ করুন';
+  }
+}
+
+function printSpecialCommittee() {
+  const info = STATE.forumInfo;
+  const w = window.open('', '_blank');
+  w.document.write(`
+    <html><head><title>বিশেষ কমিটি তালিকা</title>
+    <style>
+      body{font-family:'Noto Sans Bengali',sans-serif;padding:30px;}
+      h2{text-align:center;color:#1f4d3a;}
+      table{width:100%;border-collapse:collapse;margin-top:20px;}
+      th,td{border:1px solid #ccc;padding:8px 12px;text-align:right;}
+      th{background:#e8f0ea;}
+    </style></head><body>
+    <h2>${esc(info.ForumName)} — ${esc(tempSpecialCommitteeRows[0]?.CommitteeName || 'বিশেষ কমিটি')}</h2>
+    <p style="text-align:center">গঠনের তারিখ: ${esc(tempSpecialCommitteeRows[0]?.FormationDate || '')} | মেয়াদ: ${esc(tempSpecialCommitteeRows[0]?.TermLength || '')}</p>
+    <table><thead><tr><th>পদবি</th><th>নাম</th><th>মোবাইল</th></tr></thead>
+    <tbody>${tempSpecialCommitteeRows.map(r => `<tr><td>${esc(r.Position)}</td><td>${esc(r.MemberName)}</td><td>${esc(r.Mobile)}</td></tr>`).join('')}</tbody>
+    </table></body></html>
+  `);
+  w.document.close();
+  w.print();
+}
+
+// ============================================================
+// পাসওয়ার্ড পরিবর্তন
+// ============================================================
+async function changeAdminPassword(e) {
+  e.preventDefault();
+  const oldPass = val('pwOldPassword');
+  const newPass = val('pwNewPassword');
+  const confirmPass = val('pwConfirmPassword');
+  const errorBox = document.getElementById('pwError');
+  errorBox.classList.remove('show');
+
+  if (oldPass !== adminPassword) {
+    errorBox.textContent = 'বর্তমান পাসওয়ার্ড সঠিক নয়।';
+    errorBox.classList.add('show');
+    return;
+  }
+  if (newPass.length < 6) {
+    errorBox.textContent = 'নতুন পাসওয়ার্ড কমপক্ষে ৬ অক্ষরের হতে হবে।';
+    errorBox.classList.add('show');
+    return;
+  }
+  if (newPass !== confirmPass) {
+    errorBox.textContent = 'নতুন পাসওয়ার্ড দুটি মিলছে না।';
+    errorBox.classList.add('show');
+    return;
+  }
+
+  try {
+    if (STATE.isDemoMode) {
+      showToast('ডেমো মোডে পাসওয়ার্ড পরিবর্তন সম্ভব নয়');
+    } else {
+      await API.changePassword(newPass, adminPassword);
+      adminPassword = newPass;
+      showToast('পাসওয়ার্ড সফলভাবে পরিবর্তিত হয়েছে');
+      document.getElementById('changePasswordForm').reset();
+    }
+  } catch (err) {
+    errorBox.textContent = 'সমস্যা হয়েছে: ' + err.message;
+    errorBox.classList.add('show');
+  }
+}
+
+
+/* ==================== js/app.js ==================== */
+/**
+ * ============================================================
+ * মূল অ্যাপ্লিকেশন লজিক
+ * ============================================================
+ */
+
+const STATE = {
+  forumInfo: {},
+  students: [],
+  teachers: [],
+  committee: [],
+  specialCommittee: [],
+  isAdmin: false,
+  isDemoMode: false,
+  lastStudentSubmission: null,
+  lastTeacherSubmission: null
+};
+
+const DEMO_MODE = !CONFIG.API_URL || CONFIG.API_URL.includes('YOUR_GOOGLE_APPS_SCRIPT');
+
+// ============================================================
+// ইনিশিয়ালাইজেশন
+// ============================================================
+document.addEventListener('DOMContentLoaded', async () => {
+  initNav();
+  initModalCloseHandlers();
+
+  if (DEMO_MODE) {
+    STATE.isDemoMode = true;
+    loadDemoData();
+    document.getElementById('demoBanner').style.display = 'block';
+  } else {
+    await loadAllData();
+  }
+
+  renderHeader();
+  renderFooter();
+  renderDashboard();
+  renderAbout();
+  renderFormLetterheads();
+  populateFormDropdowns();
+
+  showView('dashboard');
+});
+
+async function loadAllData() {
+  try {
+    const [info, students, teachers, committee, specialCommittee] = await Promise.all([
+      API.getForumInfo(),
+      API.getStudents(),
+      API.getTeachers(),
+      API.getCommittee(),
+      API.getSpecialCommittee()
+    ]);
+    STATE.forumInfo = info;
+    STATE.students = students;
+    STATE.teachers = teachers;
+    STATE.committee = committee;
+    STATE.specialCommittee = specialCommittee;
+  } catch (err) {
+    console.error(err);
+    showToast('ডাটা লোড করতে সমস্যা হয়েছে: ' + err.message, true);
+  }
+}
+
+async function refreshDashboardData() {
+  if (STATE.isDemoMode) return;
+  await loadAllData();
+  renderDashboard();
+  renderAbout();
+}
+
+// ============================================================
+// নেভিগেশন সিস্টেম - এক মেনু খুললে অন্যটি বন্ধ
+// ============================================================
+const NAV_GROUPS = {
+  studentRegister: 'student', studentPortal: 'student',
+  teacherRegister: 'teacher', teacherPortal: 'teacher'
+};
+
+function initNav() {
+  document.querySelectorAll('[data-nav]').forEach(el => {
+    el.addEventListener('click', (e) => {
+      e.preventDefault();
+      const view = el.getAttribute('data-nav');
+      showView(view);
+      closeAllDropdowns();
+    });
+  });
+
+  // বাইরে ক্লিক করলে ড্রপডাউন বন্ধ হবে
+  document.addEventListener('click', (e) => {
+    if (!e.target.closest('.nav-dropdown')) closeAllDropdowns();
+  });
+}
+
+function toggleDropdown(btn) {
+  const group = btn.closest('.nav-dropdown');
+  const isOpen = group.classList.contains('open');
+  closeAllDropdowns();
+  if (!isOpen) {
+    group.classList.add('open');
+    group.querySelector('.dropdown-menu').classList.add('open');
+  }
+}
+
+function closeAllDropdowns() {
+  document.querySelectorAll('.nav-dropdown.open').forEach(g => g.classList.remove('open'));
+  document.querySelectorAll('.dropdown-menu.open').forEach(m => m.classList.remove('open'));
+}
+
+function showView(viewId) {
+  document.querySelectorAll('.view-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+  document.querySelectorAll('.dropdown-toggle').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.dropdown-menu a').forEach(a => a.classList.remove('active'));
+
+  const panel = document.getElementById('view-' + viewId);
+  if (panel) panel.classList.add('active');
+
+  document.querySelectorAll(`[data-nav="${viewId}"]`).forEach(l => l.classList.add('active'));
+
+  // এই ভিউ যদি কোনো ড্রপডাউন গ্রুপের অংশ হয়, সেই টগল বাটনকেও active দেখাবে
+  const group = NAV_GROUPS[viewId];
+  if (group) {
+    const toggle = document.querySelector(`[data-navgroup="${group}"] .dropdown-toggle`);
+    if (toggle) toggle.classList.add('active');
+  }
+
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+
+  // ভিউ-নির্দিষ্ট লোড লজিক
+  if (viewId === 'dashboard') renderDashboard();
+  if (viewId === 'about') renderAbout();
+  if (viewId === 'studentPortal') renderStudentPortal();
+  if (viewId === 'teacherPortal') renderTeacherPortal();
+  if (viewId === 'studentRegister') resetStudentForm();
+  if (viewId === 'teacherRegister') resetTeacherForm();
+  if (viewId === 'admin') initAdminView();
+}
+
+function initModalCloseHandlers() {
+  document.querySelectorAll('.modal-overlay').forEach(overlay => {
+    overlay.addEventListener('click', (e) => {
+      if (e.target === overlay) closeModal(overlay.id);
+    });
+  });
+}
+
+function openModal(id) {
+  document.getElementById(id).classList.add('active');
+}
+function closeModal(id) {
+  document.getElementById(id).classList.remove('active');
+}
+
+// ============================================================
+// হেডার / ফুটার রেন্ডার
+// ============================================================
+function renderHeader() {
+  const info = STATE.forumInfo;
+  const logoEl = document.getElementById('headerLogo');
+  const headerInitial = (info.ForumName || 'ফো').charAt(0);
+  if (info.LogoURL) {
+    logoEl.outerHTML = `<img id="headerLogo" src="${esc(info.LogoURL)}" class="header-logo" alt="লোগো" onerror="fallbackAvatar(this, '${esc(headerInitial)}')">`;
+    document.querySelectorAll('link[rel="icon"]').forEach(l => l.href = info.LogoURL);
+  } else {
+    logoEl.textContent = headerInitial;
+  }
+
+  document.getElementById('headerForumName').textContent = info.ForumName || 'শিক্ষার্থী ফোরাম';
+  document.getElementById('headerTagline').textContent = info.Tagline || '';
+  document.getElementById('headerSlogan').textContent = info.Slogan || '';
+  document.title = (info.ForumName || 'শিক্ষার্থী ফোরাম') + ' | ' + (info.InstituteName || '');
+}
+
+function renderFormLetterheads() {
+  const info = STATE.forumInfo;
+  ['lhForumName1', 'lhForumName2'].forEach(id => { const el = document.getElementById(id); if (el) el.textContent = info.ForumName || ''; });
+  ['lhInstitute1', 'lhInstitute2'].forEach(id => { const el = document.getElementById(id); if (el) el.textContent = info.InstituteName || ''; });
+  ['lhSlogan1', 'lhSlogan2'].forEach(id => { const el = document.getElementById(id); if (el) el.textContent = info.Slogan || ''; });
+  const logoInitial = (info.ForumName || 'ফো').charAt(0);
+  ['lhLogo1', 'lhLogo2'].forEach(id => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.innerHTML = info.LogoURL
+      ? `<img src="${esc(info.LogoURL)}" alt="লোগো" onerror="fallbackAvatar(this, '${esc(logoInitial)}')">`
+      : logoInitial;
+  });
+}
+
+// ছবি লোড হতে ব্যর্থ হলে (ভাঙা লিংক ইত্যাদি) initial-অক্ষরের প্লেসহোল্ডারে বদলে যাবে
+// img এর নিজের class (আকার/বর্ডার ইত্যাদি) বজায় রেখে শুধু ছবির জায়গায় অক্ষর বসে
+function fallbackAvatar(imgEl, initial) {
+  if (!imgEl || !imgEl.parentNode) return;
+  const div = document.createElement('div');
+  div.className = (imgEl.className || '') + ' img-fallback';
+  div.textContent = initial || '?';
+  imgEl.replaceWith(div);
+}
+
+function renderFooter() {
+  const info = STATE.forumInfo;
+  document.getElementById('footerAddress').textContent = info.Address || '';
+  document.getElementById('footerMobile').textContent = info.Mobile || '';
+  document.getElementById('footerEmail').textContent = info.Email || '';
+  const fb = document.getElementById('footerFacebook');
+  if (info.Facebook) {
+    fb.href = info.Facebook;
+    fb.textContent = 'ফেসবুক পেজ';
+    fb.style.display = 'inline';
+  } else {
+    fb.style.display = 'none';
+  }
+  document.getElementById('footerForumName').textContent = info.ForumName || '';
+}
+
+// ============================================================
+// ড্যাশবোর্ড
+// ============================================================
+function renderDashboard() {
+  const grid = document.getElementById('dashboardGrid');
+  const students = STATE.students;
+  const teachers = STATE.teachers;
+
+  const formerStudents = students.filter(s => s.Type === 'প্রাক্তন').length;
+  const currentStudents = students.filter(s => s.Type === 'বর্তমান').length;
+  const totalMale = students.filter(s => s.Gender === 'ছাত্র').length;
+  const totalFemale = students.filter(s => s.Gender === 'ছাত্রী').length;
+  const deceasedStudents = students.filter(s => isYes(s.IsDeceased)).length;
+  const formerTeachers = teachers.filter(t => t.Type === 'প্রাক্তন').length;
+  const currentTeachers = teachers.filter(t => t.Type === 'বর্তমান').length;
+  const deceasedTeachers = teachers.filter(t => isYes(t.IsDeceased)).length;
+  const totalStaff = teachers.length;
+
+  const professionCounts = {};
+  students.forEach(s => { if (s.Profession) professionCounts[s.Profession] = (professionCounts[s.Profession] || 0) + 1; });
+
+  const countryCounts = {};
+  students.forEach(s => { if (s.CurrentCountry) countryCounts[s.CurrentCountry] = (countryCounts[s.CurrentCountry] || 0) + 1; });
+
+  const cards = [
+    { label: 'সাবেক শিক্ষার্থী রেজিষ্ট্রেশন', value: formerStudents },
+    { label: 'বর্তমান শিক্ষার্থী রেজিষ্ট্রেশন', value: currentStudents },
+    { label: 'মোট ছাত্র সংখ্যা', value: totalMale },
+    { label: 'মোট ছাত্রী সংখ্যা', value: totalFemale },
+    { label: 'মৃত শিক্ষার্থী সংখ্যা', value: deceasedStudents },
+    { label: 'প্রাক্তন শিক্ষক সংখ্যা', value: formerTeachers },
+    { label: 'বর্তমান শিক্ষক সংখ্যা', value: currentTeachers },
+    { label: 'মৃত শিক্ষক সংখ্যা', value: deceasedTeachers },
+    { label: 'মোট কর্মচারী সংখ্যা', value: totalStaff },
+  ];
+
+  let html = cards.map(c => `
+    <div class="stat-card">
+      <div class="stat-number">${toBn(c.value)}</div>
+      <div class="stat-label">${c.label}</div>
+    </div>`).join('');
+
+  html += `
+    <div class="stat-card wide">
+      <div class="stat-label" style="margin-bottom:8px;font-weight:700;color:var(--forest-deep)">পেশা ভিত্তিক শিক্ষার্থী সংখ্যা</div>
+      <div class="breakdown-list">
+        ${Object.keys(professionCounts).length ? Object.entries(professionCounts).map(([k, v]) =>
+          `<span class="breakdown-pill">${esc(k)}: ${toBn(v)}</span>`).join('') : '<span style="color:var(--text-muted);font-size:13px">তথ্য নেই</span>'}
+      </div>
+    </div>
+    <div class="stat-card wide">
+      <div class="stat-label" style="margin-bottom:8px;font-weight:700;color:var(--forest-deep)">অবস্থানরত দেশ ভিত্তিক সংখ্যা</div>
+      <div class="breakdown-list">
+        ${Object.keys(countryCounts).length ? Object.entries(countryCounts).map(([k, v]) =>
+          `<span class="breakdown-pill">${esc(k)}: ${toBn(v)}</span>`).join('') : '<span style="color:var(--text-muted);font-size:13px">তথ্য নেই</span>'}
+      </div>
+    </div>
+  `;
+
+  grid.innerHTML = html;
+}
+
+// ============================================================
+// আমাদের সম্পর্কে
+// ============================================================
+function renderAbout() {
+  const info = STATE.forumInfo;
+  document.getElementById('aboutForumName').textContent = info.ForumName || '';
+  document.getElementById('aboutInstitute').textContent = info.InstituteName || '';
+  document.getElementById('aboutTagline').textContent = info.Tagline || '';
+  document.getElementById('aboutSlogan').textContent = info.Slogan || '';
+  document.getElementById('aboutFounding').textContent = info.FoundingYear ? `প্রতিষ্ঠাকাল: ${info.FoundingYear}` : '';
+  document.getElementById('aboutText').textContent = info.AboutText || '';
+  document.getElementById('aboutMobile').textContent = info.Mobile || '-';
+  document.getElementById('aboutEmail').textContent = info.Email || '-';
+  document.getElementById('aboutAddress').textContent = info.Address || '-';
+  const fbLink = document.getElementById('aboutFacebook');
+  fbLink.href = info.Facebook || '#';
+  fbLink.textContent = info.Facebook ? 'ফেসবুক পেজ দেখুন' : 'যুক্ত করা হয়নি';
+
+  // কমিটি তালিকা
+  const committeeWrap = document.getElementById('aboutCommitteeWrap');
+  if (STATE.committee.length === 0) {
+    committeeWrap.innerHTML = '<p class="section-subtitle">কমিটির তথ্য এখনো যুক্ত করা হয়নি।</p>';
+  } else {
+    committeeWrap.innerHTML = `
+      <table class="committee-table">
+        <thead><tr><th>পদবি</th><th>নাম</th><th>মোবাইল</th></tr></thead>
+        <tbody>
+          ${STATE.committee.map(m => `<tr><td>${esc(m.Position)}</td><td>${esc(m.MemberName)}</td><td>${esc(m.Mobile)}</td></tr>`).join('')}
+        </tbody>
+      </table>`;
+  }
+}
+
+// ============================================================
+// ইউটিলিটি
+// ============================================================
+function esc(str) {
+  if (str === undefined || str === null) return '';
+  const d = document.createElement('div');
+  d.textContent = String(str);
+  return d.innerHTML;
+}
+
+function isYes(val) {
+  return String(val).toLowerCase() === 'true' || val === 'হ্যাঁ' || val === true;
+}
+
+const BN_DIGITS = ['০','১','২','৩','৪','৫','৬','৭','৮','৯'];
+function toBn(num) {
+  return String(num).replace(/[0-9]/g, d => BN_DIGITS[d]);
+}
+
+function initials(name) {
+  return (name || '?').trim().charAt(0);
+}
+
+
+</script>
+<script>
+  document.getElementById('footerYear').textContent = new Date().getFullYear();
+</script>
+</body>
+</html>

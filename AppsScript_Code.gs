@@ -18,7 +18,9 @@ const SHEETS = {
   SPECIAL_COMMITTEE: 'SpecialCommittee',
   FORUM_INFO: 'ForumInfo',
   SETTINGS: 'Settings',
-  ADMIN: 'Admin'
+  ADMIN: 'Admin',
+  EVENTS: 'Events',
+  EVENT_REGISTRATIONS: 'EventRegistrations'
 };
 
 // ============================================================
@@ -30,8 +32,8 @@ function setupSheets() {
   // Students শীট
   let sh = getOrCreateSheet(ss, SHEETS.STUDENTS);
   setHeaderIfEmpty(sh, [
-    'ID', 'Timestamp', 'Type', 'Name', 'FatherName', 'Mobile', 'Village',
-    'PostOffice', 'Union', 'Upazila', 'Thana', 'Profession', 'CurrentCountry',
+    'ID', 'RegNo', 'Timestamp', 'Type', 'Name', 'FatherName', 'Mobile', 'Village',
+    'PostOffice', 'Union', 'Upazila', 'Thana', 'BloodGroup', 'Profession', 'CurrentCountry',
     'LastClass', 'DakhilBatch', 'HighestEducationClass', 'HighestEducationInstitute',
     'MaritalStatus', 'Facebook', 'Email', 'Comment', 'PhotoURL', 'SignatureURL',
     'Gender', 'IsDeceased', 'Status'
@@ -40,8 +42,8 @@ function setupSheets() {
   // Teachers শীট
   sh = getOrCreateSheet(ss, SHEETS.TEACHERS);
   setHeaderIfEmpty(sh, [
-    'ID', 'Timestamp', 'Type', 'Name', 'FatherName', 'Mobile', 'Village',
-    'PostOffice', 'Union', 'Upazila', 'Thana', 'Designation',
+    'ID', 'RegNo', 'Timestamp', 'Type', 'Name', 'FatherName', 'Mobile', 'Village',
+    'PostOffice', 'Union', 'Upazila', 'Thana', 'BloodGroup', 'Designation',
     'HighestEducationClass', 'HighestEducationInstitute', 'MaritalStatus',
     'JoiningDate', 'RetirementDate', 'ServiceLength', 'Facebook', 'Email',
     'Comment', 'PhotoURL', 'SignatureURL', 'IsDeceased', 'Status'
@@ -82,6 +84,18 @@ function setupSheets() {
   sh = getOrCreateSheet(ss, SHEETS.SETTINGS);
   setHeaderIfEmpty(sh, ['Key', 'Value']);
   fillDefaultsIfEmpty(sh, { AdminPassword: 'changeme123' });
+
+  // Events শীট (অনুষ্ঠান তালিকা)
+  sh = getOrCreateSheet(ss, SHEETS.EVENTS);
+  setHeaderIfEmpty(sh, ['ID', 'Name', 'EventDateTime', 'Venue', 'Fee', 'RegDeadline', 'CreatedAt']);
+
+  // EventRegistrations শীট (অনুষ্ঠানে অংশগ্রহণের রেজিষ্ট্রেশন)
+  sh = getOrCreateSheet(ss, SHEETS.EVENT_REGISTRATIONS);
+  setHeaderIfEmpty(sh, [
+    'ID', 'EventID', 'PersonType', 'PersonRegNo', 'PersonID', 'Name', 'PhotoURL',
+    'BatchOrClass', 'Mobile', 'Address', 'PaymentMethod', 'ReceiverName',
+    'AccountNumber', 'Amount', 'PaymentDate', 'Status', 'Timestamp'
+  ]);
 
   SpreadsheetApp.flush();
   Logger.log('Setup complete!');
@@ -134,6 +148,12 @@ function doGet(e) {
       case 'getSpecialCommittee':
         result = getSheetAsObjects(SHEETS.SPECIAL_COMMITTEE);
         break;
+      case 'getEvents':
+        result = getSheetAsObjects(SHEETS.EVENTS);
+        break;
+      case 'getEventRegistrations':
+        result = getSheetAsObjects(SHEETS.EVENT_REGISTRATIONS);
+        break;
       case 'checkPassword':
         result = { valid: checkAdminPassword(e.parameter.password) };
         break;
@@ -153,7 +173,7 @@ function doPost(e) {
     let result;
 
     // পাসওয়ার্ড প্রোটেক্টেড action গুলোর জন্য চেক করুন
-    const PROTECTED = ['saveForumInfo', 'saveCommittee', 'saveSpecialCommittee', 'changePassword'];
+    const PROTECTED = ['saveForumInfo', 'saveCommittee', 'saveSpecialCommittee', 'changePassword', 'addEvent', 'confirmEventRegistration'];
     if (PROTECTED.includes(action)) {
       if (!checkAdminPassword(body.password)) {
         return jsonResponse({ error: 'Unauthorized: ভুল পাসওয়ার্ড' });
@@ -166,6 +186,12 @@ function doPost(e) {
         break;
       case 'addTeacher':
         result = addRow(SHEETS.TEACHERS, body.data);
+        break;
+      case 'updateStudent':
+        result = updateRowById(SHEETS.STUDENTS, body.data);
+        break;
+      case 'updateTeacher':
+        result = updateRowById(SHEETS.TEACHERS, body.data);
         break;
       case 'saveForumInfo':
         result = saveKeyValueSheet(SHEETS.FORUM_INFO, body.data);
@@ -181,6 +207,15 @@ function doPost(e) {
         break;
       case 'uploadImage':
         result = uploadImageToDrive(body.base64, body.filename, body.mimeType);
+        break;
+      case 'addEvent':
+        result = addEventRow(body.data);
+        break;
+      case 'addEventRegistration':
+        result = addEventRegistrationRow(body.data);
+        break;
+      case 'confirmEventRegistration':
+        result = confirmEventRegistration(body.id);
         break;
       default:
         result = { error: 'Unknown action' };
@@ -262,6 +297,65 @@ function addRow(sheetName, dataObj) {
   const row = headers.map(h => dataObj[h] !== undefined ? dataObj[h] : '');
   sh.appendRow(row);
   return { success: true, id: id };
+}
+
+// ID মিলিয়ে বিদ্যমান রো হালনাগাদ করে (এডিট ফিচারের জন্য)
+function updateRowById(sheetName, dataObj) {
+  if (!dataObj || !dataObj.ID) return { success: false, error: 'ID পাওয়া যায়নি' };
+  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  const sh = ss.getSheetByName(sheetName);
+  const values = sh.getDataRange().getValues();
+  const headers = values[0];
+  const idCol = headers.indexOf('ID');
+  if (idCol === -1) return { success: false, error: 'ID কলাম পাওয়া যায়নি' };
+
+  for (let r = 1; r < values.length; r++) {
+    if (values[r][idCol] === dataObj.ID) {
+      const row = headers.map(h => dataObj[h] !== undefined ? dataObj[h] : values[r][headers.indexOf(h)]);
+      sh.getRange(r + 1, 1, 1, row.length).setValues([row]);
+      return { success: true, id: dataObj.ID };
+    }
+  }
+  return { success: false, error: 'রেকর্ড খুঁজে পাওয়া যায়নি' };
+}
+
+// ============================================================
+// অনুষ্ঠান (Events) সংক্রান্ত ফাংশন
+// ============================================================
+
+function addEventRow(dataObj) {
+  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  const sh = ss.getSheetByName(SHEETS.EVENTS);
+  const headers = sh.getRange(1, 1, 1, sh.getLastColumn()).getValues()[0];
+
+  const id = 'EVT' + new Date().getTime();
+  dataObj['ID'] = id;
+  dataObj['CreatedAt'] = new Date();
+
+  const row = headers.map(h => dataObj[h] !== undefined ? dataObj[h] : '');
+  sh.appendRow(row);
+  return { success: true, id: id };
+}
+
+// শিক্ষার্থী/শিক্ষকের অনুষ্ঠানে অংশগ্রহণের রেজিষ্ট্রেশন (পাবলিক, পাসওয়ার্ড লাগবে না)
+function addEventRegistrationRow(dataObj) {
+  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  const sh = ss.getSheetByName(SHEETS.EVENT_REGISTRATIONS);
+  const headers = sh.getRange(1, 1, 1, sh.getLastColumn()).getValues()[0];
+
+  const id = 'EVR' + new Date().getTime();
+  dataObj['ID'] = id;
+  dataObj['Status'] = 'Pending';
+  dataObj['Timestamp'] = new Date();
+
+  const row = headers.map(h => dataObj[h] !== undefined ? dataObj[h] : '');
+  sh.appendRow(row);
+  return { success: true, id: id };
+}
+
+// অ্যাডমিন কর্তৃক অনুষ্ঠান রেজিষ্ট্রেশন নিশ্চিতকরণ (প্রোটেক্টেড)
+function confirmEventRegistration(id) {
+  return updateRowById(SHEETS.EVENT_REGISTRATIONS, { ID: id, Status: 'Confirmed' });
 }
 
 function replaceSheetRows(sheetName, rowsArray) {

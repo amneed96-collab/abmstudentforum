@@ -33,7 +33,8 @@
   --font-body: 'Noto Sans Bengali', 'Hind Siliguri', sans-serif;
 }
 
-* { box-sizing: border-box; margin: 0; padding: 0; }
+* { box-sizing: border-box; margin: 0; padding: 0; max-width: 100%; }
+input, select, textarea, button { max-width: none; }
 
 html { scroll-behavior: smooth; }
 
@@ -398,6 +399,12 @@ button { font-family: inherit; cursor: pointer; }
   overflow: hidden;
 }
 
+.form-card.form-card-wide {
+  max-width: 100%;
+  padding: 26px 28px 28px;
+}
+.form-card.form-card-wide .form-grid { max-width: 100%; }
+
 .form-letterhead {
   display: flex;
   align-items: center;
@@ -410,7 +417,7 @@ button { font-family: inherit; cursor: pointer; }
 .lh-logo-box {
   flex-shrink: 0;
   width: 68px; height: 68px;
-  border-radius: 50%;
+  border-radius: 8px;
   border: 2.5px solid var(--gold-bright);
   background: #fff;
   overflow: hidden;
@@ -427,6 +434,10 @@ button { font-family: inherit; cursor: pointer; }
   min-width: 0;
   text-align: center;
 }
+.form-grid,
+.form-section-divider,
+.form-group { text-align: left; }
+.form-section-divider { justify-content: flex-start; }
 .lh-center .lh-forum {
   font-family: var(--font-display);
   font-weight: 700;
@@ -446,6 +457,18 @@ button { font-family: inherit; cursor: pointer; }
   padding: 3px 16px;
   border-radius: 20px;
   letter-spacing: 0.4px;
+}
+.lh-center .lh-regno {
+  display: inline-block;
+  margin-top: 8px;
+  margin-left: 8px;
+  font-size: 12px;
+  font-weight: 700;
+  color: #fff;
+  background: var(--forest);
+  padding: 3px 14px;
+  border-radius: 20px;
+  letter-spacing: 0.3px;
 }
 
 .lh-photo-box {
@@ -573,15 +596,15 @@ button { font-family: inherit; cursor: pointer; }
 /* ===================== কার্ড গ্রিড (পোর্টাল) ===================== */
 .people-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-  gap: 18px;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 14px;
   margin-top: 20px;
 }
 
 .person-card {
   background: var(--paper-raised);
   border: 1px solid var(--line);
-  border-radius: var(--radius);
+  border-radius: var(--radius-sm);
   overflow: hidden;
   box-shadow: var(--shadow);
   transition: transform 0.18s ease, box-shadow 0.18s ease;
@@ -591,34 +614,35 @@ button { font-family: inherit; cursor: pointer; }
 .person-photo {
   width: 100%;
   aspect-ratio: 4/3.6;
-  object-fit: cover;
+  object-fit: contain;
+  object-position: center;
   background: var(--forest-soft);
 }
-.person-photo.img-fallback { font-size: 34px; }
+.person-photo.img-fallback { font-size: 26px; }
 .person-photo-placeholder {
   width: 100%; aspect-ratio: 4/3.6;
   background: var(--forest-soft);
   display: flex; align-items: center; justify-content: center;
   font-family: var(--font-display);
-  font-size: 34px; font-weight: 700;
+  font-size: 26px; font-weight: 700;
   color: var(--forest);
 }
 
-.person-info { padding: 14px; }
-.person-name { font-family: var(--font-display); font-weight: 700; font-size: 16px; color: var(--forest-deep); }
-.person-meta { font-size: 12.5px; color: var(--text-muted); margin-top: 3px; }
+.person-info { padding: 10px; }
+.person-name { font-family: var(--font-display); font-weight: 700; font-size: 13.5px; color: var(--forest-deep); line-height: 1.3; }
+.person-meta { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
 .person-tag {
   display: inline-block;
-  font-size: 11px;
-  padding: 2px 9px;
+  font-size: 10px;
+  padding: 2px 8px;
   border-radius: 20px;
-  margin-top: 8px;
+  margin-top: 6px;
   font-weight: 600;
 }
 .tag-former { background: #f4e6cf; color: var(--gold); }
 .tag-current { background: var(--forest-soft); color: var(--forest); }
 
-.person-card .btn { width: 100%; margin-top: 10px; }
+.person-card .btn { width: 100%; margin-top: 8px; padding: 7px 10px; font-size: 12px; }
 
 .filter-bar {
   display: flex;
@@ -709,43 +733,55 @@ button { font-family: inherit; cursor: pointer; }
   background: #fff;
   border: 3px double var(--forest);
   border-radius: var(--radius);
-  padding: 30px;
-  max-width: 620px;
+  padding: 16px 20px;
+  max-width: 560px;
   margin: 0 auto;
 }
-.pc-header { text-align: center; border-bottom: 2px solid var(--gold); padding-bottom: 14px; margin-bottom: 18px; }
-.pc-header .pc-logo { width: 64px; height: 64px; border-radius: 50%; margin: 0 auto 8px; }
-.pc-header .pc-forum { font-family: var(--font-display); font-weight: 700; font-size: 21px; color: var(--forest-deep); }
-.pc-header .pc-address { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
-.pc-header .pc-slogan { font-size: 12.5px; color: var(--gold); font-style: italic; margin-top: 4px; }
+.pc-header { text-align: center; border-bottom: 2px solid var(--gold); padding-bottom: 8px; margin-bottom: 10px; }
+.pc-header .pc-logo { width: 44px; height: 44px; border-radius: 8px; margin: 0 auto 4px; object-fit: cover; }
+.pc-header .pc-forum { font-family: var(--font-display); font-weight: 700; font-size: 17px; color: var(--forest-deep); }
+.pc-header .pc-address { font-size: 10.5px; color: var(--text-muted); margin-top: 1px; }
+.pc-header .pc-slogan { font-size: 10.5px; color: var(--gold); font-style: italic; margin-top: 2px; }
 
 .pc-title {
   text-align: center;
   font-weight: 700;
-  font-size: 15px;
+  font-size: 13px;
   color: var(--forest);
   text-decoration: underline;
-  margin-bottom: 18px;
+  margin-bottom: 8px;
 }
+.pc-regno {
+  text-align: center;
+  font-size: 11.5px;
+  font-weight: 700;
+  color: #fff;
+  background: var(--forest);
+  display: inline-block;
+  padding: 2px 12px;
+  border-radius: 20px;
+  margin: 0 auto 10px;
+}
+.pc-regno-wrap { text-align: center; }
 
-.pc-body { display: flex; gap: 20px; }
-.pc-photo { width: 110px; height: 130px; object-fit: cover; border: 1.5px solid var(--line); flex-shrink: 0; }
-.pc-fields { flex: 1; font-size: 13.5px; }
-.pc-fields div { padding: 4px 0; border-bottom: 1px dotted var(--line); display: flex; justify-content: space-between; gap: 10px; }
+.pc-body { display: flex; gap: 14px; }
+.pc-photo { width: 84px; height: 100px; object-fit: cover; border: 1.5px solid var(--line); flex-shrink: 0; border-radius: 4px; }
+.pc-fields { flex: 1; font-size: 12px; min-width: 0; }
+.pc-fields div { padding: 2.5px 0; border-bottom: 1px dotted var(--line); display: flex; justify-content: space-between; gap: 8px; }
 .pc-fields .pf-label { color: var(--text-muted); }
 .pc-fields .pf-value { font-weight: 600; text-align: right; }
 
-.pc-signatures { display: flex; justify-content: space-between; margin-top: 34px; }
+.pc-signatures { display: flex; justify-content: space-between; margin-top: 18px; }
 .pc-sig { text-align: center; width: 45%; }
-.pc-sig img { height: 44px; object-fit: contain; margin: 0 auto 4px; }
-.pc-sig .sig-line { border-top: 1px solid var(--ink); padding-top: 4px; font-size: 12px; }
+.pc-sig img { height: 34px; object-fit: contain; margin: 0 auto 3px; }
+.pc-sig .sig-line { border-top: 1px solid var(--ink); padding-top: 3px; font-size: 10.5px; }
 
-.print-actions { text-align: center; margin-top: 22px; display: flex; gap: 12px; justify-content: center; }
+.print-actions { text-align: center; margin-top: 18px; display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
 
 @media print {
   .site-header, .site-nav, .site-footer, .print-actions, .no-print { display: none !important; }
   body { background: #fff; }
-  .print-copy { border: 2px solid #000; box-shadow: none; }
+  .print-copy { border: 2px solid #000; box-shadow: none; max-width: 100%; }
   .page-section { padding: 0; }
 }
 
@@ -785,7 +821,7 @@ button { font-family: inherit; cursor: pointer; }
   padding: 32px;
   text-align: center;
 }
-.login-wrap .form-group input { text-align: right; }
+.login-wrap .form-group input { text-align: center; }
 .login-wrap button[type="submit"] { width: 100%; }
 .login-wrap .lock-icon {
   width: 52px; height: 52px; border-radius: 50%;
@@ -919,6 +955,7 @@ button { font-family: inherit; cursor: pointer; }
     <div class="nav-inner">
       <a href="#" class="nav-link" data-nav="dashboard">ড্যাশবোর্ড</a>
       <a href="#" class="nav-link" data-nav="about">আমাদের সম্পর্কে</a>
+      <a href="#" class="nav-link" data-nav="committeePage">কমিটি</a>
 
       <div class="nav-dropdown" data-navgroup="student">
         <button type="button" class="dropdown-toggle" onclick="toggleDropdown(this)">শিক্ষার্থী <span class="caret">▾</span></button>
@@ -936,6 +973,7 @@ button { font-family: inherit; cursor: pointer; }
         </div>
       </div>
 
+      <a href="#" class="nav-link" data-nav="events">অনুষ্ঠান</a>
       <a href="#" class="nav-link" data-nav="admin">ব্যবস্থাপনা</a>
     </div>
   </nav>
@@ -981,6 +1019,16 @@ button { font-family: inherit; cursor: pointer; }
     </div>
   </section>
 
+  <!-- ===================== কমিটি ===================== -->
+  <section id="view-committeePage" class="view-panel">
+    <div class="page-section">
+      <div class="eyebrow">নেতৃত্ব</div>
+      <h1 class="section-title">কমিটি</h1>
+      <p class="section-subtitle">বর্তমান কমিটির সদস্যবৃন্দ</p>
+      <div id="committeeCardsGrid" class="people-grid"></div>
+    </div>
+  </section>
+
   <!-- ===================== শিক্ষার্থী রেজিষ্ট্রেশন ===================== -->
   <section id="view-studentRegister" class="view-panel">
     <div class="page-section">
@@ -997,6 +1045,7 @@ button { font-family: inherit; cursor: pointer; }
               <div class="lh-institute" id="lhInstitute1"></div>
               <div class="lh-slogan" id="lhSlogan1"></div>
               <div class="lh-form-title">শিক্ষার্থী রেজিষ্ট্রেশন ফরম</div>
+              <div id="sRegNoPreview" class="lh-regno" style="display:none;"></div>
             </div>
             <label class="lh-photo-box" title="ছবি আপলোড করতে ক্লিক করুন">
               <input type="file" accept="image/*" onchange="handleStudentPhotoUpload(this, 'photo')">
@@ -1036,10 +1085,14 @@ button { font-family: inherit; cursor: pointer; }
             <div class="form-group"><label>ডাকঘর</label><input type="text" id="sPostOffice"></div>
             <div class="form-group"><label>ইউনিয়ন</label><input type="text" id="sUnion"></div>
             <div class="form-group"><label>উপজেলা</label><input type="text" id="sUpazila"></div>
-            <div class="form-group"><label>থানা</label><input type="text" id="sThana"></div>
+            <div class="form-group"><label>জেলা</label><input type="text" id="sThana"></div>
             <div class="form-group">
               <label>বর্তমান অবস্থানরত দেশ</label>
               <select id="sCountry"><option value="">নির্বাচন করুন</option></select>
+            </div>
+            <div class="form-group">
+              <label>রক্তের গ্রুপ</label>
+              <select id="sBloodGroup"><option value="">নির্বাচন করুন</option></select>
             </div>
 
             <div class="form-group full form-section-divider">শিক্ষা ও পেশা</div>
@@ -1119,6 +1172,7 @@ button { font-family: inherit; cursor: pointer; }
               <div class="lh-institute" id="lhInstitute2"></div>
               <div class="lh-slogan" id="lhSlogan2"></div>
               <div class="lh-form-title">শিক্ষক রেজিষ্ট্রেশন ফরম</div>
+              <div id="tRegNoPreview" class="lh-regno" style="display:none;"></div>
             </div>
             <label class="lh-photo-box" title="ছবি আপলোড করতে ক্লিক করুন">
               <input type="file" accept="image/*" onchange="handleTeacherPhotoUpload(this, 'photo')">
@@ -1158,7 +1212,11 @@ button { font-family: inherit; cursor: pointer; }
             <div class="form-group"><label>ডাকঘর</label><input type="text" id="tPostOffice"></div>
             <div class="form-group"><label>ইউনিয়ন</label><input type="text" id="tUnion"></div>
             <div class="form-group"><label>উপজেলা</label><input type="text" id="tUpazila"></div>
-            <div class="form-group"><label>থানা</label><input type="text" id="tThana"></div>
+            <div class="form-group"><label>জেলা</label><input type="text" id="tThana"></div>
+            <div class="form-group">
+              <label>রক্তের গ্রুপ</label>
+              <select id="tBloodGroup"><option value="">নির্বাচন করুন</option></select>
+            </div>
 
             <div class="form-group full form-section-divider">শিক্ষা ও চাকরি</div>
             <div class="form-group"><label>সর্বশেষ শিক্ষাগত যোগ্যতা (ক্লাস)</label><input type="text" id="tHighEduClass"></div>
@@ -1217,6 +1275,17 @@ button { font-family: inherit; cursor: pointer; }
     </div>
   </section>
 
+  <!-- ===================== অনুষ্ঠান ===================== -->
+  <section id="view-events" class="view-panel">
+    <div class="page-section">
+      <div class="eyebrow">ইভেন্ট</div>
+      <h1 class="section-title">অনুষ্ঠানসমূহ</h1>
+      <p class="section-subtitle">আসন্ন ও চলমান অনুষ্ঠানের তালিকা — বিস্তারিত দেখুন ও অংশগ্রহণের জন্য রেজিষ্ট্রেশন করুন</p>
+
+      <div id="eventsListGrid" class="people-grid"></div>
+    </div>
+  </section>
+
   <!-- ===================== ব্যবস্থাপনা ===================== -->
   <section id="view-admin" class="view-panel">
     <div class="page-section">
@@ -1246,12 +1315,14 @@ button { font-family: inherit; cursor: pointer; }
           <div class="admin-tab active" data-admintab="forumInfo" onclick="showAdminTab('forumInfo')">ফোরাম তথ্য</div>
           <div class="admin-tab" data-admintab="committee" onclick="showAdminTab('committee')">কমিটি তথ্য</div>
           <div class="admin-tab" data-admintab="specialCommittee" onclick="showAdminTab('specialCommittee')">বিশেষ কমিটি</div>
+          <div class="admin-tab" data-admintab="printLists" onclick="showAdminTab('printLists')">তালিকা প্রিন্ট</div>
+          <div class="admin-tab" data-admintab="events" onclick="showAdminTab('events')">অনুষ্ঠান</div>
           <div class="admin-tab" data-admintab="password" onclick="showAdminTab('password')">পাসওয়ার্ড</div>
         </div>
 
         <!-- ফোরাম তথ্য -->
         <div id="adminPanel-forumInfo" class="admin-panel active">
-          <form class="form-card" style="max-width:100%" onsubmit="saveForumInfo(event)">
+          <form class="form-card form-card-wide" onsubmit="saveForumInfo(event)">
             <div class="form-grid">
               <div class="form-group"><label>ফোরামের নাম</label><input type="text" id="fiForumName"></div>
               <div class="form-group"><label>প্রতিষ্ঠানের নাম</label><input type="text" id="fiInstituteName"></div>
@@ -1282,7 +1353,7 @@ button { font-family: inherit; cursor: pointer; }
 
         <!-- কমিটি তথ্য -->
         <div id="adminPanel-committee" class="admin-panel">
-          <form class="form-card" style="max-width:100%" onsubmit="saveCommitteeForm(event)">
+          <form class="form-card form-card-wide" onsubmit="saveCommitteeForm(event)">
             <div class="form-grid" style="margin-bottom:16px">
               <div class="form-group"><label>কমিটি গঠনের তারিখ</label><input type="date" id="cFormationDate"></div>
               <div class="form-group"><label>মেয়াদকাল</label><input type="text" id="cTermLength" placeholder="যেমন: ২ বছর"></div>
@@ -1299,7 +1370,7 @@ button { font-family: inherit; cursor: pointer; }
 
         <!-- বিশেষ কমিটি -->
         <div id="adminPanel-specialCommittee" class="admin-panel">
-          <form class="form-card" style="max-width:100%" onsubmit="saveSpecialCommitteeForm(event)">
+          <form class="form-card form-card-wide" onsubmit="saveSpecialCommitteeForm(event)">
             <div class="form-grid" style="margin-bottom:16px">
               <div class="form-group full"><label>কমিটির নাম</label><input type="text" id="scName" placeholder="যেমন: ঈদ পুনর্মিলনী উদযাপন কমিটি"></div>
               <div class="form-group"><label>কমিটি গঠনের তারিখ</label><input type="date" id="scFormationDate"></div>
@@ -1313,6 +1384,57 @@ button { font-family: inherit; cursor: pointer; }
               <button type="button" class="btn btn-gold" onclick="printSpecialCommittee()">🖨️ প্রিন্ট করুন</button>
             </div>
           </form>
+        </div>
+
+        <!-- তালিকা প্রিন্ট -->
+        <div id="adminPanel-printLists" class="admin-panel">
+          <div class="form-card form-card-wide">
+            <div class="form-section-divider" style="margin-bottom:14px">শিক্ষার্থী তালিকা</div>
+            <div class="filter-bar" style="margin-bottom:8px">
+              <select id="printStudentTypeFilter">
+                <option value="">সব ধরন</option>
+                <option value="প্রাক্তন">প্রাক্তন</option>
+                <option value="বর্তমান">বর্তমান</option>
+              </select>
+              <button type="button" class="btn btn-gold" onclick="printStudentList(document.getElementById('printStudentTypeFilter').value)">🖨️ শিক্ষার্থী তালিকা প্রিন্ট করুন</button>
+            </div>
+
+            <div class="form-section-divider" style="margin:24px 0 14px">শিক্ষক তালিকা</div>
+            <div class="filter-bar">
+              <select id="printTeacherTypeFilter">
+                <option value="">সব ধরন</option>
+                <option value="প্রাক্তন">প্রাক্তন</option>
+                <option value="বর্তমান">বর্তমান</option>
+              </select>
+              <button type="button" class="btn btn-gold" onclick="printTeacherList(document.getElementById('printTeacherTypeFilter').value)">🖨️ শিক্ষক তালিকা প্রিন্ট করুন</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- অনুষ্ঠান -->
+        <div id="adminPanel-events" class="admin-panel">
+          <form id="newEventForm" class="form-card form-card-wide" onsubmit="saveNewEvent(event)">
+            <div class="form-grid">
+              <div class="form-group full form-section-divider">নতুন অনুষ্ঠান</div>
+              <div class="form-group full"><label>অনুষ্ঠানের নাম <span class="req">*</span></label><input type="text" id="evName" required></div>
+              <div class="form-group"><label>সময় <span class="req">*</span></label><input type="datetime-local" id="evDateTime" required></div>
+              <div class="form-group"><label>স্থান</label><input type="text" id="evVenue"></div>
+              <div class="form-group"><label>রেজিষ্ট্রেশন ফি</label><input type="number" id="evFee" min="0" placeholder="০ হলে ফ্রি"></div>
+              <div class="form-group"><label>রেজিষ্ট্রেশনের শেষ তারিখ</label><input type="date" id="evDeadline"></div>
+              <div class="form-actions">
+                <button type="submit" class="btn btn-primary" id="evSaveBtn">অনুষ্ঠান যোগ করুন</button>
+              </div>
+            </div>
+          </form>
+
+          <div class="form-card form-card-wide" style="margin-top:20px">
+            <div class="form-section-divider" style="margin-bottom:14px">রেজিষ্ট্রেশন অনুমোদন</div>
+            <div class="form-group" style="max-width:360px;margin-bottom:16px">
+              <label>অনুষ্ঠান নির্বাচন করুন</label>
+              <select id="adminEventSelect" onchange="renderAdminEventRegistrations()"></select>
+            </div>
+            <div id="adminEventRegList"></div>
+          </div>
         </div>
 
         <!-- পাসওয়ার্ড -->
@@ -1376,6 +1498,17 @@ button { font-family: inherit; cursor: pointer; }
   </div>
 </div>
 
+<!-- ===================== মোডাল: অনুষ্ঠান বিস্তারিত ও রেজিষ্ট্রেশন ===================== -->
+<div class="modal-overlay" id="eventModal">
+  <div class="modal-box">
+    <div class="modal-header">
+      <h3 id="eventModalTitle">অনুষ্ঠান</h3>
+      <button class="modal-close" onclick="closeModal('eventModal')">&times;</button>
+    </div>
+    <div class="modal-body" id="eventModalBody"></div>
+  </div>
+</div>
+
 <script>
 
 /* ==================== config.js ==================== */
@@ -1409,7 +1542,9 @@ const CONFIG = {
 
   STUDENT_TYPES: ['প্রাক্তন', 'বর্তমান'],
 
-  GENDERS: ['ছাত্র', 'ছাত্রী']
+  GENDERS: ['ছাত্র', 'ছাত্রী'],
+
+  BLOOD_GROUPS: ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-']
 };
 
 
@@ -1432,12 +1567,23 @@ const API = {
   },
 
   async post(action, payload = {}) {
-    const res = await fetch(CONFIG.API_URL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'text/plain;charset=utf-8' }, // Apps Script এর জন্য text/plain দরকার হয় CORS এড়াতে
-      body: JSON.stringify({ action, ...payload })
-    });
-    const data = await res.json();
+    let res;
+    try {
+      res = await fetch(CONFIG.API_URL, {
+        method: 'POST',
+        redirect: 'follow',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' }, // Apps Script এর জন্য text/plain দরকার হয় CORS এড়াতে
+        body: JSON.stringify({ action, ...payload })
+      });
+    } catch (netErr) {
+      throw new Error('সার্ভারে সংযোগ করা যায়নি। ইন্টারনেট সংযোগ ও API_URL যাচাই করুন। (' + netErr.message + ')');
+    }
+    let data;
+    try {
+      data = await res.json();
+    } catch (parseErr) {
+      throw new Error('সার্ভার থেকে সঠিক উত্তর আসেনি। Apps Script Deploy ঠিকমতো হয়েছে কিনা যাচাই করুন।');
+    }
     if (data.error) throw new Error(data.error);
     return data;
   },
@@ -1448,9 +1594,13 @@ const API = {
   getTeachers() { return this.get('getTeachers'); },
   getCommittee() { return this.get('getCommittee'); },
   getSpecialCommittee() { return this.get('getSpecialCommittee'); },
+  getEvents() { return this.get('getEvents'); },
+  getEventRegistrations() { return this.get('getEventRegistrations'); },
 
   addStudent(data) { return this.post('addStudent', { data }); },
   addTeacher(data) { return this.post('addTeacher', { data }); },
+  updateStudent(data) { return this.post('updateStudent', { data }); },
+  updateTeacher(data) { return this.post('updateTeacher', { data }); },
 
   checkPassword(password) { return this.get('checkPassword', { password }); },
 
@@ -1458,6 +1608,10 @@ const API = {
   saveCommittee(data, password) { return this.post('saveCommittee', { data, password }); },
   saveSpecialCommittee(data, password) { return this.post('saveSpecialCommittee', { data, password }); },
   changePassword(newPassword, password) { return this.post('changePassword', { newPassword, password }); },
+
+  addEvent(data, password) { return this.post('addEvent', { data, password }); },
+  addEventRegistration(data) { return this.post('addEventRegistration', { data }); },
+  confirmEventRegistration(id, password) { return this.post('confirmEventRegistration', { id, password }); },
 
   uploadImage(base64, filename, mimeType) {
     return this.post('uploadImage', { base64, filename, mimeType });
@@ -1514,17 +1668,17 @@ function loadDemoData() {
   };
 
   STATE.students = [
-    { ID: '1', Type: 'প্রাক্তন', Name: 'মোঃ আব্দুল করিম', FatherName: 'মোঃ ইসমাইল হোসেন', Gender: 'ছাত্র', Mobile: '০১৭১১xxxxxx', Village: 'রামপুর', PostOffice: 'রামপুর বাজার', Union: 'রামপুর', Upazila: 'সদর', Thana: 'সদর', Profession: 'শিক্ষকতা', CurrentCountry: 'বাংলাদেশ', LastClass: 'দাখিল', DakhilBatch: '২০০৫', HighestEducationClass: 'মাস্টার্স', HighestEducationInstitute: 'ঢাকা বিশ্ববিদ্যালয়', MaritalStatus: 'বিবাহিত', Facebook: '', Email: '', Comment: '', PhotoURL: '', IsDeceased: 'না' },
-    { ID: '2', Type: 'বর্তমান', Name: 'ফাতেমা আক্তার', FatherName: 'মোঃ নূরুল ইসলাম', Gender: 'ছাত্রী', Mobile: '০১৮১২xxxxxx', Village: 'বাগানবাড়ি', PostOffice: 'বাগানবাড়ি', Union: 'রামপুর', Upazila: 'সদর', Thana: 'সদর', Profession: 'ছাত্র', CurrentCountry: 'বাংলাদেশ', LastClass: 'নবম শ্রেণী', DakhilBatch: '', HighestEducationClass: '', HighestEducationInstitute: '', MaritalStatus: 'অবিবাহিত', Facebook: '', Email: '', Comment: '', PhotoURL: '', IsDeceased: 'না' },
-    { ID: '3', Type: 'প্রাক্তন', Name: 'মোঃ শাহজাহান আলী', FatherName: 'মোঃ আব্দুর রহিম', Gender: 'ছাত্র', Mobile: '০১৯১৩xxxxxx', Village: 'দক্ষিণপাড়া', PostOffice: 'রামপুর', Union: 'রামপুর', Upazila: 'সদর', Thana: 'সদর', Profession: 'প্রবাসী', CurrentCountry: 'সৌদি আরব', LastClass: 'দাখিল', DakhilBatch: '১৯৯৮', HighestEducationClass: 'দাখিল', HighestEducationInstitute: 'আল-ফালাহ মাদ্রাসা', MaritalStatus: 'বিবাহিত', Facebook: '', Email: '', Comment: '', PhotoURL: '', IsDeceased: 'না' },
-    { ID: '4', Type: 'প্রাক্তন', Name: 'মোঃ ইউসুফ আলী', FatherName: 'মোঃ তমিজ উদ্দিন', Gender: 'ছাত্র', Mobile: '', Village: 'উত্তরপাড়া', PostOffice: 'রামপুর', Union: 'রামপুর', Upazila: 'সদর', Thana: 'সদর', Profession: 'ব্যবসায়ী', CurrentCountry: 'বাংলাদেশ', LastClass: 'দাখিল', DakhilBatch: '১৯৯০', HighestEducationClass: 'আলিম', HighestEducationInstitute: 'কামিল মাদ্রাসা', MaritalStatus: 'বিবাহিত', Facebook: '', Email: '', Comment: '', PhotoURL: '', IsDeceased: 'হ্যাঁ' },
-    { ID: '5', Type: 'বর্তমান', Name: 'মোঃ রাকিব হাসান', FatherName: 'মোঃ জসিম উদ্দিন', Gender: 'ছাত্র', Mobile: '০১৬১৪xxxxxx', Village: 'পূর্বপাড়া', PostOffice: 'রামপুর', Union: 'রামপুর', Upazila: 'সদর', Thana: 'সদর', Profession: 'ছাত্র', CurrentCountry: 'বাংলাদেশ', LastClass: 'দশম শ্রেণী', DakhilBatch: '', HighestEducationClass: '', HighestEducationInstitute: '', MaritalStatus: 'অবিবাহিত', Facebook: '', Email: '', Comment: '', PhotoURL: '', IsDeceased: 'না' },
-    { ID: '6', Type: 'প্রাক্তন', Name: 'মোঃ ডাঃ নাজমুল হক', FatherName: 'মোঃ সিরাজুল ইসলাম', Gender: 'ছাত্র', Mobile: '০১৭৫৫xxxxxx', Village: 'রামপুর', PostOffice: 'রামপুর', Union: 'রামপুর', Upazila: 'সদর', Thana: 'সদর', Profession: 'ডাক্তার', CurrentCountry: 'বাংলাদেশ', LastClass: 'দাখিল', DakhilBatch: '২০০০', HighestEducationClass: 'এমবিবিএস', HighestEducationInstitute: 'ঢাকা মেডিকেল কলেজ', MaritalStatus: 'বিবাহিত', Facebook: '', Email: '', Comment: '', PhotoURL: '', IsDeceased: 'না' }
+    { ID: '1', RegNo: 'SRN১৯৮৫0001', BloodGroup: 'B+', Type: 'প্রাক্তন', Name: 'মোঃ আব্দুল করিম', FatherName: 'মোঃ ইসমাইল হোসেন', Gender: 'ছাত্র', Mobile: '০১৭১১xxxxxx', Village: 'রামপুর', PostOffice: 'রামপুর বাজার', Union: 'রামপুর', Upazila: 'সদর', Thana: 'কুমিল্লা', Profession: 'শিক্ষকতা', CurrentCountry: 'বাংলাদেশ', LastClass: 'দাখিল', DakhilBatch: '২০০৫', HighestEducationClass: 'মাস্টার্স', HighestEducationInstitute: 'ঢাকা বিশ্ববিদ্যালয়', MaritalStatus: 'বিবাহিত', Facebook: '', Email: '', Comment: '', PhotoURL: '', IsDeceased: 'না' },
+    { ID: '2', RegNo: 'SRN১৯৮৫0002', BloodGroup: 'A+', Type: 'বর্তমান', Name: 'ফাতেমা আক্তার', FatherName: 'মোঃ নূরুল ইসলাম', Gender: 'ছাত্রী', Mobile: '০১৮১২xxxxxx', Village: 'বাগানবাড়ি', PostOffice: 'বাগানবাড়ি', Union: 'রামপুর', Upazila: 'সদর', Thana: 'কুমিল্লা', Profession: 'ছাত্র', CurrentCountry: 'বাংলাদেশ', LastClass: 'নবম শ্রেণী', DakhilBatch: '', HighestEducationClass: '', HighestEducationInstitute: '', MaritalStatus: 'অবিবাহিত', Facebook: '', Email: '', Comment: '', PhotoURL: '', IsDeceased: 'না' },
+    { ID: '3', RegNo: 'SRN১৯৮৫0003', BloodGroup: 'O+', Type: 'প্রাক্তন', Name: 'মোঃ শাহজাহান আলী', FatherName: 'মোঃ আব্দুর রহিম', Gender: 'ছাত্র', Mobile: '০১৯১৩xxxxxx', Village: 'দক্ষিণপাড়া', PostOffice: 'রামপুর', Union: 'রামপুর', Upazila: 'সদর', Thana: 'কুমিল্লা', Profession: 'প্রবাসী', CurrentCountry: 'সৌদি আরব', LastClass: 'দাখিল', DakhilBatch: '১৯৯৮', HighestEducationClass: 'দাখিল', HighestEducationInstitute: 'আল-ফালাহ মাদ্রাসা', MaritalStatus: 'বিবাহিত', Facebook: '', Email: '', Comment: '', PhotoURL: '', IsDeceased: 'না' },
+    { ID: '4', RegNo: 'SRN১৯৮৫0004', BloodGroup: 'AB+', Type: 'প্রাক্তন', Name: 'মোঃ ইউসুফ আলী', FatherName: 'মোঃ তমিজ উদ্দিন', Gender: 'ছাত্র', Mobile: '', Village: 'উত্তরপাড়া', PostOffice: 'রামপুর', Union: 'রামপুর', Upazila: 'সদর', Thana: 'কুমিল্লা', Profession: 'ব্যবসায়ী', CurrentCountry: 'বাংলাদেশ', LastClass: 'দাখিল', DakhilBatch: '১৯৯০', HighestEducationClass: 'আলিম', HighestEducationInstitute: 'কামিল মাদ্রাসা', MaritalStatus: 'বিবাহিত', Facebook: '', Email: '', Comment: '', PhotoURL: '', IsDeceased: 'হ্যাঁ' },
+    { ID: '5', RegNo: 'SRN১৯৮৫0005', BloodGroup: 'A-', Type: 'বর্তমান', Name: 'মোঃ রাকিব হাসান', FatherName: 'মোঃ জসিম উদ্দিন', Gender: 'ছাত্র', Mobile: '০১৬১৪xxxxxx', Village: 'পূর্বপাড়া', PostOffice: 'রামপুর', Union: 'রামপুর', Upazila: 'সদর', Thana: 'কুমিল্লা', Profession: 'ছাত্র', CurrentCountry: 'বাংলাদেশ', LastClass: 'দশম শ্রেণী', DakhilBatch: '', HighestEducationClass: '', HighestEducationInstitute: '', MaritalStatus: 'অবিবাহিত', Facebook: '', Email: '', Comment: '', PhotoURL: '', IsDeceased: 'না' },
+    { ID: '6', RegNo: 'SRN১৯৮৫0006', BloodGroup: 'B-', Type: 'প্রাক্তন', Name: 'মোঃ ডাঃ নাজমুল হক', FatherName: 'মোঃ সিরাজুল ইসলাম', Gender: 'ছাত্র', Mobile: '০১৭৫৫xxxxxx', Village: 'রামপুর', PostOffice: 'রামপুর', Union: 'রামপুর', Upazila: 'সদর', Thana: 'কুমিল্লা', Profession: 'ডাক্তার', CurrentCountry: 'বাংলাদেশ', LastClass: 'দাখিল', DakhilBatch: '২০০০', HighestEducationClass: 'এমবিবিএস', HighestEducationInstitute: 'ঢাকা মেডিকেল কলেজ', MaritalStatus: 'বিবাহিত', Facebook: '', Email: '', Comment: '', PhotoURL: '', IsDeceased: 'না' }
   ];
 
   STATE.teachers = [
-    { ID: 't1', Type: 'বর্তমান', Name: 'মাওলানা আব্দুল হাকিম', FatherName: 'মোঃ ইউনুস আলী', Mobile: '০১৭২২xxxxxx', Village: 'রামপুর', PostOffice: 'রামপুর', Union: 'রামপুর', Upazila: 'সদর', Thana: 'সদর', Designation: 'অধ্যক্ষ', HighestEducationClass: 'কামিল', HighestEducationInstitute: 'আল-জামিয়া আল-ইসলামিয়া', MaritalStatus: 'বিবাহিত', JoiningDate: '2005-01-15', RetirementDate: '', ServiceLength: '২০ বছর ৭ মাস', Facebook: '', Email: '', Comment: '', PhotoURL: '', IsDeceased: 'না' },
-    { ID: 't2', Type: 'প্রাক্তন', Name: 'মোঃ আব্দুল মজিদ', FatherName: 'মোঃ ওয়াজেদ আলী', Mobile: '', Village: 'রামপুর', PostOffice: 'রামপুর', Union: 'রামপুর', Upazila: 'সদর', Thana: 'সদর', Designation: 'সহকারী অধ্যাপক', HighestEducationClass: 'মাস্টার্স', HighestEducationInstitute: 'চট্টগ্রাম বিশ্ববিদ্যালয়', MaritalStatus: 'বিবাহিত', JoiningDate: '1990-06-01', RetirementDate: '2020-06-01', ServiceLength: '৩০ বছর ০ মাস', Facebook: '', Email: '', Comment: '', PhotoURL: '', IsDeceased: 'হ্যাঁ' }
+    { ID: 't1', RegNo: 'TRN১৯৮৫0001', BloodGroup: 'B+', Type: 'বর্তমান', Name: 'মাওলানা আব্দুল হাকিম', FatherName: 'মোঃ ইউনুস আলী', Mobile: '০১৭২২xxxxxx', Village: 'রামপুর', PostOffice: 'রামপুর', Union: 'রামপুর', Upazila: 'সদর', Thana: 'কুমিল্লা', Designation: 'অধ্যক্ষ', HighestEducationClass: 'কামিল', HighestEducationInstitute: 'আল-জামিয়া আল-ইসলামিয়া', MaritalStatus: 'বিবাহিত', JoiningDate: '2005-01-15', RetirementDate: '', ServiceLength: '২০ বছর ৭ মাস', Facebook: '', Email: '', Comment: '', PhotoURL: '', IsDeceased: 'না' },
+    { ID: 't2', RegNo: 'TRN১৯৮৫0002', BloodGroup: 'A+', Type: 'প্রাক্তন', Name: 'মোঃ আব্দুল মজিদ', FatherName: 'মোঃ ওয়াজেদ আলী', Mobile: '', Village: 'রামপুর', PostOffice: 'রামপুর', Union: 'রামপুর', Upazila: 'সদর', Thana: 'কুমিল্লা', Designation: 'সহকারী অধ্যাপক', HighestEducationClass: 'মাস্টার্স', HighestEducationInstitute: 'চট্টগ্রাম বিশ্ববিদ্যালয়', MaritalStatus: 'বিবাহিত', JoiningDate: '1990-06-01', RetirementDate: '2020-06-01', ServiceLength: '৩০ বছর ০ মাস', Facebook: '', Email: '', Comment: '', PhotoURL: '', IsDeceased: 'হ্যাঁ' }
   ];
 
   STATE.committee = [
@@ -1534,18 +1688,30 @@ function loadDemoData() {
   ];
 
   STATE.specialCommittee = [];
+
+  STATE.events = [
+    { ID: 'EVT1', Name: 'বার্ষিক পুনর্মিলনী ২০২৬', EventDateTime: '2026-12-20T10:00', Venue: 'মাদ্রাসা মাঠ, রামপুর', Fee: '500', RegDeadline: '2026-12-10' },
+    { ID: 'EVT2', Name: 'ইফতার মাহফিল', EventDateTime: '2027-03-15T18:00', Venue: 'মাদ্রাসা হল রুম', Fee: '0', RegDeadline: '2027-03-10' }
+  ];
+
+  // ডেমোতে দেখানোর জন্য একটি পেন্ডিং রেজিষ্ট্রেশন — 'অনুষ্ঠান' মেনুতে গিয়ে SRN১৯৮৫0001 দিয়ে
+  // আবার রেজিষ্ট্রেশন করলে "পেন্ডিং আছে" মেসেজ দেখাবে; ব্যবস্থাপনা → অনুষ্ঠান থেকে নিশ্চিত করা যাবে
+  STATE.eventRegistrations = [
+    { ID: 'EVR1', EventID: 'EVT1', PersonType: 'Student', PersonRegNo: 'SRN১৯৮৫0001', PersonID: '1', Name: 'মোঃ আব্দুল করিম', PhotoURL: '', BatchOrClass: '২০০৫', Mobile: '০১৭১১xxxxxx', Address: 'রামপুর, রামপুর বাজার, রামপুর, সদর, কুমিল্লা', PaymentMethod: 'বিকাশ', ReceiverName: 'ফোরাম সভাপতি', AccountNumber: '017xxxxxxxx', Amount: '500', PaymentDate: '2026-11-01', Status: 'Pending' }
+  ];
 }
 
 
 /* ==================== js/students.js ==================== */
 /**
  * ============================================================
- * শিক্ষার্থী মডিউল: রেজিষ্ট্রেশন ফরম + পোর্টাল + প্রিন্ট কপি
+ * শিক্ষার্থী মডিউল: রেজিষ্ট্রেশন ফরম + প্রোফাইল + প্রিন্ট কপি
  * ============================================================
  */
 
 let studentPhotoBase64 = null;
 let studentSigBase64 = null;
+let editingStudentIdx = null; // এডিট মোডে থাকলে STATE.students এর index, নাহলে null
 
 function populateFormDropdowns() {
   fillSelect('sType', CONFIG.STUDENT_TYPES);
@@ -1553,9 +1719,11 @@ function populateFormDropdowns() {
   fillSelect('sProfession', CONFIG.PROFESSIONS);
   fillSelect('sCountry', CONFIG.COUNTRIES);
   fillSelect('sMarital', CONFIG.MARITAL_STATUS);
+  fillSelect('sBloodGroup', CONFIG.BLOOD_GROUPS);
 
   fillSelect('tType', CONFIG.STUDENT_TYPES);
   fillSelect('tMarital', CONFIG.MARITAL_STATUS);
+  fillSelect('tBloodGroup', CONFIG.BLOOD_GROUPS);
 }
 
 function fillSelect(id, options) {
@@ -1564,21 +1732,75 @@ function fillSelect(id, options) {
   sel.innerHTML = '<option value="">নির্বাচন করুন</option>' + options.map(o => `<option value="${esc(o)}">${esc(o)}</option>`).join('');
 }
 
+// ============================================================
+// রেজিষ্ট্রেশন নম্বর অটো-জেনারেশন: SRN + প্রতিষ্ঠাকাল + 0001
+// ============================================================
+function padNum(n, len) {
+  return String(n).padStart(len, '0');
+}
+
+function generateNextRegNo(prefix, list) {
+  const year = (STATE.forumInfo && STATE.forumInfo.FoundingYear) ? STATE.forumInfo.FoundingYear : '';
+  const base = prefix + year;
+  let maxSeq = 0;
+  list.forEach(item => {
+    const rn = item.RegNo || '';
+    if (rn.indexOf(base) === 0) {
+      const seqPart = rn.slice(base.length);
+      const num = parseInt(seqPart, 10);
+      if (!isNaN(num) && num > maxSeq) maxSeq = num;
+    }
+  });
+  return base + padNum(maxSeq + 1, 4);
+}
+
+function previewNextStudentRegNo() {
+  const el = document.getElementById('sRegNoPreview');
+  if (!el) return;
+  if (editingStudentIdx !== null) {
+    const existing = STATE.students[editingStudentIdx];
+    el.textContent = 'রেজি. নং: ' + (existing.RegNo || '-');
+  } else {
+    el.textContent = 'রেজি. নং: ' + generateNextRegNo('SRN', STATE.students);
+  }
+  el.style.display = 'inline-block';
+}
+
+function previewNextTeacherRegNo() {
+  const el = document.getElementById('tRegNoPreview');
+  if (!el) return;
+  if (editingTeacherIdx !== null) {
+    const existing = STATE.teachers[editingTeacherIdx];
+    el.textContent = 'রেজি. নং: ' + (existing.RegNo || '-');
+  } else {
+    el.textContent = 'রেজি. নং: ' + generateNextRegNo('TRN', STATE.teachers);
+  }
+  el.style.display = 'inline-block';
+}
+
 function resetStudentForm() {
   const form = document.getElementById('studentForm');
   if (form) form.reset();
   studentPhotoBase64 = null;
   studentSigBase64 = null;
+  editingStudentIdx = null;
   document.getElementById('sPhotoPreview').innerHTML = 'ছবি<br>আপলোড';
   document.getElementById('sSigPreview').innerHTML = 'স্বাক্ষর';
   document.getElementById('studentFormError').classList.remove('show');
   document.getElementById('studentFormWrap').style.display = 'block';
   document.getElementById('studentPrintWrap').style.display = 'none';
+  document.getElementById('sSubmitBtn').textContent = 'সাবমিট করুন';
+  previewNextStudentRegNo();
 }
 
 async function handleStudentPhotoUpload(input, target) {
   const file = input.files[0];
   if (!file) return;
+  if (file.size > 4 * 1024 * 1024) {
+    showToast('ছবির সাইজ ৪MB এর কম হতে হবে।', true);
+    input.value = '';
+    return;
+  }
   const preview = document.getElementById(target === 'photo' ? 'sPhotoPreview' : 'sSigPreview');
   const reader = new FileReader();
   reader.onload = () => {
@@ -1610,6 +1832,7 @@ async function submitStudentForm(e) {
     Union: val('sUnion'),
     Upazila: val('sUpazila'),
     Thana: val('sThana'),
+    BloodGroup: val('sBloodGroup'),
     Profession: val('sProfession'),
     CurrentCountry: val('sCountry'),
     LastClass: val('sLastClass'),
@@ -1631,15 +1854,31 @@ async function submitStudentForm(e) {
 
   const submitBtn = document.getElementById('sSubmitBtn');
   submitBtn.disabled = true;
-  submitBtn.innerHTML = '<span class="loading-spinner"></span> সাবমিট হচ্ছে...';
+  submitBtn.innerHTML = '<span class="loading-spinner"></span> সংরক্ষণ হচ্ছে...';
 
   try {
+    const isEdit = editingStudentIdx !== null;
+
+    if (isEdit) {
+      const existing = STATE.students[editingStudentIdx];
+      data.ID = existing.ID;
+      data.RegNo = existing.RegNo;
+      data.PhotoURL = existing.PhotoURL || '';
+      data.SignatureURL = existing.SignatureURL || '';
+    } else {
+      data.RegNo = generateNextRegNo('SRN', STATE.students);
+    }
+
     if (STATE.isDemoMode) {
-      data.ID = 'DEMO' + Date.now();
-      data.PhotoURL = studentPhotoBase64 ? URL.createObjectURL(dataURLtoBlob(studentPhotoBase64)) : '';
-      data.SignatureURL = studentSigBase64 ? URL.createObjectURL(dataURLtoBlob(studentSigBase64)) : '';
-      STATE.students.push(data);
-      showToast('ডেমো মোডে সাবমিট হয়েছে (Google Sheet সংযুক্ত নয়)');
+      if (studentPhotoBase64) data.PhotoURL = URL.createObjectURL(dataURLtoBlob(studentPhotoBase64));
+      if (studentSigBase64) data.SignatureURL = URL.createObjectURL(dataURLtoBlob(studentSigBase64));
+      if (isEdit) {
+        STATE.students[editingStudentIdx] = data;
+      } else {
+        data.ID = 'DEMO' + Date.now();
+        STATE.students.push(data);
+      }
+      showToast(isEdit ? 'ডেমো মোডে হালনাগাদ হয়েছে' : 'ডেমো মোডে সাবমিট হয়েছে (Google Sheet সংযুক্ত নয়)');
     } else {
       if (studentPhotoBase64) {
         const up = await API.uploadImage(studentPhotoBase64.data, studentPhotoBase64.filename, studentPhotoBase64.mimeType);
@@ -1649,13 +1888,20 @@ async function submitStudentForm(e) {
         const up = await API.uploadImage(studentSigBase64.data, studentSigBase64.filename, studentSigBase64.mimeType);
         data.SignatureURL = up.url || '';
       }
-      const result = await API.addStudent(data);
-      data.ID = result.id;
-      showToast('রেজিষ্ট্রেশন সফল হয়েছে!');
+      if (isEdit) {
+        await API.updateStudent(data);
+        STATE.students[editingStudentIdx] = data;
+        showToast('তথ্য হালনাগাদ হয়েছে');
+      } else {
+        const result = await API.addStudent(data);
+        data.ID = result.id;
+        showToast('রেজিষ্ট্রেশন সফল হয়েছে!');
+      }
       await refreshDashboardData();
     }
 
     STATE.lastStudentSubmission = data;
+    editingStudentIdx = null;
     showStudentPrintCopy(data);
   } catch (err) {
     errorBox.textContent = 'সমস্যা হয়েছে: ' + err.message;
@@ -1687,12 +1933,13 @@ function showStudentPrintCopy(data) {
   wrap.innerHTML = `
     <div class="print-copy">
       <div class="pc-header">
-        ${info.LogoURL ? `<img src="${esc(info.LogoURL)}" class="pc-logo">` : ''}
+        ${info.LogoURL ? `<img src="${esc(info.LogoURL)}" class="pc-logo" onerror="fallbackAvatar(this, '${esc((info.ForumName || 'ফ').charAt(0))}')">` : ''}
         <div class="pc-forum">${esc(info.ForumName)}</div>
         <div class="pc-address">${esc(info.Address)} | ${esc(info.Mobile)}</div>
         <div class="pc-slogan">${esc(info.Slogan)}</div>
       </div>
       <div class="pc-title">শিক্ষার্থী রেজিষ্ট্রেশন কপি</div>
+      <div class="pc-regno-wrap"><span class="pc-regno">রেজি. নং: ${esc(data.RegNo || '-')}</span></div>
       <div class="pc-body">
         ${data.PhotoURL ? `<img class="pc-photo" src="${esc(data.PhotoURL)}" alt="" onerror="fallbackAvatar(this, '${esc(initials(data.Name))}')">` : `<div class="pc-photo img-fallback">${esc(initials(data.Name))}</div>`}
         <div class="pc-fields">
@@ -1706,20 +1953,71 @@ function showStudentPrintCopy(data) {
       </div>
       <div class="pc-signatures">
         <div class="pc-sig">
-          ${data.SignatureURL ? `<img src="${esc(data.SignatureURL)}" onerror="this.style.display='none'">` : '<div style="height:44px"></div>'}
+          ${data.SignatureURL ? `<img src="${esc(data.SignatureURL)}" onerror="this.style.display='none'">` : '<div style="height:34px"></div>'}
           <div class="sig-line">শিক্ষার্থীর স্বাক্ষর</div>
         </div>
         <div class="pc-sig">
-          ${info.PresidentSignatureURL ? `<img src="${esc(info.PresidentSignatureURL)}" onerror="this.style.display='none'">` : '<div style="height:44px"></div>'}
+          ${info.PresidentSignatureURL ? `<img src="${esc(info.PresidentSignatureURL)}" onerror="this.style.display='none'">` : '<div style="height:34px"></div>'}
           <div class="sig-line">সভাপতির স্বাক্ষর</div>
         </div>
       </div>
     </div>
     <div class="print-actions no-print">
       <button class="btn btn-gold" onclick="window.print()">🖨️ প্রিন্ট করুন</button>
+      <button class="btn btn-primary" onclick="editStudentFromPrint('${esc(data.ID)}')">✎ এডিট করুন</button>
       <button class="btn btn-outline" onclick="resetStudentForm()">নতুন রেজিষ্ট্রেশন</button>
     </div>
   `;
+}
+
+function editStudentFromPrint(id) {
+  const idx = STATE.students.findIndex(s => s.ID === id);
+  if (idx === -1) {
+    showToast('শিক্ষার্থী খুঁজে পাওয়া যায়নি', true);
+    return;
+  }
+  startEditStudent(idx);
+}
+
+function startEditStudent(idx) {
+  const s = STATE.students[idx];
+  if (!s) return;
+  editingStudentIdx = idx;
+
+  document.getElementById('studentFormWrap').style.display = 'block';
+  document.getElementById('studentPrintWrap').style.display = 'none';
+
+  document.getElementById('sType').value = s.Type || '';
+  document.getElementById('sGender').value = s.Gender || '';
+  document.getElementById('sName').value = s.Name || '';
+  document.getElementById('sFatherName').value = s.FatherName || '';
+  document.getElementById('sMobile').value = s.Mobile || '';
+  document.getElementById('sMarital').value = s.MaritalStatus || '';
+  document.getElementById('sVillage').value = s.Village || '';
+  document.getElementById('sPostOffice').value = s.PostOffice || '';
+  document.getElementById('sUnion').value = s.Union || '';
+  document.getElementById('sUpazila').value = s.Upazila || '';
+  document.getElementById('sThana').value = s.Thana || '';
+  document.getElementById('sBloodGroup').value = s.BloodGroup || '';
+  document.getElementById('sCountry').value = s.CurrentCountry || '';
+  document.getElementById('sProfession').value = s.Profession || '';
+  document.getElementById('sLastClass').value = s.LastClass || '';
+  document.getElementById('sDakhilBatch').value = s.DakhilBatch || '';
+  document.getElementById('sHighEduClass').value = s.HighestEducationClass || '';
+  document.getElementById('sHighEduInstitute').value = s.HighestEducationInstitute || '';
+  document.getElementById('sFacebook').value = s.Facebook || '';
+  document.getElementById('sEmail').value = s.Email || '';
+  document.getElementById('sComment').value = s.Comment || '';
+  document.getElementById('sDeceased').checked = isYes(s.IsDeceased);
+  document.getElementById('sPhotoPreview').innerHTML = s.PhotoURL ? `<img src="${esc(s.PhotoURL)}">` : 'ছবি<br>আপলোড';
+  document.getElementById('sSigPreview').innerHTML = s.SignatureURL ? `<img src="${esc(s.SignatureURL)}">` : 'স্বাক্ষর';
+  studentPhotoBase64 = null;
+  studentSigBase64 = null;
+
+  document.getElementById('sSubmitBtn').textContent = 'হালনাগাদ করুন';
+  previewNextStudentRegNo();
+  window._skipFormReset = true;
+  showView('studentRegister');
 }
 
 function placeholderImg() {
@@ -1727,7 +2025,7 @@ function placeholderImg() {
 }
 
 // ============================================================
-// শিক্ষার্থী পোর্টাল
+// শিক্ষার্থী প্রোফাইল
 // ============================================================
 function renderStudentPortal() {
   const grid = document.getElementById('studentPortalGrid');
@@ -1745,13 +2043,14 @@ function renderStudentPortal() {
     return;
   }
 
-  grid.innerHTML = list.map((s, idx) => {
+  grid.innerHTML = list.map((s) => {
     const realIdx = STATE.students.indexOf(s);
     return `
     <div class="person-card">
       ${s.PhotoURL ? `<img class="person-photo" src="${esc(s.PhotoURL)}" alt="" onerror="fallbackAvatar(this, '${esc(initials(s.Name))}')">` : `<div class="person-photo-placeholder">${esc(initials(s.Name))}</div>`}
       <div class="person-info">
         <div class="person-name">${esc(s.Name)}</div>
+        <div class="person-meta">রেজি. নং: ${esc(s.RegNo || '-')}</div>
         <div class="person-meta">${esc(s.Profession || '—')}</div>
         <div class="person-meta">${s.Type === 'প্রাক্তন' ? 'দাখিল ব্যাচ: ' + esc(s.DakhilBatch || '-') : 'শ্রেণী: ' + esc(s.LastClass || '-')}</div>
         <span class="person-tag ${s.Type === 'প্রাক্তন' ? 'tag-former' : 'tag-current'}">${esc(s.Type)}</span>
@@ -1770,16 +2069,18 @@ function showStudentDetail(idx) {
       ${s.PhotoURL ? `<img src="${esc(s.PhotoURL)}" alt="" onerror="fallbackAvatar(this, '${esc(initials(s.Name))}')">` : `<div class="img-fallback">${esc(initials(s.Name))}</div>`}
     </div>
     <div class="detail-grid">
+      ${detailRow('রেজিষ্ট্রেশন নং', s.RegNo)}
       ${detailRow('নাম', s.Name)}
       ${detailRow('পিতার নাম', s.FatherName)}
       ${detailRow('ধরন', s.Type)}
       ${detailRow('লিঙ্গ', s.Gender)}
       ${detailRow('মোবাইল (WhatsApp)', s.Mobile)}
+      ${detailRow('রক্তের গ্রুপ', s.BloodGroup)}
       ${detailRow('গ্রাম', s.Village)}
       ${detailRow('ডাকঘর', s.PostOffice)}
       ${detailRow('ইউনিয়ন', s.Union)}
       ${detailRow('উপজেলা', s.Upazila)}
-      ${detailRow('থানা', s.Thana)}
+      ${detailRow('জেলা', s.Thana)}
       ${detailRow('পেশা', s.Profession)}
       ${detailRow('বর্তমান অবস্থানরত দেশ', s.CurrentCountry)}
       ${detailRow('সর্বশেষ অধ্যয়নকৃত শ্রেণী', s.LastClass)}
@@ -1789,6 +2090,10 @@ function showStudentDetail(idx) {
       ${detailRow('Facebook', s.Facebook)}
       ${detailRow('E-mail', s.Email)}
       ${detailRow('মন্তব্য', s.Comment)}
+    </div>
+    <div class="form-actions" style="margin-top:16px">
+      <button class="btn btn-primary btn-sm" onclick="closeModal('studentDetailModal'); startEditStudent(${idx})">✎ এডিট করুন</button>
+      <button class="btn btn-gold btn-sm" onclick="closeModal('studentDetailModal'); showStudentPrintCopy(STATE.students[${idx}]); window._skipFormReset = true; showView('studentRegister');">🖨️ প্রিন্ট কপি</button>
     </div>
   `;
   openModal('studentDetailModal');
@@ -1802,24 +2107,28 @@ function detailRow(label, value) {
 /* ==================== js/teachers.js ==================== */
 /**
  * ============================================================
- * শিক্ষক মডিউল: রেজিষ্ট্রেশন ফরম + পোর্টাল + প্রিন্ট কপি
+ * শিক্ষক মডিউল: রেজিষ্ট্রেশন ফরম + প্রোফাইল + প্রিন্ট কপি
  * ============================================================
  */
 
 let teacherPhotoBase64 = null;
 let teacherSigBase64 = null;
+let editingTeacherIdx = null;
 
 function resetTeacherForm() {
   const form = document.getElementById('teacherForm');
   if (form) form.reset();
   teacherPhotoBase64 = null;
   teacherSigBase64 = null;
+  editingTeacherIdx = null;
   document.getElementById('tPhotoPreview').innerHTML = 'ছবি<br>আপলোড';
   document.getElementById('tSigPreview').innerHTML = 'স্বাক্ষর';
   document.getElementById('teacherFormError').classList.remove('show');
   document.getElementById('teacherFormWrap').style.display = 'block';
   document.getElementById('teacherPrintWrap').style.display = 'none';
+  document.getElementById('tSubmitBtn').textContent = 'সাবমিট করুন';
   toggleRetirementField();
+  previewNextTeacherRegNo();
 }
 
 function toggleRetirementField() {
@@ -1831,6 +2140,11 @@ function toggleRetirementField() {
 async function handleTeacherPhotoUpload(input, target) {
   const file = input.files[0];
   if (!file) return;
+  if (file.size > 4 * 1024 * 1024) {
+    showToast('ছবির সাইজ ৪MB এর কম হতে হবে।', true);
+    input.value = '';
+    return;
+  }
   const preview = document.getElementById(target === 'photo' ? 'tPhotoPreview' : 'tSigPreview');
   const reader = new FileReader();
   reader.onload = () => { preview.innerHTML = `<img src="${reader.result}">`; };
@@ -1873,6 +2187,7 @@ async function submitTeacherForm(e) {
     Union: val('tUnion'),
     Upazila: val('tUpazila'),
     Thana: val('tThana'),
+    BloodGroup: val('tBloodGroup'),
     Designation: val('tDesignation'),
     HighestEducationClass: val('tHighEduClass'),
     HighestEducationInstitute: val('tHighEduInstitute'),
@@ -1894,15 +2209,31 @@ async function submitTeacherForm(e) {
 
   const submitBtn = document.getElementById('tSubmitBtn');
   submitBtn.disabled = true;
-  submitBtn.innerHTML = '<span class="loading-spinner"></span> সাবমিট হচ্ছে...';
+  submitBtn.innerHTML = '<span class="loading-spinner"></span> সংরক্ষণ হচ্ছে...';
 
   try {
+    const isEdit = editingTeacherIdx !== null;
+
+    if (isEdit) {
+      const existing = STATE.teachers[editingTeacherIdx];
+      data.ID = existing.ID;
+      data.RegNo = existing.RegNo;
+      data.PhotoURL = existing.PhotoURL || '';
+      data.SignatureURL = existing.SignatureURL || '';
+    } else {
+      data.RegNo = generateNextRegNo('TRN', STATE.teachers);
+    }
+
     if (STATE.isDemoMode) {
-      data.ID = 'DEMO' + Date.now();
-      data.PhotoURL = teacherPhotoBase64 ? URL.createObjectURL(dataURLtoBlob(teacherPhotoBase64)) : '';
-      data.SignatureURL = teacherSigBase64 ? URL.createObjectURL(dataURLtoBlob(teacherSigBase64)) : '';
-      STATE.teachers.push(data);
-      showToast('ডেমো মোডে সাবমিট হয়েছে (Google Sheet সংযুক্ত নয়)');
+      if (teacherPhotoBase64) data.PhotoURL = URL.createObjectURL(dataURLtoBlob(teacherPhotoBase64));
+      if (teacherSigBase64) data.SignatureURL = URL.createObjectURL(dataURLtoBlob(teacherSigBase64));
+      if (isEdit) {
+        STATE.teachers[editingTeacherIdx] = data;
+      } else {
+        data.ID = 'DEMO' + Date.now();
+        STATE.teachers.push(data);
+      }
+      showToast(isEdit ? 'ডেমো মোডে হালনাগাদ হয়েছে' : 'ডেমো মোডে সাবমিট হয়েছে (Google Sheet সংযুক্ত নয়)');
     } else {
       if (teacherPhotoBase64) {
         const up = await API.uploadImage(teacherPhotoBase64.data, teacherPhotoBase64.filename, teacherPhotoBase64.mimeType);
@@ -1912,13 +2243,20 @@ async function submitTeacherForm(e) {
         const up = await API.uploadImage(teacherSigBase64.data, teacherSigBase64.filename, teacherSigBase64.mimeType);
         data.SignatureURL = up.url || '';
       }
-      const result = await API.addTeacher(data);
-      data.ID = result.id;
-      showToast('রেজিষ্ট্রেশন সফল হয়েছে!');
+      if (isEdit) {
+        await API.updateTeacher(data);
+        STATE.teachers[editingTeacherIdx] = data;
+        showToast('তথ্য হালনাগাদ হয়েছে');
+      } else {
+        const result = await API.addTeacher(data);
+        data.ID = result.id;
+        showToast('রেজিষ্ট্রেশন সফল হয়েছে!');
+      }
       await refreshDashboardData();
     }
 
     STATE.lastTeacherSubmission = data;
+    editingTeacherIdx = null;
     showTeacherPrintCopy(data);
   } catch (err) {
     errorBox.textContent = 'সমস্যা হয়েছে: ' + err.message;
@@ -1935,19 +2273,17 @@ function showTeacherPrintCopy(data) {
   wrap.style.display = 'block';
 
   const info = STATE.forumInfo;
-  const dateLine = data.Type === 'প্রাক্তন'
-    ? `অবসর তারিখ: ${esc(data.RetirementDate || '-')}`
-    : `যোগদানের তারিখ: ${esc(data.JoiningDate || '-')}`;
 
   wrap.innerHTML = `
     <div class="print-copy">
       <div class="pc-header">
-        ${info.LogoURL ? `<img src="${esc(info.LogoURL)}" class="pc-logo">` : ''}
+        ${info.LogoURL ? `<img src="${esc(info.LogoURL)}" class="pc-logo" onerror="fallbackAvatar(this, '${esc((info.ForumName || 'ফ').charAt(0))}')">` : ''}
         <div class="pc-forum">${esc(info.ForumName)}</div>
         <div class="pc-address">${esc(info.Address)} | ${esc(info.Mobile)}</div>
         <div class="pc-slogan">${esc(info.Slogan)}</div>
       </div>
       <div class="pc-title">শিক্ষক রেজিষ্ট্রেশন কপি</div>
+      <div class="pc-regno-wrap"><span class="pc-regno">রেজি. নং: ${esc(data.RegNo || '-')}</span></div>
       <div class="pc-body">
         ${data.PhotoURL ? `<img class="pc-photo" src="${esc(data.PhotoURL)}" alt="" onerror="fallbackAvatar(this, '${esc(initials(data.Name))}')">` : `<div class="pc-photo img-fallback">${esc(initials(data.Name))}</div>`}
         <div class="pc-fields">
@@ -1960,24 +2296,74 @@ function showTeacherPrintCopy(data) {
       </div>
       <div class="pc-signatures">
         <div class="pc-sig">
-          ${data.SignatureURL ? `<img src="${esc(data.SignatureURL)}" onerror="this.style.display='none'">` : '<div style="height:44px"></div>'}
+          ${data.SignatureURL ? `<img src="${esc(data.SignatureURL)}" onerror="this.style.display='none'">` : '<div style="height:34px"></div>'}
           <div class="sig-line">শিক্ষকের স্বাক্ষর</div>
         </div>
         <div class="pc-sig">
-          ${info.PresidentSignatureURL ? `<img src="${esc(info.PresidentSignatureURL)}" onerror="this.style.display='none'">` : '<div style="height:44px"></div>'}
+          ${info.PresidentSignatureURL ? `<img src="${esc(info.PresidentSignatureURL)}" onerror="this.style.display='none'">` : '<div style="height:34px"></div>'}
           <div class="sig-line">সভাপতির স্বাক্ষর</div>
         </div>
       </div>
     </div>
     <div class="print-actions no-print">
       <button class="btn btn-gold" onclick="window.print()">🖨️ প্রিন্ট করুন</button>
+      <button class="btn btn-primary" onclick="editTeacherFromPrint('${esc(data.ID)}')">✎ এডিট করুন</button>
       <button class="btn btn-outline" onclick="resetTeacherForm()">নতুন রেজিষ্ট্রেশন</button>
     </div>
   `;
 }
 
+function editTeacherFromPrint(id) {
+  const idx = STATE.teachers.findIndex(t => t.ID === id);
+  if (idx === -1) {
+    showToast('শিক্ষক খুঁজে পাওয়া যায়নি', true);
+    return;
+  }
+  startEditTeacher(idx);
+}
+
+function startEditTeacher(idx) {
+  const t = STATE.teachers[idx];
+  if (!t) return;
+  editingTeacherIdx = idx;
+
+  document.getElementById('teacherFormWrap').style.display = 'block';
+  document.getElementById('teacherPrintWrap').style.display = 'none';
+
+  document.getElementById('tType').value = t.Type || '';
+  toggleRetirementField();
+  document.getElementById('tDesignation').value = t.Designation || '';
+  document.getElementById('tName').value = t.Name || '';
+  document.getElementById('tFatherName').value = t.FatherName || '';
+  document.getElementById('tMobile').value = t.Mobile || '';
+  document.getElementById('tMarital').value = t.MaritalStatus || '';
+  document.getElementById('tVillage').value = t.Village || '';
+  document.getElementById('tPostOffice').value = t.PostOffice || '';
+  document.getElementById('tUnion').value = t.Union || '';
+  document.getElementById('tUpazila').value = t.Upazila || '';
+  document.getElementById('tThana').value = t.Thana || '';
+  document.getElementById('tBloodGroup').value = t.BloodGroup || '';
+  document.getElementById('tHighEduClass').value = t.HighestEducationClass || '';
+  document.getElementById('tHighEduInstitute').value = t.HighestEducationInstitute || '';
+  document.getElementById('tJoinDate').value = t.JoiningDate || '';
+  document.getElementById('tRetireDate').value = t.RetirementDate || '';
+  document.getElementById('tFacebook').value = t.Facebook || '';
+  document.getElementById('tEmail').value = t.Email || '';
+  document.getElementById('tComment').value = t.Comment || '';
+  document.getElementById('tDeceased').checked = isYes(t.IsDeceased);
+  document.getElementById('tPhotoPreview').innerHTML = t.PhotoURL ? `<img src="${esc(t.PhotoURL)}">` : 'ছবি<br>আপলোড';
+  document.getElementById('tSigPreview').innerHTML = t.SignatureURL ? `<img src="${esc(t.SignatureURL)}">` : 'স্বাক্ষর';
+  teacherPhotoBase64 = null;
+  teacherSigBase64 = null;
+
+  document.getElementById('tSubmitBtn').textContent = 'হালনাগাদ করুন';
+  previewNextTeacherRegNo();
+  window._skipFormReset = true;
+  showView('teacherRegister');
+}
+
 // ============================================================
-// শিক্ষক পোর্টাল
+// শিক্ষক প্রোফাইল
 // ============================================================
 function renderTeacherPortal() {
   const grid = document.getElementById('teacherPortalGrid');
@@ -2003,6 +2389,7 @@ function renderTeacherPortal() {
       ${t.PhotoURL ? `<img class="person-photo" src="${esc(t.PhotoURL)}" alt="" onerror="fallbackAvatar(this, '${esc(initials(t.Name))}')">` : `<div class="person-photo-placeholder">${esc(initials(t.Name))}</div>`}
       <div class="person-info">
         <div class="person-name">${esc(t.Name)}</div>
+        <div class="person-meta">রেজি. নং: ${esc(t.RegNo || '-')}</div>
         <div class="person-meta">${esc(t.Designation || '—')}</div>
         <div class="person-meta">${dateLine}</div>
         ${t.ServiceLength ? `<div class="person-meta">চাকরিকাল: ${esc(t.ServiceLength)}</div>` : ''}
@@ -2022,16 +2409,18 @@ function showTeacherDetail(idx) {
       ${t.PhotoURL ? `<img src="${esc(t.PhotoURL)}" alt="" onerror="fallbackAvatar(this, '${esc(initials(t.Name))}')">` : `<div class="img-fallback">${esc(initials(t.Name))}</div>`}
     </div>
     <div class="detail-grid">
+      ${detailRow('রেজিষ্ট্রেশন নং', t.RegNo)}
       ${detailRow('নাম', t.Name)}
       ${detailRow('পিতার নাম', t.FatherName)}
       ${detailRow('ধরন', t.Type)}
       ${detailRow('পদবি', t.Designation)}
       ${detailRow('মোবাইল (WhatsApp)', t.Mobile)}
+      ${detailRow('রক্তের গ্রুপ', t.BloodGroup)}
       ${detailRow('গ্রাম', t.Village)}
       ${detailRow('ডাকঘর', t.PostOffice)}
       ${detailRow('ইউনিয়ন', t.Union)}
       ${detailRow('উপজেলা', t.Upazila)}
-      ${detailRow('থানা', t.Thana)}
+      ${detailRow('জেলা', t.Thana)}
       ${detailRow('সর্বশেষ শিক্ষাগত যোগ্যতা', (t.HighestEducationClass || '') + ' - ' + (t.HighestEducationInstitute || ''))}
       ${detailRow('বৈবাহিক অবস্থা', t.MaritalStatus)}
       ${detailRow('যোগদানের তারিখ', t.JoiningDate)}
@@ -2041,8 +2430,303 @@ function showTeacherDetail(idx) {
       ${detailRow('E-mail', t.Email)}
       ${detailRow('মন্তব্য', t.Comment)}
     </div>
+    <div class="form-actions" style="margin-top:16px">
+      <button class="btn btn-primary btn-sm" onclick="closeModal('teacherDetailModal'); startEditTeacher(${idx})">✎ এডিট করুন</button>
+      <button class="btn btn-gold btn-sm" onclick="closeModal('teacherDetailModal'); showTeacherPrintCopy(STATE.teachers[${idx}]); window._skipFormReset = true; showView('teacherRegister');">🖨️ প্রিন্ট কপি</button>
+    </div>
   `;
   openModal('teacherDetailModal');
+}
+
+
+/* ==================== js/events.js ==================== */
+/**
+ * ============================================================
+ * অনুষ্ঠান মডিউল: তালিকা + বিস্তারিত + রেজিষ্ট্রেশন + কার্ড ডাউনলোড
+ * ============================================================
+ */
+
+let currentEventId = null;
+
+function formatAddress(p) {
+  return [p.Village, p.PostOffice, p.Union, p.Upazila, p.Thana].filter(Boolean).join(', ') || '-';
+}
+
+function formatEventDateTime(dt) {
+  if (!dt) return '-';
+  try {
+    const d = new Date(dt);
+    if (isNaN(d.getTime())) return dt;
+    return d.toLocaleString('bn-BD', { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' });
+  } catch (e) {
+    return dt;
+  }
+}
+
+// ============================================================
+// অনুষ্ঠান তালিকা
+// ============================================================
+function renderEventsList() {
+  const grid = document.getElementById('eventsListGrid');
+  if (!grid) return;
+  const events = STATE.events || [];
+  if (events.length === 0) {
+    grid.innerHTML = '<div class="empty-state">এখনো কোনো অনুষ্ঠান যোগ করা হয়নি।</div>';
+    return;
+  }
+
+  grid.innerHTML = events.map((ev) => {
+    const idx = STATE.events.indexOf(ev);
+    return `
+    <div class="person-card">
+      <div class="person-info">
+        <div class="person-name">${esc(ev.Name)}</div>
+        <div class="person-meta">🗓️ ${esc(formatEventDateTime(ev.EventDateTime))}</div>
+        <div class="person-meta">📍 ${esc(ev.Venue || '-')}</div>
+        <div class="person-meta">💰 ফি: ${ev.Fee ? toBn(ev.Fee) + ' টাকা' : 'ফ্রি'}</div>
+        <div class="person-meta">⏳ শেষ তারিখ: ${esc(ev.RegDeadline || '-')}</div>
+        <button class="btn btn-primary btn-sm" onclick="openEventModal(${idx})">বিস্তারিত ও রেজিষ্ট্রেশন</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ============================================================
+// অনুষ্ঠান বিস্তারিত + রেজিষ্ট্রেশন মোডাল
+// ============================================================
+function openEventModal(idx) {
+  const ev = STATE.events[idx];
+  if (!ev) return;
+  currentEventId = ev.ID;
+
+  document.getElementById('eventModalTitle').textContent = ev.Name;
+  const body = document.getElementById('eventModalBody');
+  body.innerHTML = `
+    <div class="detail-grid" style="margin-bottom:18px">
+      ${detailRow('সময়', formatEventDateTime(ev.EventDateTime))}
+      ${detailRow('স্থান', ev.Venue)}
+      ${detailRow('রেজিষ্ট্রেশন ফি', ev.Fee ? toBn(ev.Fee) + ' টাকা' : 'ফ্রি')}
+      ${detailRow('রেজিষ্ট্রেশনের শেষ তারিখ', ev.RegDeadline)}
+    </div>
+    <div class="form-section-divider" style="margin-bottom:12px">অনুষ্ঠানে অংশগ্রহণের রেজিষ্ট্রেশন</div>
+    <div id="eventRegStep1">
+      <div class="form-group" style="margin-bottom:12px">
+        <label>আপনি কি? <span class="req">*</span></label>
+        <select id="evPersonType" onchange="onEventPersonTypeChange()">
+          <option value="">নির্বাচন করুন</option>
+          <option value="Student">শিক্ষার্থী</option>
+          <option value="Teacher">শিক্ষক</option>
+        </select>
+      </div>
+      <div class="form-group" id="evRegNoWrap" style="display:none;margin-bottom:12px">
+        <label>রেজিষ্ট্রেশন আইডি <span class="req">*</span></label>
+        <select id="evRegNoSelect" onchange="onEventRegNoChange()"></select>
+      </div>
+    </div>
+    <div id="eventRegDynamic"></div>
+  `;
+  openModal('eventModal');
+}
+
+function onEventPersonTypeChange() {
+  const type = document.getElementById('evPersonType').value;
+  const wrap = document.getElementById('evRegNoWrap');
+  const sel = document.getElementById('evRegNoSelect');
+  document.getElementById('eventRegDynamic').innerHTML = '';
+
+  if (!type) { wrap.style.display = 'none'; return; }
+
+  const list = type === 'Student' ? STATE.students : STATE.teachers;
+  const withRegNo = list.filter(p => p.RegNo);
+
+  if (withRegNo.length === 0) {
+    wrap.style.display = 'none';
+    const menuName = type === 'Student' ? 'শিক্ষার্থী' : 'শিক্ষক';
+    document.getElementById('eventRegDynamic').innerHTML =
+      `<div class="form-error show">এখনো কোনো ${esc(menuName)} প্রোফাইল তৈরি করা হয়নি। অনুগ্রহ করে আগে "${esc(menuName)} → রেজিষ্ট্রেশন" থেকে প্রোফাইল তৈরি করুন।</div>`;
+    return;
+  }
+
+  wrap.style.display = 'flex';
+  sel.innerHTML = '<option value="">নির্বাচন করুন</option>' +
+    withRegNo.map(p => `<option value="${esc(p.RegNo)}">${esc(p.RegNo)} — ${esc(p.Name)}</option>`).join('');
+}
+
+function onEventRegNoChange() {
+  const type = document.getElementById('evPersonType').value;
+  const regNo = document.getElementById('evRegNoSelect').value;
+  const dynamicWrap = document.getElementById('eventRegDynamic');
+  dynamicWrap.innerHTML = '';
+  if (!regNo) return;
+
+  const list = type === 'Student' ? STATE.students : STATE.teachers;
+  const person = list.find(p => p.RegNo === regNo);
+  if (!person) return;
+
+  const existing = (STATE.eventRegistrations || []).find(r => r.EventID === currentEventId && r.PersonRegNo === regNo);
+
+  if (existing && existing.Status === 'Confirmed') {
+    dynamicWrap.innerHTML = `
+      <div class="form-error show" style="background:#e8f0ea;color:var(--forest-deep)">✅ আপনার রেজিষ্ট্রেশন নিশ্চিত হয়েছে।</div>
+      <div class="form-actions"><button type="button" class="btn btn-gold" onclick="downloadEventRegCard('${esc(existing.ID)}')">🖨️ রেজিষ্ট্রেশন কার্ড ডাউনলোড করুন</button></div>
+    `;
+    return;
+  }
+
+  if (existing && existing.Status === 'Pending') {
+    dynamicWrap.innerHTML = `<div class="form-error show" style="background:#fdf3e2;color:var(--gold)">⏳ আপনার রেজিষ্ট্রেশন পেন্ডিং আছে। ব্যবস্থাপনা কর্তৃপক্ষ নিশ্চিত করার পর আপনি রেজিষ্ট্রেশন কার্ড ডাউনলোড করতে পারবেন।</div>`;
+    return;
+  }
+
+  // নতুন রেজিষ্ট্রেশন — ব্যক্তির তথ্য প্রিভিউ + পেমেন্ট ফরম
+  const batchOrClass = type === 'Student'
+    ? (person.Type === 'প্রাক্তন' ? (person.DakhilBatch || '-') : (person.LastClass || '-'))
+    : (person.Designation || '-');
+  const address = formatAddress(person);
+  const ev = STATE.events.find(e => e.ID === currentEventId);
+
+  dynamicWrap.innerHTML = `
+    <div class="detail-photo-wrap" style="margin-bottom:10px">
+      ${person.PhotoURL ? `<img src="${esc(person.PhotoURL)}" alt="" onerror="fallbackAvatar(this, '${esc(initials(person.Name))}')">` : `<div class="img-fallback">${esc(initials(person.Name))}</div>`}
+    </div>
+    <div class="detail-grid" style="margin-bottom:16px">
+      ${detailRow('নাম', person.Name)}
+      ${detailRow('রেজিষ্ট্রেশন আইডি', person.RegNo)}
+      ${detailRow(type === 'Student' ? 'ব্যাচ/শ্রেণী' : 'পদবি', batchOrClass)}
+      ${detailRow('মোবাইল', person.Mobile)}
+      ${detailRow('ঠিকানা', address)}
+    </div>
+    <form onsubmit="submitEventRegistration(event)">
+      <div class="form-grid">
+        <div class="form-group full form-section-divider">রেজিষ্ট্রেশন ফি পরিশোধের তথ্য</div>
+        <div class="form-group">
+          <label>জমা দেয়ার মাধ্যম <span class="req">*</span></label>
+          <select id="evPayMethod" required>
+            <option value="">নির্বাচন করুন</option>
+            <option value="ব্যাংক">ব্যাংক</option>
+            <option value="বিকাশ">বিকাশ</option>
+            <option value="নগদ">নগদ</option>
+          </select>
+        </div>
+        <div class="form-group"><label>গ্রহণকারীর নাম</label><input type="text" id="evReceiverName"></div>
+        <div class="form-group"><label>হিসাব নম্বর</label><input type="text" id="evAccountNumber"></div>
+        <div class="form-group"><label>পরিমাণ <span class="req">*</span></label><input type="number" id="evAmount" min="0" value="${ev && ev.Fee ? esc(ev.Fee) : ''}" required></div>
+        <div class="form-group"><label>তারিখ <span class="req">*</span></label><input type="date" id="evPayDate" required></div>
+        <div class="form-error" id="eventRegError"></div>
+        <div class="form-actions">
+          <button type="submit" class="btn btn-primary" id="evRegSubmitBtn">সাবমিট করুন</button>
+        </div>
+      </div>
+    </form>
+  `;
+}
+
+async function submitEventRegistration(e) {
+  e.preventDefault();
+  const errorBox = document.getElementById('eventRegError');
+  errorBox.classList.remove('show');
+
+  const type = document.getElementById('evPersonType').value;
+  const regNo = document.getElementById('evRegNoSelect').value;
+  const list = type === 'Student' ? STATE.students : STATE.teachers;
+  const person = list.find(p => p.RegNo === regNo);
+  if (!person) {
+    errorBox.textContent = 'তথ্য পাওয়া যায়নি।';
+    errorBox.classList.add('show');
+    return;
+  }
+
+  const data = {
+    EventID: currentEventId,
+    PersonType: type,
+    PersonRegNo: regNo,
+    PersonID: person.ID,
+    Name: person.Name,
+    PhotoURL: person.PhotoURL || '',
+    BatchOrClass: type === 'Student' ? (person.DakhilBatch || person.LastClass || '') : (person.Designation || ''),
+    Mobile: person.Mobile || '',
+    Address: formatAddress(person),
+    PaymentMethod: val('evPayMethod'),
+    ReceiverName: val('evReceiverName'),
+    AccountNumber: val('evAccountNumber'),
+    Amount: val('evAmount'),
+    PaymentDate: val('evPayDate')
+  };
+
+  if (!data.PaymentMethod || !data.Amount || !data.PaymentDate) {
+    errorBox.textContent = 'অনুগ্রহ করে মাধ্যম, পরিমাণ ও তারিখ পূরণ করুন।';
+    errorBox.classList.add('show');
+    return;
+  }
+
+  const btn = document.getElementById('evRegSubmitBtn');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="loading-spinner"></span> সাবমিট হচ্ছে...';
+
+  try {
+    if (STATE.isDemoMode) {
+      data.ID = 'EVR' + Date.now();
+      data.Status = 'Pending';
+      STATE.eventRegistrations.push(data);
+      showToast('ডেমো মোডে রেজিষ্ট্রেশন অনুরোধ পাঠানো হয়েছে (পেন্ডিং)');
+    } else {
+      const result = await API.addEventRegistration(data);
+      data.ID = result.id;
+      data.Status = 'Pending';
+      STATE.eventRegistrations.push(data);
+      showToast('আপনার রেজিষ্ট্রেশন অনুরোধ পাঠানো হয়েছে। নিশ্চিতকরণের অপেক্ষায় আছে।');
+    }
+    onEventRegNoChange();
+  } catch (err) {
+    errorBox.textContent = 'সমস্যা হয়েছে: ' + err.message;
+    errorBox.classList.add('show');
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = 'সাবমিট করুন';
+  }
+}
+
+// ============================================================
+// রেজিষ্ট্রেশন কার্ড ডাউনলোড/প্রিন্ট
+// ============================================================
+function downloadEventRegCard(regId) {
+  const reg = (STATE.eventRegistrations || []).find(r => r.ID === regId);
+  if (!reg) { showToast('রেজিষ্ট্রেশন পাওয়া যায়নি', true); return; }
+  const ev = STATE.events.find(e => e.ID === reg.EventID);
+  const info = STATE.forumInfo;
+
+  const w = window.open('', '_blank');
+  w.document.write(`
+    <html><head><title>অনুষ্ঠান রেজিষ্ট্রেশন কার্ড</title>
+    <meta charset="UTF-8">
+    <style>
+      body{font-family:'Noto Sans Bengali','Hind Siliguri',sans-serif;padding:20px;background:#faf7f0;}
+      .card{max-width:420px;margin:0 auto;background:#fff;border:3px double #1f4d3a;border-radius:10px;padding:20px;text-align:center;}
+      .card h2{color:#1f4d3a;margin-bottom:4px;font-size:18px;}
+      .card .sub{color:#b8863b;font-size:12px;font-style:italic;margin-bottom:14px;}
+      .card img{width:90px;height:100px;object-fit:cover;border-radius:6px;border:1px solid #ccc;margin-bottom:10px;}
+      .card table{width:100%;border-collapse:collapse;font-size:13px;margin-top:10px;}
+      .card table td{padding:5px 8px;border-bottom:1px dotted #ccc;text-align:right;}
+      .card table td:first-child{color:#5c6b62;text-align:left;}
+      .badge{display:inline-block;background:#1f4d3a;color:#fff;padding:4px 14px;border-radius:20px;font-size:12px;font-weight:700;margin-top:12px;}
+    </style></head><body>
+    <div class="card">
+      <h2>${esc(info.ForumName)}</h2>
+      <div class="sub">অনুষ্ঠান রেজিষ্ট্রেশন কার্ড</div>
+      ${reg.PhotoURL ? `<img src="${esc(reg.PhotoURL)}">` : ''}
+      <table>
+        <tr><td>অনুষ্ঠান</td><td>${esc(ev ? ev.Name : '-')}</td></tr>
+        <tr><td>নাম</td><td>${esc(reg.Name)}</td></tr>
+        <tr><td>রেজিষ্ট্রেশন আইডি</td><td>${esc(reg.PersonRegNo)}</td></tr>
+        <tr><td>মোবাইল</td><td>${esc(reg.Mobile)}</td></tr>
+        <tr><td>ঠিকানা</td><td>${esc(reg.Address)}</td></tr>
+      </table>
+      <div class="badge">✅ নিশ্চিতকৃত</div>
+    </div>
+    <script>window.print();<\/script>
+    </body></html>
+  `);
+  w.document.close();
 }
 
 
@@ -2110,6 +2794,7 @@ function showAdminPanel() {
   loadForumInfoForm();
   loadCommitteeForm();
   loadSpecialCommitteeForm();
+  populateAdminEventSelect();
 }
 
 function adminLogout() {
@@ -2149,6 +2834,11 @@ function loadForumInfoForm() {
 async function handleAdminImageUpload(input, target) {
   const file = input.files[0];
   if (!file) return;
+  if (file.size > 4 * 1024 * 1024) {
+    showToast('ছবির সাইজ ৪MB এর কম হতে হবে।', true);
+    input.value = '';
+    return;
+  }
   const preview = document.getElementById(target === 'logo' ? 'fiLogoPreview' : 'fiSigPreview');
   const reader = new FileReader();
   reader.onload = () => { preview.innerHTML = `<img src="${reader.result}">`; };
@@ -2447,6 +3137,177 @@ async function changeAdminPassword(e) {
   }
 }
 
+// ============================================================
+// অনুষ্ঠান ব্যবস্থাপনা: নতুন অনুষ্ঠান + রেজিষ্ট্রেশন অনুমোদন
+// ============================================================
+async function saveNewEvent(e) {
+  e.preventDefault();
+  const btn = document.getElementById('evSaveBtn');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="loading-spinner"></span> যোগ হচ্ছে...';
+
+  const data = {
+    Name: val('evName'),
+    EventDateTime: val('evDateTime'),
+    Venue: val('evVenue'),
+    Fee: val('evFee'),
+    RegDeadline: val('evDeadline')
+  };
+
+  if (!data.Name || !data.EventDateTime) {
+    showToast('অনুষ্ঠানের নাম ও সময় আবশ্যক', true);
+    btn.disabled = false;
+    btn.innerHTML = 'অনুষ্ঠান যোগ করুন';
+    return;
+  }
+
+  try {
+    if (STATE.isDemoMode) {
+      data.ID = 'EVT' + Date.now();
+      STATE.events.push(data);
+      showToast('ডেমো মোডে অনুষ্ঠান যোগ হয়েছে');
+    } else {
+      const result = await API.addEvent(data, adminPassword);
+      data.ID = result.id;
+      STATE.events.push(data);
+      showToast('অনুষ্ঠান যোগ করা হয়েছে');
+    }
+    document.getElementById('newEventForm').reset();
+    renderEventsList();
+    populateAdminEventSelect();
+  } catch (err) {
+    showToast('সমস্যা হয়েছে: ' + err.message, true);
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = 'অনুষ্ঠান যোগ করুন';
+  }
+}
+
+function populateAdminEventSelect() {
+  const sel = document.getElementById('adminEventSelect');
+  if (!sel) return;
+  sel.innerHTML = '<option value="">অনুষ্ঠান নির্বাচন করুন</option>' +
+    (STATE.events || []).map(ev => `<option value="${esc(ev.ID)}">${esc(ev.Name)}</option>`).join('');
+  renderAdminEventRegistrations();
+}
+
+function renderAdminEventRegistrations() {
+  const sel = document.getElementById('adminEventSelect');
+  const wrap = document.getElementById('adminEventRegList');
+  if (!sel || !wrap) return;
+  const eventId = sel.value;
+  if (!eventId) { wrap.innerHTML = ''; return; }
+
+  const regs = (STATE.eventRegistrations || []).filter(r => r.EventID === eventId);
+  if (regs.length === 0) {
+    wrap.innerHTML = '<p style="color:var(--text-muted);font-size:13px">এখনো কোনো রেজিষ্ট্রেশন নেই।</p>';
+    return;
+  }
+
+  wrap.innerHTML = `
+    <table class="committee-table">
+      <thead><tr><th>নাম</th><th>রেজি. আইডি</th><th>মাধ্যম</th><th>পরিমাণ</th><th>তারিখ</th><th>অবস্থা</th><th></th></tr></thead>
+      <tbody>
+        ${regs.map(r => `
+          <tr>
+            <td>${esc(r.Name)}</td>
+            <td>${esc(r.PersonRegNo)}</td>
+            <td>${esc(r.PaymentMethod)}</td>
+            <td>${esc(r.Amount)}</td>
+            <td>${esc(r.PaymentDate)}</td>
+            <td>${r.Status === 'Confirmed' ? '✅ নিশ্চিত' : '⏳ পেন্ডিং'}</td>
+            <td>${r.Status !== 'Confirmed' ? `<button class="btn btn-primary btn-sm" onclick="confirmEventRegistrationAdmin('${esc(r.ID)}')">নিশ্চিত করুন</button>` : ''}</td>
+          </tr>`).join('')}
+      </tbody>
+    </table>
+  `;
+}
+
+async function confirmEventRegistrationAdmin(id) {
+  try {
+    if (STATE.isDemoMode) {
+      const reg = STATE.eventRegistrations.find(r => r.ID === id);
+      if (reg) reg.Status = 'Confirmed';
+      showToast('ডেমো মোডে নিশ্চিত করা হয়েছে');
+    } else {
+      await API.confirmEventRegistration(id, adminPassword);
+      const reg = STATE.eventRegistrations.find(r => r.ID === id);
+      if (reg) reg.Status = 'Confirmed';
+      showToast('রেজিষ্ট্রেশন নিশ্চিত করা হয়েছে');
+    }
+    renderAdminEventRegistrations();
+  } catch (err) {
+    showToast('সমস্যা হয়েছে: ' + err.message, true);
+  }
+}
+
+// ============================================================
+// তালিকা প্রিন্ট: শিক্ষার্থী ও শিক্ষক (ক্রম, নাম, ব্যাচ, পেশা, মোবাইল, ঠিকানা)
+// ============================================================
+function printStudentList(typeFilter) {
+  let list = STATE.students || [];
+  if (typeFilter) list = list.filter(s => s.Type === typeFilter);
+  if (list.length === 0) { showToast('তালিকায় কোনো শিক্ষার্থী নেই', true); return; }
+
+  const rows = list.map((s, i) => `
+    <tr>
+      <td>${toBn(i + 1)}</td>
+      <td>${esc(s.Name)}</td>
+      <td>${esc(s.DakhilBatch || s.LastClass || '-')}</td>
+      <td>${esc(s.Profession || '-')}</td>
+      <td>${esc(s.Mobile || '-')}</td>
+      <td>${esc(formatAddress(s))}</td>
+    </tr>`).join('');
+
+  openPrintListWindow('শিক্ষার্থী তালিকা' + (typeFilter ? ' (' + typeFilter + ')' : ''), rows);
+}
+
+function printTeacherList(typeFilter) {
+  let list = STATE.teachers || [];
+  if (typeFilter) list = list.filter(t => t.Type === typeFilter);
+  if (list.length === 0) { showToast('তালিকায় কোনো শিক্ষক নেই', true); return; }
+
+  const rows = list.map((t, i) => `
+    <tr>
+      <td>${toBn(i + 1)}</td>
+      <td>${esc(t.Name)}</td>
+      <td>${esc(t.JoiningDate ? t.JoiningDate.slice(0, 4) : '-')}</td>
+      <td>${esc(t.Designation || '-')}</td>
+      <td>${esc(t.Mobile || '-')}</td>
+      <td>${esc(formatAddress(t))}</td>
+    </tr>`).join('');
+
+  openPrintListWindow('শিক্ষক তালিকা' + (typeFilter ? ' (' + typeFilter + ')' : ''), rows);
+}
+
+function openPrintListWindow(title, rowsHtml) {
+  const info = STATE.forumInfo;
+  const w = window.open('', '_blank');
+  w.document.write(`
+    <html><head><title>${esc(title)}</title>
+    <meta charset="UTF-8">
+    <style>
+      body{font-family:'Noto Sans Bengali','Hind Siliguri',sans-serif;padding:24px;}
+      h2{text-align:center;color:#1f4d3a;margin-bottom:2px;}
+      .sub{text-align:center;color:#5c6b62;font-size:13px;margin-bottom:18px;}
+      table{width:100%;border-collapse:collapse;font-size:13px;}
+      th,td{border:1px solid #ccc;padding:7px 10px;text-align:right;}
+      th:nth-child(2),td:nth-child(2),th:nth-child(6),td:nth-child(6){text-align:right;}
+      th{background:#e8f0ea;color:#1f4d3a;}
+      tr:nth-child(even){background:#faf7f0;}
+    </style></head><body>
+    <h2>${esc(info.ForumName || '')}</h2>
+    <div class="sub">${esc(title)}</div>
+    <table>
+      <thead><tr><th>ক্রম</th><th>নাম</th><th>ব্যাচ</th><th>পেশা</th><th>মোবাইল</th><th>ঠিকানা</th></tr></thead>
+      <tbody>${rowsHtml}</tbody>
+    </table>
+    <script>window.print();<\/script>
+    </body></html>
+  `);
+  w.document.close();
+}
+
 
 /* ==================== js/app.js ==================== */
 /**
@@ -2461,6 +3322,8 @@ const STATE = {
   teachers: [],
   committee: [],
   specialCommittee: [],
+  events: [],
+  eventRegistrations: [],
   isAdmin: false,
   isDemoMode: false,
   lastStudentSubmission: null,
@@ -2496,18 +3359,22 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 async function loadAllData() {
   try {
-    const [info, students, teachers, committee, specialCommittee] = await Promise.all([
+    const [info, students, teachers, committee, specialCommittee, events, eventRegistrations] = await Promise.all([
       API.getForumInfo(),
       API.getStudents(),
       API.getTeachers(),
       API.getCommittee(),
-      API.getSpecialCommittee()
+      API.getSpecialCommittee(),
+      API.getEvents(),
+      API.getEventRegistrations()
     ]);
     STATE.forumInfo = info;
     STATE.students = students;
     STATE.teachers = teachers;
     STATE.committee = committee;
     STATE.specialCommittee = specialCommittee;
+    STATE.events = events;
+    STATE.eventRegistrations = eventRegistrations;
   } catch (err) {
     console.error(err);
     showToast('ডাটা লোড করতে সমস্যা হয়েছে: ' + err.message, true);
@@ -2583,10 +3450,12 @@ function showView(viewId) {
   // ভিউ-নির্দিষ্ট লোড লজিক
   if (viewId === 'dashboard') renderDashboard();
   if (viewId === 'about') renderAbout();
+  if (viewId === 'committeePage') renderCommitteeCards();
   if (viewId === 'studentPortal') renderStudentPortal();
   if (viewId === 'teacherPortal') renderTeacherPortal();
-  if (viewId === 'studentRegister') resetStudentForm();
-  if (viewId === 'teacherRegister') resetTeacherForm();
+  if (viewId === 'studentRegister') { if (window._skipFormReset) { window._skipFormReset = false; previewNextStudentRegNo(); } else resetStudentForm(); }
+  if (viewId === 'teacherRegister') { if (window._skipFormReset) { window._skipFormReset = false; previewNextTeacherRegNo(); } else resetTeacherForm(); }
+  if (viewId === 'events') renderEventsList();
   if (viewId === 'admin') initAdminView();
 }
 
@@ -2759,6 +3628,36 @@ function renderAbout() {
         </tbody>
       </table>`;
   }
+}
+
+// ============================================================
+// কমিটি (কার্ড ভিউ)
+// ============================================================
+function renderCommitteeCards() {
+  const grid = document.getElementById('committeeCardsGrid');
+  if (!grid) return;
+  const committee = STATE.committee || [];
+  if (committee.length === 0) {
+    grid.innerHTML = '<div class="empty-state">এখনো কমিটি গঠন করা হয়নি।</div>';
+    return;
+  }
+  grid.innerHTML = committee.map(m => {
+    const student = STATE.students.find(s => s.ID === m.MemberStudentID) || STATE.students.find(s => s.Name === m.MemberName);
+    const photo = student ? student.PhotoURL : '';
+    const batchOrClass = student ? (student.DakhilBatch || student.LastClass || '-') : '-';
+    const profession = student ? (student.Profession || '-') : '-';
+    const name = m.MemberName || (student ? student.Name : '-');
+    return `
+    <div class="person-card">
+      ${photo ? `<img class="person-photo" src="${esc(photo)}" alt="" onerror="fallbackAvatar(this, '${esc(initials(name))}')">` : `<div class="person-photo-placeholder">${esc(initials(name))}</div>`}
+      <div class="person-info">
+        <div class="person-tag tag-current" style="margin-top:0;margin-bottom:4px">${esc(m.Position || '-')}</div>
+        <div class="person-name">${esc(name)}</div>
+        <div class="person-meta">ব্যাচ: ${esc(batchOrClass)}</div>
+        <div class="person-meta">${esc(profession)}</div>
+      </div>
+    </div>`;
+  }).join('');
 }
 
 // ============================================================

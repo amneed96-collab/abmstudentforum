@@ -20,8 +20,8 @@
   --forest-soft: #e8f0ea;
   --gold: #b8863b;
   --gold-bright: #d4a24e;
-  --paper: #faf7f0;
-  --paper-raised: #ffffff;
+    --paper: #e9f3f1;
+    --paper-raised: #edf1f1;
   --line: #d8d0bd;
   --text-muted: #5c6b62;
   --danger: #a83232;
@@ -501,8 +501,8 @@ button { font-family: inherit; cursor: pointer; }
   color: var(--forest-deep);
   letter-spacing: 0.2px;
 }
-.lh-center .lh-institute { font-size: 13px; color: var(--text-muted); margin-top: 2px; }
-.lh-center .lh-slogan { font-size: 12px; color: var(--gold); font-style: italic; margin-top: 5px; }
+.lh-center .lh-institute { font-size: 22px; color: var(--text-muted); margin-top: 2px; }
+.lh-center .lh-slogan { font-size: 12px; color: var(--gold); margin-top: 5px; }
 .lh-center .lh-form-title {
   display: inline-block;
   margin-top: 10px;
@@ -511,7 +511,8 @@ button { font-family: inherit; cursor: pointer; }
   color: var(--forest-deep);
   background: var(--gold-bright);
   padding: 3px 16px;
-  border-radius: 20px;
+  padding-top: 7px;
+  border-radius: 10px;
   letter-spacing: 0.4px;
 }
 .lh-center .lh-regno {
@@ -595,7 +596,7 @@ button { font-family: inherit; cursor: pointer; }
 .form-section-divider {
   grid-column: 1 / -1;
   display: flex;
-  align-items: center;
+  align-items: baseline;
   gap: 10px;
   font-size: 12.5px;
   font-weight: 700;
@@ -609,6 +610,7 @@ button { font-family: inherit; cursor: pointer; }
   padding: 8px 14px;
   border-radius: var(--radius-sm);
   border-left: 3px solid var(--gold-bright);
+  flex-direction: row;
 }
 .form-section-divider::before {
   content: '';
@@ -620,7 +622,7 @@ button { font-family: inherit; cursor: pointer; }
 
 /* রেজিষ্ট্রেশন ফরমে আলাদা রঙের ব্যান্ড */
 .reg-form-card .form-section-divider {
-  background: var(--reg-accent-soft);
+  background: #d2eaeb;
   color: var(--reg-accent-deep);
   border-left-color: var(--reg-accent);
 }
@@ -657,8 +659,8 @@ button { font-family: inherit; cursor: pointer; }
   border-bottom: none;
 }
 .reg-form-card .lh-forum { color: #ffffff; }
-.reg-form-card .lh-institute { color: #cfd9e4; }
-.reg-form-card .lh-slogan { color: var(--reg-accent-gold); }
+.reg-form-card .lh-institute { color: #ffe200; }
+.reg-form-card .lh-slogan { color: #ededed; }
 .reg-form-card .lh-form-title {
   background: #ffffff;
   color: var(--reg-accent-deep);
@@ -681,7 +683,7 @@ button { font-family: inherit; cursor: pointer; }
   grid-column: 1 / -1;
   background: var(--reg-accent-soft);
   border-top: 2px solid var(--reg-accent);
-  margin: 20px -28px -28px;
+  margin: 10px 0px -28px;
   padding: 18px 28px;
 }
 .reg-form-card .form-group input[readonly] {

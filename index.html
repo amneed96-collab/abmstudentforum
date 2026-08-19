@@ -602,22 +602,29 @@ button { font-family: inherit; cursor: pointer; }
   color: var(--forest-deep);
   letter-spacing: 0.4px;
   margin-top: 10px;
-  margin-bottom: -2px;
+  margin-bottom: 4px;
   text-align: left;
+  justify-content: flex-start;
+  background: var(--forest-soft);
+  padding: 8px 14px;
+  border-radius: var(--radius-sm);
+  border-left: 3px solid var(--gold-bright);
 }
 .form-section-divider::before {
   content: '';
-  width: 8px; height: 8px;
+  width: 7px; height: 7px;
   background: var(--gold-bright);
   border-radius: 50%;
   flex-shrink: 0;
 }
-.form-section-divider::after {
-  content: '';
-  flex: 1;
-  height: 1px;
-  background: var(--line);
+
+/* রেজিষ্ট্রেশন ফরমে আলাদা রঙের ব্যান্ড */
+.reg-form-card .form-section-divider {
+  background: var(--reg-accent-soft);
+  color: var(--reg-accent-deep);
+  border-left-color: var(--reg-accent);
 }
+.reg-form-card .form-section-divider::before { background: var(--reg-accent); }
 
 .file-preview {
   width: 90px; height: 110px;
@@ -1865,7 +1872,7 @@ function loadDemoData() {
     InstituteName: 'আল-ফালাহ ইসলামিয়া দাখিল মাদ্রাসা',
     Tagline: 'সাবেক ও বর্তমান শিক্ষার্থীদের মিলনমেলা',
     Slogan: 'শিক্ষা, ঐক্য ও কল্যাণে একসাথে',
-    FoundingYear: '১৯৮৫',
+    FoundingYear: '1985',
     Mobile: '০১৭xxxxxxxx',
     Facebook: 'https://facebook.com/',
     Email: 'info@alfalahforum.org',
@@ -1876,17 +1883,17 @@ function loadDemoData() {
   };
 
   STATE.students = [
-    { ID: '1', RegNo: 'SRN১৯৮৫0001', BloodGroup: 'B+', Type: 'প্রাক্তন', Name: 'মোঃ আব্দুল করিম', FatherName: 'মোঃ ইসমাইল হোসেন', Gender: 'ছাত্র', Mobile: '০১৭১১xxxxxx', Village: 'রামপুর', PostOffice: 'রামপুর বাজার', Union: 'রামপুর', Upazila: 'সদর', Thana: 'কুমিল্লা', Profession: 'শিক্ষকতা', CurrentCountry: 'বাংলাদেশ', LastClass: 'দাখিল', DakhilBatch: '২০০৫', HighestEducationClass: 'মাস্টার্স', HighestEducationInstitute: 'ঢাকা বিশ্ববিদ্যালয়', MaritalStatus: 'বিবাহিত', Facebook: '', Email: '', Comment: '', PhotoURL: '', IsDeceased: 'না' },
-    { ID: '2', RegNo: 'SRN১৯৮৫0002', BloodGroup: 'A+', Type: 'বর্তমান', Name: 'ফাতেমা আক্তার', FatherName: 'মোঃ নূরুল ইসলাম', Gender: 'ছাত্রী', Mobile: '০১৮১২xxxxxx', Village: 'বাগানবাড়ি', PostOffice: 'বাগানবাড়ি', Union: 'রামপুর', Upazila: 'সদর', Thana: 'কুমিল্লা', Profession: 'ছাত্র', CurrentCountry: 'বাংলাদেশ', LastClass: 'নবম শ্রেণী', DakhilBatch: '', HighestEducationClass: '', HighestEducationInstitute: '', MaritalStatus: 'অবিবাহিত', Facebook: '', Email: '', Comment: '', PhotoURL: '', IsDeceased: 'না' },
-    { ID: '3', RegNo: 'SRN১৯৮৫0003', BloodGroup: 'O+', Type: 'প্রাক্তন', Name: 'মোঃ শাহজাহান আলী', FatherName: 'মোঃ আব্দুর রহিম', Gender: 'ছাত্র', Mobile: '০১৯১৩xxxxxx', Village: 'দক্ষিণপাড়া', PostOffice: 'রামপুর', Union: 'রামপুর', Upazila: 'সদর', Thana: 'কুমিল্লা', Profession: 'প্রবাসী', CurrentCountry: 'সৌদি আরব', LastClass: 'দাখিল', DakhilBatch: '১৯৯৮', HighestEducationClass: 'দাখিল', HighestEducationInstitute: 'আল-ফালাহ মাদ্রাসা', MaritalStatus: 'বিবাহিত', Facebook: '', Email: '', Comment: '', PhotoURL: '', IsDeceased: 'না' },
-    { ID: '4', RegNo: 'SRN১৯৮৫0004', BloodGroup: 'AB+', Type: 'প্রাক্তন', Name: 'মোঃ ইউসুফ আলী', FatherName: 'মোঃ তমিজ উদ্দিন', Gender: 'ছাত্র', Mobile: '', Village: 'উত্তরপাড়া', PostOffice: 'রামপুর', Union: 'রামপুর', Upazila: 'সদর', Thana: 'কুমিল্লা', Profession: 'ব্যবসায়ী', CurrentCountry: 'বাংলাদেশ', LastClass: 'দাখিল', DakhilBatch: '১৯৯০', HighestEducationClass: 'আলিম', HighestEducationInstitute: 'কামিল মাদ্রাসা', MaritalStatus: 'বিবাহিত', Facebook: '', Email: '', Comment: '', PhotoURL: '', IsDeceased: 'হ্যাঁ' },
-    { ID: '5', RegNo: 'SRN১৯৮৫0005', BloodGroup: 'A-', Type: 'বর্তমান', Name: 'মোঃ রাকিব হাসান', FatherName: 'মোঃ জসিম উদ্দিন', Gender: 'ছাত্র', Mobile: '০১৬১৪xxxxxx', Village: 'পূর্বপাড়া', PostOffice: 'রামপুর', Union: 'রামপুর', Upazila: 'সদর', Thana: 'কুমিল্লা', Profession: 'ছাত্র', CurrentCountry: 'বাংলাদেশ', LastClass: 'দশম শ্রেণী', DakhilBatch: '', HighestEducationClass: '', HighestEducationInstitute: '', MaritalStatus: 'অবিবাহিত', Facebook: '', Email: '', Comment: '', PhotoURL: '', IsDeceased: 'না' },
-    { ID: '6', RegNo: 'SRN১৯৮৫0006', BloodGroup: 'B-', Type: 'প্রাক্তন', Name: 'মোঃ ডাঃ নাজমুল হক', FatherName: 'মোঃ সিরাজুল ইসলাম', Gender: 'ছাত্র', Mobile: '০১৭৫৫xxxxxx', Village: 'রামপুর', PostOffice: 'রামপুর', Union: 'রামপুর', Upazila: 'সদর', Thana: 'কুমিল্লা', Profession: 'ডাক্তার', CurrentCountry: 'বাংলাদেশ', LastClass: 'দাখিল', DakhilBatch: '২০০০', HighestEducationClass: 'এমবিবিএস', HighestEducationInstitute: 'ঢাকা মেডিকেল কলেজ', MaritalStatus: 'বিবাহিত', Facebook: '', Email: '', Comment: '', PhotoURL: '', IsDeceased: 'না' }
+    { ID: '1', RegNo: 'SRN19850001', BloodGroup: 'B+', Type: 'প্রাক্তন', Name: 'মোঃ আব্দুল করিম', FatherName: 'মোঃ ইসমাইল হোসেন', Gender: 'ছাত্র', Mobile: '০১৭১১xxxxxx', Village: 'রামপুর', PostOffice: 'রামপুর বাজার', Union: 'রামপুর', Upazila: 'সদর', Thana: 'কুমিল্লা', Profession: 'শিক্ষকতা', CurrentCountry: 'বাংলাদেশ', LastClass: 'দাখিল', DakhilBatch: '২০০৫', HighestEducationClass: 'মাস্টার্স', HighestEducationInstitute: 'ঢাকা বিশ্ববিদ্যালয়', MaritalStatus: 'বিবাহিত', Facebook: '', Email: '', Comment: '', PhotoURL: '', IsDeceased: 'না' },
+    { ID: '2', RegNo: 'SRN19850002', BloodGroup: 'A+', Type: 'বর্তমান', Name: 'ফাতেমা আক্তার', FatherName: 'মোঃ নূরুল ইসলাম', Gender: 'ছাত্রী', Mobile: '০১৮১২xxxxxx', Village: 'বাগানবাড়ি', PostOffice: 'বাগানবাড়ি', Union: 'রামপুর', Upazila: 'সদর', Thana: 'কুমিল্লা', Profession: 'ছাত্র', CurrentCountry: 'বাংলাদেশ', LastClass: 'নবম শ্রেণী', DakhilBatch: '', HighestEducationClass: '', HighestEducationInstitute: '', MaritalStatus: 'অবিবাহিত', Facebook: '', Email: '', Comment: '', PhotoURL: '', IsDeceased: 'না' },
+    { ID: '3', RegNo: 'SRN19850003', BloodGroup: 'O+', Type: 'প্রাক্তন', Name: 'মোঃ শাহজাহান আলী', FatherName: 'মোঃ আব্দুর রহিম', Gender: 'ছাত্র', Mobile: '০১৯১৩xxxxxx', Village: 'দক্ষিণপাড়া', PostOffice: 'রামপুর', Union: 'রামপুর', Upazila: 'সদর', Thana: 'কুমিল্লা', Profession: 'প্রবাসী', CurrentCountry: 'সৌদি আরব', LastClass: 'দাখিল', DakhilBatch: '১৯৯৮', HighestEducationClass: 'দাখিল', HighestEducationInstitute: 'আল-ফালাহ মাদ্রাসা', MaritalStatus: 'বিবাহিত', Facebook: '', Email: '', Comment: '', PhotoURL: '', IsDeceased: 'না' },
+    { ID: '4', RegNo: 'SRN19850004', BloodGroup: 'AB+', Type: 'প্রাক্তন', Name: 'মোঃ ইউসুফ আলী', FatherName: 'মোঃ তমিজ উদ্দিন', Gender: 'ছাত্র', Mobile: '', Village: 'উত্তরপাড়া', PostOffice: 'রামপুর', Union: 'রামপুর', Upazila: 'সদর', Thana: 'কুমিল্লা', Profession: 'ব্যবসায়ী', CurrentCountry: 'বাংলাদেশ', LastClass: 'দাখিল', DakhilBatch: '১৯৯০', HighestEducationClass: 'আলিম', HighestEducationInstitute: 'কামিল মাদ্রাসা', MaritalStatus: 'বিবাহিত', Facebook: '', Email: '', Comment: '', PhotoURL: '', IsDeceased: 'হ্যাঁ' },
+    { ID: '5', RegNo: 'SRN19850005', BloodGroup: 'A-', Type: 'বর্তমান', Name: 'মোঃ রাকিব হাসান', FatherName: 'মোঃ জসিম উদ্দিন', Gender: 'ছাত্র', Mobile: '০১৬১৪xxxxxx', Village: 'পূর্বপাড়া', PostOffice: 'রামপুর', Union: 'রামপুর', Upazila: 'সদর', Thana: 'কুমিল্লা', Profession: 'ছাত্র', CurrentCountry: 'বাংলাদেশ', LastClass: 'দশম শ্রেণী', DakhilBatch: '', HighestEducationClass: '', HighestEducationInstitute: '', MaritalStatus: 'অবিবাহিত', Facebook: '', Email: '', Comment: '', PhotoURL: '', IsDeceased: 'না' },
+    { ID: '6', RegNo: 'SRN19850006', BloodGroup: 'B-', Type: 'প্রাক্তন', Name: 'মোঃ ডাঃ নাজমুল হক', FatherName: 'মোঃ সিরাজুল ইসলাম', Gender: 'ছাত্র', Mobile: '০১৭৫৫xxxxxx', Village: 'রামপুর', PostOffice: 'রামপুর', Union: 'রামপুর', Upazila: 'সদর', Thana: 'কুমিল্লা', Profession: 'ডাক্তার', CurrentCountry: 'বাংলাদেশ', LastClass: 'দাখিল', DakhilBatch: '২০০০', HighestEducationClass: 'এমবিবিএস', HighestEducationInstitute: 'ঢাকা মেডিকেল কলেজ', MaritalStatus: 'বিবাহিত', Facebook: '', Email: '', Comment: '', PhotoURL: '', IsDeceased: 'না' }
   ];
 
   STATE.teachers = [
-    { ID: 't1', RegNo: 'TRN১৯৮৫0001', BloodGroup: 'B+', Type: 'বর্তমান', Name: 'মাওলানা আব্দুল হাকিম', FatherName: 'মোঃ ইউনুস আলী', Mobile: '০১৭২২xxxxxx', Village: 'রামপুর', PostOffice: 'রামপুর', Union: 'রামপুর', Upazila: 'সদর', Thana: 'কুমিল্লা', Designation: 'অধ্যক্ষ', HighestEducationClass: 'কামিল', HighestEducationInstitute: 'আল-জামিয়া আল-ইসলামিয়া', MaritalStatus: 'বিবাহিত', JoiningDate: '2005-01-15', RetirementDate: '', ServiceLength: '২০ বছর ৭ মাস', Facebook: '', Email: '', Comment: '', PhotoURL: '', IsDeceased: 'না' },
-    { ID: 't2', RegNo: 'TRN১৯৮৫0002', BloodGroup: 'A+', Type: 'প্রাক্তন', Name: 'মোঃ আব্দুল মজিদ', FatherName: 'মোঃ ওয়াজেদ আলী', Mobile: '', Village: 'রামপুর', PostOffice: 'রামপুর', Union: 'রামপুর', Upazila: 'সদর', Thana: 'কুমিল্লা', Designation: 'সহকারী অধ্যাপক', HighestEducationClass: 'মাস্টার্স', HighestEducationInstitute: 'চট্টগ্রাম বিশ্ববিদ্যালয়', MaritalStatus: 'বিবাহিত', JoiningDate: '1990-06-01', RetirementDate: '2020-06-01', ServiceLength: '৩০ বছর ০ মাস', Facebook: '', Email: '', Comment: '', PhotoURL: '', IsDeceased: 'হ্যাঁ' }
+    { ID: 't1', RegNo: 'TRN19850001', BloodGroup: 'B+', Type: 'বর্তমান', Name: 'মাওলানা আব্দুল হাকিম', FatherName: 'মোঃ ইউনুস আলী', Mobile: '০১৭২২xxxxxx', Village: 'রামপুর', PostOffice: 'রামপুর', Union: 'রামপুর', Upazila: 'সদর', Thana: 'কুমিল্লা', Designation: 'অধ্যক্ষ', HighestEducationClass: 'কামিল', HighestEducationInstitute: 'আল-জামিয়া আল-ইসলামিয়া', MaritalStatus: 'বিবাহিত', JoiningDate: '2005-01-15', RetirementDate: '', ServiceLength: '২০ বছর ৭ মাস', Facebook: '', Email: '', Comment: '', PhotoURL: '', IsDeceased: 'না' },
+    { ID: 't2', RegNo: 'TRN19850002', BloodGroup: 'A+', Type: 'প্রাক্তন', Name: 'মোঃ আব্দুল মজিদ', FatherName: 'মোঃ ওয়াজেদ আলী', Mobile: '', Village: 'রামপুর', PostOffice: 'রামপুর', Union: 'রামপুর', Upazila: 'সদর', Thana: 'কুমিল্লা', Designation: 'সহকারী অধ্যাপক', HighestEducationClass: 'মাস্টার্স', HighestEducationInstitute: 'চট্টগ্রাম বিশ্ববিদ্যালয়', MaritalStatus: 'বিবাহিত', JoiningDate: '1990-06-01', RetirementDate: '2020-06-01', ServiceLength: '৩০ বছর ০ মাস', Facebook: '', Email: '', Comment: '', PhotoURL: '', IsDeceased: 'হ্যাঁ' }
   ];
 
   STATE.committee = [
@@ -1902,10 +1909,10 @@ function loadDemoData() {
     { ID: 'EVT2', Name: 'ইফতার মাহফিল', EventDateTime: '2027-03-15T18:00', Venue: 'মাদ্রাসা হল রুম', Fee: '0', RegDeadline: '2027-03-10' }
   ];
 
-  // ডেমোতে দেখানোর জন্য একটি পেন্ডিং রেজিষ্ট্রেশন — 'অনুষ্ঠান' মেনুতে গিয়ে SRN১৯৮৫0001 দিয়ে
+  // ডেমোতে দেখানোর জন্য একটি পেন্ডিং রেজিষ্ট্রেশন — 'অনুষ্ঠান' মেনুতে গিয়ে SRN19850001 দিয়ে
   // আবার রেজিষ্ট্রেশন করলে "পেন্ডিং আছে" মেসেজ দেখাবে; ব্যবস্থাপনা → অনুষ্ঠান থেকে নিশ্চিত করা যাবে
   STATE.eventRegistrations = [
-    { ID: 'EVR1', EventID: 'EVT1', PersonType: 'Student', PersonRegNo: 'SRN১৯৮৫0001', PersonID: '1', Name: 'মোঃ আব্দুল করিম', PhotoURL: '', BatchOrClass: '২০০৫', Mobile: '০১৭১১xxxxxx', Address: 'রামপুর, রামপুর বাজার, রামপুর, সদর, কুমিল্লা', PaymentMethod: 'বিকাশ', ReceiverName: 'ফোরাম সভাপতি', AccountNumber: '017xxxxxxxx', Amount: '500', PaymentDate: '2026-11-01', Status: 'Pending' }
+    { ID: 'EVR1', EventID: 'EVT1', PersonType: 'Student', PersonRegNo: 'SRN19850001', PersonID: '1', Name: 'মোঃ আব্দুল করিম', PhotoURL: '', BatchOrClass: '২০০৫', Mobile: '০১৭১১xxxxxx', Address: 'রামপুর, রামপুর বাজার, রামপুর, সদর, কুমিল্লা', PaymentMethod: 'বিকাশ', ReceiverName: 'ফোরাম সভাপতি', AccountNumber: '017xxxxxxxx', Amount: '500', PaymentDate: '2026-11-01', Status: 'Pending' }
   ];
 }
 
@@ -1948,11 +1955,12 @@ function padNum(n, len) {
 }
 
 function generateNextRegNo(prefix, list) {
-  const year = (STATE.forumInfo && STATE.forumInfo.FoundingYear) ? STATE.forumInfo.FoundingYear : '';
+  const rawYear = (STATE.forumInfo && STATE.forumInfo.FoundingYear) ? STATE.forumInfo.FoundingYear : '';
+  const year = toEnDigits(rawYear); // সম্পূর্ণ ইংরেজি সংখ্যায় (SRN2025000১ এর মতো মিশ্রণ এড়াতে)
   const base = prefix + year;
   let maxSeq = 0;
   list.forEach(item => {
-    const rn = item.RegNo || '';
+    const rn = toEnDigits(item.RegNo || '');
     if (rn.indexOf(base) === 0) {
       const seqPart = rn.slice(base.length);
       const num = parseInt(seqPart, 10);
@@ -3210,7 +3218,7 @@ async function saveForumInfo(e) {
   const data = {
     ForumName: val('fiForumName'),
     InstituteName: val('fiInstituteName'),
-    FoundingYear: val('fiFoundingYear'),
+    FoundingYear: toEnDigits(val('fiFoundingYear')),
     Tagline: val('fiTagline'),
     Slogan: val('fiSlogan'),
     Mobile: val('fiMobile'),
@@ -3749,26 +3757,42 @@ document.addEventListener('DOMContentLoaded', async () => {
 });
 
 async function loadAllData() {
-  try {
-    const [info, students, teachers, committee, specialCommittee, events, eventRegistrations] = await Promise.all([
-      API.getForumInfo(),
-      API.getStudents(),
-      API.getTeachers(),
-      API.getCommittee(),
-      API.getSpecialCommittee(),
-      API.getEvents(),
-      API.getEventRegistrations()
-    ]);
-    STATE.forumInfo = info;
-    STATE.students = students;
-    STATE.teachers = teachers;
-    STATE.committee = committee;
-    STATE.specialCommittee = specialCommittee;
-    STATE.events = events;
-    STATE.eventRegistrations = eventRegistrations;
-  } catch (err) {
-    console.error(err);
-    showToast('ডাটা লোড করতে সমস্যা হয়েছে: ' + err.message, true);
+  const results = await Promise.allSettled([
+    API.getForumInfo(),
+    API.getStudents(),
+    API.getTeachers(),
+    API.getCommittee(),
+    API.getSpecialCommittee(),
+    API.getEvents(),
+    API.getEventRegistrations()
+  ]);
+
+  const [infoR, studentsR, teachersR, committeeR, specialCommitteeR, eventsR, eventRegR] = results;
+
+  STATE.forumInfo = infoR.status === 'fulfilled' ? infoR.value : {};
+  STATE.students = studentsR.status === 'fulfilled' ? studentsR.value : [];
+  STATE.teachers = teachersR.status === 'fulfilled' ? teachersR.value : [];
+  STATE.committee = committeeR.status === 'fulfilled' ? committeeR.value : [];
+  STATE.specialCommittee = specialCommitteeR.status === 'fulfilled' ? specialCommitteeR.value : [];
+  STATE.events = eventsR.status === 'fulfilled' ? eventsR.value : [];
+  STATE.eventRegistrations = eventRegR.status === 'fulfilled' ? eventRegR.value : [];
+
+  // প্রতিটি অংশের ব্যর্থতা আলাদাভাবে লগ করা হয় — একটি অংশ ব্যর্থ হলেও বাকি ডাটা লোড হবে
+  const labels = ['ফোরাম তথ্য', 'শিক্ষার্থী', 'শিক্ষক', 'কমিটি', 'বিশেষ কমিটি', 'অনুষ্ঠান', 'অনুষ্ঠান রেজিষ্ট্রেশন'];
+  const failed = [];
+  results.forEach((r, i) => {
+    if (r.status === 'rejected') {
+      console.error(labels[i] + ' লোড ব্যর্থ:', r.reason);
+      failed.push(labels[i]);
+    }
+  });
+
+  if (failed.length === results.length) {
+    // সব কটি ব্যর্থ হলে — এটাই আসল সমস্যা নির্দেশ করে (API_URL ভুল / Deploy সমস্যা)
+    const firstErr = results.find(r => r.status === 'rejected');
+    showToast('কোনো ডাটা লোড হয়নি: ' + (firstErr ? firstErr.reason.message : 'অজানা সমস্যা'), true);
+  } else if (failed.length > 0) {
+    showToast('আংশিক লোড হয়েছে — এই অংশ(গুলো) লোড ব্যর্থ: ' + failed.join(', '), true);
   }
 }
 
@@ -4088,6 +4112,12 @@ function isYes(val) {
 const BN_DIGITS = ['০','১','২','৩','৪','৫','৬','৭','৮','৯'];
 function toBn(num) {
   return String(num).replace(/[0-9]/g, d => BN_DIGITS[d]);
+}
+
+// বাংলা সংখ্যা থাকলে ইংরেজি সংখ্যায় রূপান্তর করে (রেজিষ্ট্রেশন নং সবসময় ইংরেজি সংখ্যায় হবে)
+function toEnDigits(str) {
+  if (str === undefined || str === null) return '';
+  return String(str).replace(/[০-৯]/g, d => String(BN_DIGITS.indexOf(d)));
 }
 
 function initials(name) {

@@ -603,6 +603,7 @@ button { font-family: inherit; cursor: pointer; }
   letter-spacing: 0.4px;
   margin-top: 10px;
   margin-bottom: -2px;
+  text-align: left;
 }
 .form-section-divider::before {
   content: '';
@@ -1165,12 +1166,12 @@ button { font-family: inherit; cursor: pointer; }
           <div class="form-grid">
             <div class="form-group full form-section-divider">মৌলিক তথ্য</div>
             <div class="form-group">
-              <label>ধরন <span class="req">*</span></label>
-              <select id="sType" required><option value="">নির্বাচন করুন</option></select>
-            </div>
-            <div class="form-group">
               <label>রেজিষ্ট্রেশন নং</label>
               <input type="text" id="sRegNoPreview" readonly>
+            </div>
+            <div class="form-group">
+              <label>ধরন <span class="req">*</span></label>
+              <select id="sType" required><option value="">নির্বাচন করুন</option></select>
             </div>
             <div class="form-group">
               <label>লিঙ্গ <span class="req">*</span></label>
@@ -1327,12 +1328,12 @@ button { font-family: inherit; cursor: pointer; }
           <div class="form-grid">
             <div class="form-group full form-section-divider">মৌলিক তথ্য</div>
             <div class="form-group">
-              <label>ধরন <span class="req">*</span></label>
-              <select id="tType" required onchange="toggleRetirementField()"><option value="">নির্বাচন করুন</option></select>
-            </div>
-            <div class="form-group">
               <label>রেজিষ্ট্রেশন নং</label>
               <input type="text" id="tRegNoPreview" readonly>
+            </div>
+            <div class="form-group">
+              <label>ধরন <span class="req">*</span></label>
+              <select id="tType" required onchange="toggleRetirementField()"><option value="">নির্বাচন করুন</option></select>
             </div>
             <div class="form-group">
               <label>পদবি <span class="req">*</span></label>
@@ -1756,8 +1757,19 @@ const API = {
     const url = new URL(CONFIG.API_URL);
     url.searchParams.set('action', action);
     Object.keys(params).forEach(k => url.searchParams.set(k, params[k]));
-    const res = await fetch(url.toString());
-    const data = await res.json();
+
+    let res;
+    try {
+      res = await fetch(url.toString(), { redirect: 'follow' });
+    } catch (netErr) {
+      throw new Error('সার্ভারে সংযোগ করা যায়নি। ইন্টারনেট সংযোগ ও API_URL যাচাই করুন। (' + netErr.message + ')');
+    }
+    let data;
+    try {
+      data = await res.json();
+    } catch (parseErr) {
+      throw new Error('সার্ভার থেকে সঠিক JSON উত্তর আসেনি (Unexpected token)। সাধারণত এর কারণ: Apps Script Deploy করার সময় "Who has access: Anyone" সেট করা হয়নি, অথবা কোড পরিবর্তনের পর "New version" Deploy করা হয়নি, অথবা config.js এর API_URL ভুল। অ্যাড্রেসটি সরাসরি ব্রাউজারে খুলে দেখুন কী রেসপন্স আসছে।');
+    }
     if (data.error) throw new Error(data.error);
     return data;
   },
@@ -2250,6 +2262,7 @@ function renderStudentPortal() {
         <div class="person-meta">${s.Type === 'প্রাক্তন' ? 'দাখিল ব্যাচ: ' + esc(s.DakhilBatch || '-') : 'শ্রেণী: ' + esc(s.LastClass || '-')}</div>
         <span class="person-tag ${s.Type === 'প্রাক্তন' ? 'tag-former' : 'tag-current'}">${esc(s.Type)}</span>
         <button class="btn btn-outline btn-sm" onclick="showStudentDetail(${realIdx})">বিস্তারিত দেখুন</button>
+        <button class="btn btn-gold btn-sm" style="margin-top:6px" onclick="showStudentPrintCopy(STATE.students[${realIdx}], false); window._skipFormReset = true; showView('studentRegister');">🖨️ প্রিন্ট</button>
       </div>
     </div>`;
   }).join('');
@@ -2656,6 +2669,7 @@ function renderTeacherPortal() {
         ${t.ServiceLength ? `<div class="person-meta">চাকরিকাল: ${esc(t.ServiceLength)}</div>` : ''}
         <span class="person-tag ${t.Type === 'প্রাক্তন' ? 'tag-former' : 'tag-current'}">${esc(t.Type)}</span>
         <button class="btn btn-outline btn-sm" onclick="showTeacherDetail(${realIdx})">বিস্তারিত দেখুন</button>
+        <button class="btn btn-gold btn-sm" style="margin-top:6px" onclick="showTeacherPrintCopy(STATE.teachers[${realIdx}], false); window._skipFormReset = true; showView('teacherRegister');">🖨️ প্রিন্ট</button>
       </div>
     </div>`;
   }).join('');

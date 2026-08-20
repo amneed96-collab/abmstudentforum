@@ -470,6 +470,18 @@ button { font-family: inherit; cursor: pointer; }
   padding: 22px 28px;
 }
 
+/* মোবাইলে হেডার ভেঙে যাওয়া ঠিক করতে: কলাম আকারে সাজানো হবে */
+@media (max-width: 560px) {
+  .form-letterhead {
+    flex-direction: column;
+    padding: 18px 16px;
+    gap: 12px;
+  }
+  .lh-logo-box { order: 1; }
+  .lh-center { order: 2; width: 100%; }
+  .lh-photo-box { order: 3; }
+}
+
 .lh-logo-box {
   flex-shrink: 0;
   width: 68px; height: 68px;
@@ -502,6 +514,8 @@ button { font-family: inherit; cursor: pointer; }
   letter-spacing: 0.2px;
 }
 .lh-center .lh-institute { font-size: 22px; color: var(--text-muted); margin-top: 2px; }
+.lh-center .lh-address { font-size: 12.5px; color: var(--text-muted); margin-top: 2px; }
+.reg-form-card .lh-address { color: #cfd9e4; }
 .lh-center .lh-slogan { font-size: 12px; color: var(--gold); margin-top: 5px; }
 .lh-center .lh-form-title {
   display: inline-block;
@@ -553,6 +567,61 @@ button { font-family: inherit; cursor: pointer; }
 }
 
 .form-body-padding { padding: 26px 28px 28px; }
+@media (max-width: 560px) { .form-body-padding { padding: 20px 16px 20px; } }
+
+/* রেজিষ্ট্রেশন ফরমের ভেতরের সার্চ বক্স (তথ্য হালনাগাদ করার জন্য) */
+.reg-search-bar {
+  position: relative;
+  margin-bottom: 22px;
+}
+.reg-search-bar input {
+  width: 100%;
+  padding: 12px 16px;
+  border: 1.5px solid var(--line);
+  border-radius: var(--radius-sm);
+  font-family: var(--font-body);
+  font-size: 14px;
+  background: var(--paper);
+  color: var(--ink);
+}
+.reg-search-bar input:focus {
+  outline: none;
+  border-color: var(--forest);
+  background: #fff;
+}
+.search-results-box {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0; right: 0;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-lg);
+  z-index: 60;
+  max-height: 280px;
+  overflow-y: auto;
+  margin-top: 4px;
+}
+.search-result-item {
+  padding: 10px 14px;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  border-bottom: 1px solid var(--line);
+  font-size: 13.5px;
+}
+.search-result-item:last-child { border-bottom: none; }
+.search-result-item:hover { background: var(--forest-soft); }
+.search-result-item strong { color: var(--forest-deep); }
+.search-result-item span { color: var(--text-muted); font-size: 12px; white-space: nowrap; }
+.search-result-empty { padding: 14px; text-align: center; color: var(--text-muted); font-size: 13px; }
+
+.reg-form-card .reg-search-bar input:focus { border-color: var(--reg-accent); }
+.reg-form-card .search-result-item:hover { background: var(--reg-accent-soft); }
+.reg-form-card .search-result-item strong { color: var(--reg-accent-deep); }
 
 .form-grid {
   display: grid;
@@ -685,6 +754,12 @@ button { font-family: inherit; cursor: pointer; }
   border-top: 2px solid var(--reg-accent);
   margin: 10px 0px -28px;
   padding: 18px 28px;
+}
+@media (max-width: 560px) {
+  .reg-form-card .form-actions {
+    margin: 10px -16px -20px;
+    padding: 16px;
+  }
 }
 .reg-form-card .form-group input[readonly] {
   background: var(--reg-accent-soft);
@@ -846,57 +921,77 @@ button { font-family: inherit; cursor: pointer; }
 /* ===================== প্রিন্ট কপি (সনদ স্টাইল) ===================== */
 .print-copy {
   background: #fff;
-  border: 3px double var(--forest);
+  border: 1px solid var(--line);
   border-radius: var(--radius);
-  padding: 16px 20px;
+  padding: 0;
   max-width: 560px;
   margin: 0 auto;
+  overflow: hidden;
+  box-shadow: var(--shadow-lg);
 }
-.pc-header { text-align: center; border-bottom: 2px solid var(--gold); padding-bottom: 8px; margin-bottom: 10px; }
-.pc-header .pc-logo { width: 44px; height: 44px; border-radius: 8px; margin: 0 auto 4px; object-fit: cover; }
-.pc-header .pc-forum { font-family: var(--font-display); font-weight: 700; font-size: 17px; color: var(--forest-deep); }
-.pc-header .pc-address { font-size: 10.5px; color: var(--text-muted); margin-top: 1px; }
-.pc-header .pc-slogan { font-size: 10.5px; color: var(--gold); font-style: italic; margin-top: 2px; }
+.pc-header {
+  text-align: center;
+  background: linear-gradient(135deg, var(--reg-accent-deep) 0%, var(--reg-accent) 100%);
+  padding: 18px 20px 16px;
+  color: #fff;
+}
+.pc-header .pc-logo {
+  width: 52px; height: 52px;
+  border-radius: 6px;
+  margin: 0 auto 6px;
+  object-fit: cover;
+  border: 2px solid #fff;
+  background: #fff;
+}
+.pc-header .pc-forum { font-family: var(--font-display); font-weight: 700; font-size: 18px; color: #ffffff; }
+.pc-header .pc-address { font-size: 10.5px; color: #d8e2ec; margin-top: 2px; }
+.pc-header .pc-slogan { font-size: 10.5px; color: var(--reg-accent-gold); font-style: italic; margin-top: 3px; }
 
+.pc-title-wrap { background: var(--reg-accent-soft); padding: 10px 20px; border-bottom: 1px solid var(--line); }
 .pc-title {
   text-align: center;
   font-weight: 700;
   font-size: 13px;
-  color: var(--forest);
-  text-decoration: underline;
-  margin-bottom: 8px;
+  color: var(--reg-accent-deep);
+  letter-spacing: 0.3px;
 }
 .pc-regno {
   text-align: center;
   font-size: 11.5px;
   font-weight: 700;
   color: #fff;
-  background: var(--forest);
+  background: var(--reg-accent);
   display: inline-block;
-  padding: 2px 12px;
+  padding: 2px 14px;
   border-radius: 20px;
-  margin: 0 auto 10px;
+  margin-top: 6px;
 }
 .pc-regno-wrap { text-align: center; }
 
-.pc-body { display: flex; gap: 14px; }
-.pc-photo { width: 84px; height: 100px; object-fit: cover; border: 1.5px solid var(--line); flex-shrink: 0; border-radius: 4px; }
+.pc-content { padding: 18px 20px; }
+.pc-body { display: flex; gap: 16px; }
+.pc-photo { width: 88px; height: 104px; object-fit: cover; border: 2px solid var(--reg-accent-soft); flex-shrink: 0; border-radius: 6px; }
 .pc-fields { flex: 1; font-size: 12px; min-width: 0; }
-.pc-fields div { padding: 2.5px 0; border-bottom: 1px dotted var(--line); display: flex; justify-content: space-between; gap: 8px; }
-.pc-fields .pf-label { color: var(--text-muted); }
-.pc-fields .pf-value { font-weight: 600; text-align: right; }
+.pc-fields div { padding: 3px 0; border-bottom: 1px dotted var(--line); display: flex; align-items: baseline; gap: 4px; }
+.pc-fields .pf-label {
+  color: var(--text-muted);
+  flex: 0 0 92px;
+  text-align: left;
+}
+.pc-fields .pf-label::after { content: ':'; margin-left: 2px; }
+.pc-fields .pf-value { font-weight: 600; text-align: left; flex: 1; color: var(--ink); }
 
-.pc-signatures { display: flex; justify-content: space-between; margin-top: 18px; }
+.pc-signatures { display: flex; justify-content: space-between; margin-top: 24px; padding-top: 4px; }
 .pc-sig { text-align: center; width: 45%; }
-.pc-sig img { height: 34px; object-fit: contain; margin: 0 auto 3px; }
-.pc-sig .sig-line { border-top: 1px solid var(--ink); padding-top: 3px; font-size: 10.5px; }
+.pc-sig img { height: 36px; object-fit: contain; margin: 0 auto 3px; }
+.pc-sig .sig-line { border-top: 1.5px solid var(--reg-accent); padding-top: 4px; font-size: 10.5px; color: var(--text-muted); }
 
 .print-actions { text-align: center; margin-top: 18px; display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
 
 @media print {
   .site-header, .site-nav, .site-footer, .print-actions, .no-print { display: none !important; }
   body { background: #fff; }
-  .print-copy { border: 2px solid #000; box-shadow: none; max-width: 100%; }
+  .print-copy { border: 1px solid #999; box-shadow: none; max-width: 100%; }
   .page-section { padding: 0; }
 }
 
@@ -1080,7 +1175,6 @@ button { font-family: inherit; cursor: pointer; }
         <div class="dropdown-menu">
           <a href="#" data-nav="studentRegister">রেজিষ্ট্রেশন</a>
           <a href="#" data-nav="studentPortal">প্রোফাইল</a>
-          <a href="#" data-nav="studentUpdate">তথ্য হালনাগাদ</a>
         </div>
       </div>
 
@@ -1089,7 +1183,6 @@ button { font-family: inherit; cursor: pointer; }
         <div class="dropdown-menu">
           <a href="#" data-nav="teacherRegister">রেজিষ্ট্রেশন</a>
           <a href="#" data-nav="teacherPortal">প্রোফাইল</a>
-          <a href="#" data-nav="teacherUpdate">তথ্য হালনাগাদ</a>
         </div>
       </div>
 
@@ -1163,6 +1256,7 @@ button { font-family: inherit; cursor: pointer; }
             <div class="lh-center">
               <div class="lh-forum" id="lhForumName1"></div>
               <div class="lh-institute" id="lhInstitute1"></div>
+              <div class="lh-address" id="lhAddress1"></div>
               <div class="lh-slogan" id="lhSlogan1"></div>
               <div class="lh-form-title">শিক্ষার্থী রেজিষ্ট্রেশন ফরম</div>
             </div>
@@ -1172,6 +1266,10 @@ button { font-family: inherit; cursor: pointer; }
             </label>
           </div>
           <div class="form-body-padding">
+          <div class="reg-search-bar">
+            <input type="text" id="sSearchExisting" placeholder="🔍 রেজিষ্ট্রেশন নং, নাম বা মোবাইল দিয়ে সার্চ করে তথ্য হালনাগাদ করুন..." oninput="searchExistingStudent()" onblur="hideStudentSearchResults()" onkeydown="if(event.key==='Enter'){event.preventDefault();}">
+            <div id="sSearchResults" class="search-results-box"></div>
+          </div>
           <div class="form-grid">
             <div class="form-group full form-section-divider">মৌলিক তথ্য</div>
             <div class="form-group">
@@ -1279,38 +1377,6 @@ button { font-family: inherit; cursor: pointer; }
     </div>
   </section>
 
-  <!-- ===================== শিক্ষার্থী তথ্য হালনাগাদ ===================== -->
-  <section id="view-studentUpdate" class="view-panel">
-    <div class="page-section">
-      <div class="eyebrow">শিক্ষার্থী</div>
-      <h1 class="section-title">তথ্য হালনাগাদ</h1>
-      <p class="section-subtitle">নিজের নাম খুঁজে নির্বাচন করুন, তারপর রেজিষ্ট্রেশনের সময় দেওয়া মোবাইল নং দিয়ে যাচাই করুন</p>
-
-      <div class="form-card" style="max-width:520px">
-        <div class="form-body-padding">
-          <div class="form-grid">
-            <div class="form-group full">
-              <label>নাম সার্চ করুন</label>
-              <input type="text" id="suSearchName" placeholder="নাম লিখুন..." oninput="filterUpdateStudentList()">
-            </div>
-            <div class="form-group full">
-              <label>নাম নির্বাচন করুন</label>
-              <select id="suSelectName" onchange="onSelectUpdateStudent()"><option value="">প্রথমে সার্চ করুন</option></select>
-            </div>
-            <div class="form-group full" id="suMobileWrap" style="display:none">
-              <label>রেজিষ্ট্রেশনের সময় দেওয়া মোবাইল নং <span class="req">*</span></label>
-              <input type="tel" id="suMobileVerify" placeholder="মোবাইল নম্বর লিখুন">
-              <div class="form-error" id="suVerifyError"></div>
-              <div class="form-actions" style="margin-top:10px">
-                <button type="button" class="btn btn-primary" onclick="verifyStudentMobile()">যাচাই করে এডিট করুন</button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
   <!-- ===================== শিক্ষক রেজিষ্ট্রেশন ===================== -->
   <section id="view-teacherRegister" class="view-panel">
     <div class="page-section">
@@ -1325,6 +1391,7 @@ button { font-family: inherit; cursor: pointer; }
             <div class="lh-center">
               <div class="lh-forum" id="lhForumName2"></div>
               <div class="lh-institute" id="lhInstitute2"></div>
+              <div class="lh-address" id="lhAddress2"></div>
               <div class="lh-slogan" id="lhSlogan2"></div>
               <div class="lh-form-title">শিক্ষক রেজিষ্ট্রেশন ফরম</div>
             </div>
@@ -1334,6 +1401,10 @@ button { font-family: inherit; cursor: pointer; }
             </label>
           </div>
           <div class="form-body-padding">
+          <div class="reg-search-bar">
+            <input type="text" id="tSearchExisting" placeholder="🔍 রেজিষ্ট্রেশন নং, নাম বা মোবাইল দিয়ে সার্চ করে তথ্য হালনাগাদ করুন..." oninput="searchExistingTeacher()" onblur="hideTeacherSearchResults()" onkeydown="if(event.key==='Enter'){event.preventDefault();}">
+            <div id="tSearchResults" class="search-results-box"></div>
+          </div>
           <div class="form-grid">
             <div class="form-group full form-section-divider">মৌলিক তথ্য</div>
             <div class="form-group">
@@ -1430,38 +1501,6 @@ button { font-family: inherit; cursor: pointer; }
       </div>
 
       <div id="teacherPortalGrid" class="people-grid"></div>
-    </div>
-  </section>
-
-  <!-- ===================== শিক্ষক তথ্য হালনাগাদ ===================== -->
-  <section id="view-teacherUpdate" class="view-panel">
-    <div class="page-section">
-      <div class="eyebrow">শিক্ষক</div>
-      <h1 class="section-title">তথ্য হালনাগাদ</h1>
-      <p class="section-subtitle">নিজের নাম খুঁজে নির্বাচন করুন, তারপর রেজিষ্ট্রেশনের সময় দেওয়া মোবাইল নং দিয়ে যাচাই করুন</p>
-
-      <div class="form-card" style="max-width:520px">
-        <div class="form-body-padding">
-          <div class="form-grid">
-            <div class="form-group full">
-              <label>নাম সার্চ করুন</label>
-              <input type="text" id="tuSearchName" placeholder="নাম লিখুন..." oninput="filterUpdateTeacherList()">
-            </div>
-            <div class="form-group full">
-              <label>নাম নির্বাচন করুন</label>
-              <select id="tuSelectName" onchange="onSelectUpdateTeacher()"><option value="">প্রথমে সার্চ করুন</option></select>
-            </div>
-            <div class="form-group full" id="tuMobileWrap" style="display:none">
-              <label>রেজিষ্ট্রেশনের সময় দেওয়া মোবাইল নং <span class="req">*</span></label>
-              <input type="tel" id="tuMobileVerify" placeholder="মোবাইল নম্বর লিখুন">
-              <div class="form-error" id="tuVerifyError"></div>
-              <div class="form-actions" style="margin-top:10px">
-                <button type="button" class="btn btn-primary" onclick="verifyTeacherMobile()">যাচাই করে এডিট করুন</button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
     </div>
   </section>
 
@@ -2006,6 +2045,8 @@ function resetStudentForm() {
   document.getElementById('studentFormWrap').style.display = 'block';
   document.getElementById('studentPrintWrap').style.display = 'none';
   document.getElementById('sSubmitBtn').textContent = 'সাবমিট করুন';
+  const resultsBox = document.getElementById('sSearchResults');
+  if (resultsBox) { resultsBox.innerHTML = ''; resultsBox.style.display = 'none'; }
   previewNextStudentRegNo();
 }
 
@@ -2155,8 +2196,11 @@ function showStudentPrintCopy(data, allowEdit) {
         <div class="pc-address">${esc(info.Address)} | ${esc(info.Mobile)}</div>
         <div class="pc-slogan">${esc(info.Slogan)}</div>
       </div>
-      <div class="pc-title">শিক্ষার্থী রেজিষ্ট্রেশন কপি</div>
-      <div class="pc-regno-wrap"><span class="pc-regno">রেজি. নং: ${esc(data.RegNo || '-')}</span></div>
+      <div class="pc-title-wrap">
+        <div class="pc-title">শিক্ষার্থী রেজিষ্ট্রেশন কপি</div>
+        <div class="pc-regno-wrap"><span class="pc-regno">রেজি. নং: ${esc(data.RegNo || '-')}</span></div>
+      </div>
+      <div class="pc-content">
       <div class="pc-body">
         ${data.PhotoURL ? `<img class="pc-photo" src="${esc(data.PhotoURL)}" alt="" onerror="fallbackAvatar(this, '${esc(initials(data.Name))}')">` : `<div class="pc-photo img-fallback">${esc(initials(data.Name))}</div>`}
         <div class="pc-fields">
@@ -2170,13 +2214,14 @@ function showStudentPrintCopy(data, allowEdit) {
       </div>
       <div class="pc-signatures">
         <div class="pc-sig">
-          ${data.SignatureURL ? `<img src="${esc(data.SignatureURL)}" onerror="this.style.display='none'">` : '<div style="height:34px"></div>'}
+          ${data.SignatureURL ? `<img src="${esc(data.SignatureURL)}" onerror="this.style.display='none'">` : '<div style="height:36px"></div>'}
           <div class="sig-line">শিক্ষার্থীর স্বাক্ষর</div>
         </div>
         <div class="pc-sig">
-          ${info.PresidentSignatureURL ? `<img src="${esc(info.PresidentSignatureURL)}" onerror="this.style.display='none'">` : '<div style="height:34px"></div>'}
+          ${info.PresidentSignatureURL ? `<img src="${esc(info.PresidentSignatureURL)}" onerror="this.style.display='none'">` : '<div style="height:36px"></div>'}
           <div class="sig-line">সভাপতির স্বাক্ষর</div>
         </div>
+      </div>
       </div>
     </div>
     <div class="print-actions no-print">
@@ -2321,69 +2366,47 @@ function detailRow(label, value) {
 }
 
 // ============================================================
-// শিক্ষার্থীর নিজে তথ্য হালনাগাদ (নাম সার্চ + মোবাইল যাচাই)
-// যাতে একজনের ডাটা অন্যজন এডিট করতে না পারে
+// রেজিষ্ট্রেশন ফরমের ভেতরেই সার্চ বক্স: রেজিষ্ট্রেশন নং, নাম বা মোবাইল
+// দিয়ে সার্চ করে ক্লিক করলে ফরমে তথ্য লোড হবে (এডিট মোড)
 // ============================================================
-function resetStudentUpdateView() {
-  const search = document.getElementById('suSearchName');
-  const sel = document.getElementById('suSelectName');
-  if (search) search.value = '';
-  if (sel) sel.innerHTML = '<option value="">প্রথমে সার্চ করুন</option>';
-  const wrap = document.getElementById('suMobileWrap');
-  if (wrap) wrap.style.display = 'none';
-  const mv = document.getElementById('suMobileVerify');
-  if (mv) mv.value = '';
-  const err = document.getElementById('suVerifyError');
-  if (err) err.classList.remove('show');
-}
+function searchExistingStudent() {
+  const q = (document.getElementById('sSearchExisting').value || '').toLowerCase().trim();
+  const box = document.getElementById('sSearchResults');
+  if (!q) { box.innerHTML = ''; box.style.display = 'none'; return; }
 
-function filterUpdateStudentList() {
-  const q = (document.getElementById('suSearchName').value || '').toLowerCase().trim();
-  const sel = document.getElementById('suSelectName');
-  document.getElementById('suMobileWrap').style.display = 'none';
-  document.getElementById('suVerifyError').classList.remove('show');
+  const matches = STATE.students.filter(s =>
+    (s.RegNo || '').toLowerCase().includes(q) ||
+    (s.Name || '').toLowerCase().includes(q) ||
+    (s.Mobile || '').includes(q)
+  ).slice(0, 8);
 
-  if (!q) {
-    sel.innerHTML = '<option value="">প্রথমে সার্চ করুন</option>';
-    return;
-  }
-  const matches = STATE.students.filter(s => (s.Name || '').toLowerCase().includes(q));
   if (matches.length === 0) {
-    sel.innerHTML = '<option value="">কোনো নাম পাওয়া যায়নি</option>';
+    box.innerHTML = '<div class="search-result-empty">কোনো তথ্য পাওয়া যায়নি</div>';
+    box.style.display = 'block';
     return;
   }
-  sel.innerHTML = '<option value="">নির্বাচন করুন</option>' +
-    matches.map(s => `<option value="${STATE.students.indexOf(s)}">${esc(s.Name)} (${esc(s.RegNo || '-')})</option>`).join('');
+
+  box.innerHTML = matches.map(s => {
+    const idx = STATE.students.indexOf(s);
+    return `<div class="search-result-item" onmousedown="loadStudentForEdit(${idx})">
+      <strong>${esc(s.Name)}</strong>
+      <span>${esc(s.RegNo || '-')} • ${esc(s.Mobile || '-')}</span>
+    </div>`;
+  }).join('');
+  box.style.display = 'block';
 }
 
-function onSelectUpdateStudent() {
-  const sel = document.getElementById('suSelectName');
-  const wrap = document.getElementById('suMobileWrap');
-  document.getElementById('suVerifyError').classList.remove('show');
-  document.getElementById('suMobileVerify').value = '';
-  wrap.style.display = sel.value !== '' ? 'block' : 'none';
-}
-
-function verifyStudentMobile() {
-  const sel = document.getElementById('suSelectName');
-  const errorBox = document.getElementById('suVerifyError');
-  errorBox.classList.remove('show');
-
-  const idx = parseInt(sel.value, 10);
-  if (isNaN(idx) || !STATE.students[idx]) {
-    errorBox.textContent = 'অনুগ্রহ করে নাম নির্বাচন করুন।';
-    errorBox.classList.add('show');
-    return;
-  }
-  const student = STATE.students[idx];
-  const entered = (document.getElementById('suMobileVerify').value || '').trim();
-
-  if (!entered || entered !== (student.Mobile || '').trim()) {
-    errorBox.textContent = 'মোবাইল নম্বর মিলেনি। রেজিষ্ট্রেশনের সময় দেওয়া সঠিক মোবাইল নম্বর দিন।';
-    errorBox.classList.add('show');
-    return;
-  }
+function loadStudentForEdit(idx) {
+  document.getElementById('sSearchResults').style.display = 'none';
+  document.getElementById('sSearchExisting').value = '';
   startEditStudent(idx);
+}
+
+function hideStudentSearchResults() {
+  setTimeout(() => {
+    const box = document.getElementById('sSearchResults');
+    if (box) box.style.display = 'none';
+  }, 200);
 }
 
 
@@ -2410,6 +2433,8 @@ function resetTeacherForm() {
   document.getElementById('teacherFormWrap').style.display = 'block';
   document.getElementById('teacherPrintWrap').style.display = 'none';
   document.getElementById('tSubmitBtn').textContent = 'সাবমিট করুন';
+  const resultsBox = document.getElementById('tSearchResults');
+  if (resultsBox) { resultsBox.innerHTML = ''; resultsBox.style.display = 'none'; }
   toggleRetirementField();
   previewNextTeacherRegNo();
 }
@@ -2566,8 +2591,11 @@ function showTeacherPrintCopy(data, allowEdit) {
         <div class="pc-address">${esc(info.Address)} | ${esc(info.Mobile)}</div>
         <div class="pc-slogan">${esc(info.Slogan)}</div>
       </div>
-      <div class="pc-title">শিক্ষক রেজিষ্ট্রেশন কপি</div>
-      <div class="pc-regno-wrap"><span class="pc-regno">রেজি. নং: ${esc(data.RegNo || '-')}</span></div>
+      <div class="pc-title-wrap">
+        <div class="pc-title">শিক্ষক রেজিষ্ট্রেশন কপি</div>
+        <div class="pc-regno-wrap"><span class="pc-regno">রেজি. নং: ${esc(data.RegNo || '-')}</span></div>
+      </div>
+      <div class="pc-content">
       <div class="pc-body">
         ${data.PhotoURL ? `<img class="pc-photo" src="${esc(data.PhotoURL)}" alt="" onerror="fallbackAvatar(this, '${esc(initials(data.Name))}')">` : `<div class="pc-photo img-fallback">${esc(initials(data.Name))}</div>`}
         <div class="pc-fields">
@@ -2580,13 +2608,14 @@ function showTeacherPrintCopy(data, allowEdit) {
       </div>
       <div class="pc-signatures">
         <div class="pc-sig">
-          ${data.SignatureURL ? `<img src="${esc(data.SignatureURL)}" onerror="this.style.display='none'">` : '<div style="height:34px"></div>'}
+          ${data.SignatureURL ? `<img src="${esc(data.SignatureURL)}" onerror="this.style.display='none'">` : '<div style="height:36px"></div>'}
           <div class="sig-line">শিক্ষকের স্বাক্ষর</div>
         </div>
         <div class="pc-sig">
-          ${info.PresidentSignatureURL ? `<img src="${esc(info.PresidentSignatureURL)}" onerror="this.style.display='none'">` : '<div style="height:34px"></div>'}
+          ${info.PresidentSignatureURL ? `<img src="${esc(info.PresidentSignatureURL)}" onerror="this.style.display='none'">` : '<div style="height:36px"></div>'}
           <div class="sig-line">সভাপতির স্বাক্ষর</div>
         </div>
+      </div>
       </div>
     </div>
     <div class="print-actions no-print">
@@ -2723,70 +2752,49 @@ function showTeacherDetail(idx) {
 }
 
 // ============================================================
-// শিক্ষকের নিজে তথ্য হালনাগাদ (নাম সার্চ + মোবাইল যাচাই)
-// যাতে একজনের ডাটা অন্যজন এডিট করতে না পারে
+// রেজিষ্ট্রেশন ফরমের ভেতরেই সার্চ বক্স: রেজিষ্ট্রেশন নং, নাম বা মোবাইল
+// দিয়ে সার্চ করে ক্লিক করলে ফরমে তথ্য লোড হবে (এডিট মোড)
 // ============================================================
-function resetTeacherUpdateView() {
-  const search = document.getElementById('tuSearchName');
-  const sel = document.getElementById('tuSelectName');
-  if (search) search.value = '';
-  if (sel) sel.innerHTML = '<option value="">প্রথমে সার্চ করুন</option>';
-  const wrap = document.getElementById('tuMobileWrap');
-  if (wrap) wrap.style.display = 'none';
-  const mv = document.getElementById('tuMobileVerify');
-  if (mv) mv.value = '';
-  const err = document.getElementById('tuVerifyError');
-  if (err) err.classList.remove('show');
-}
+function searchExistingTeacher() {
+  const q = (document.getElementById('tSearchExisting').value || '').toLowerCase().trim();
+  const box = document.getElementById('tSearchResults');
+  if (!q) { box.innerHTML = ''; box.style.display = 'none'; return; }
 
-function filterUpdateTeacherList() {
-  const q = (document.getElementById('tuSearchName').value || '').toLowerCase().trim();
-  const sel = document.getElementById('tuSelectName');
-  document.getElementById('tuMobileWrap').style.display = 'none';
-  document.getElementById('tuVerifyError').classList.remove('show');
+  const matches = STATE.teachers.filter(t =>
+    (t.RegNo || '').toLowerCase().includes(q) ||
+    (t.Name || '').toLowerCase().includes(q) ||
+    (t.Mobile || '').includes(q)
+  ).slice(0, 8);
 
-  if (!q) {
-    sel.innerHTML = '<option value="">প্রথমে সার্চ করুন</option>';
-    return;
-  }
-  const matches = STATE.teachers.filter(t => (t.Name || '').toLowerCase().includes(q));
   if (matches.length === 0) {
-    sel.innerHTML = '<option value="">কোনো নাম পাওয়া যায়নি</option>';
+    box.innerHTML = '<div class="search-result-empty">কোনো তথ্য পাওয়া যায়নি</div>';
+    box.style.display = 'block';
     return;
   }
-  sel.innerHTML = '<option value="">নির্বাচন করুন</option>' +
-    matches.map(t => `<option value="${STATE.teachers.indexOf(t)}">${esc(t.Name)} (${esc(t.RegNo || '-')})</option>`).join('');
+
+  box.innerHTML = matches.map(t => {
+    const idx = STATE.teachers.indexOf(t);
+    return `<div class="search-result-item" onmousedown="loadTeacherForEdit(${idx})">
+      <strong>${esc(t.Name)}</strong>
+      <span>${esc(t.RegNo || '-')} • ${esc(t.Mobile || '-')}</span>
+    </div>`;
+  }).join('');
+  box.style.display = 'block';
 }
 
-function onSelectUpdateTeacher() {
-  const sel = document.getElementById('tuSelectName');
-  const wrap = document.getElementById('tuMobileWrap');
-  document.getElementById('tuVerifyError').classList.remove('show');
-  document.getElementById('tuMobileVerify').value = '';
-  wrap.style.display = sel.value !== '' ? 'block' : 'none';
-}
-
-function verifyTeacherMobile() {
-  const sel = document.getElementById('tuSelectName');
-  const errorBox = document.getElementById('tuVerifyError');
-  errorBox.classList.remove('show');
-
-  const idx = parseInt(sel.value, 10);
-  if (isNaN(idx) || !STATE.teachers[idx]) {
-    errorBox.textContent = 'অনুগ্রহ করে নাম নির্বাচন করুন।';
-    errorBox.classList.add('show');
-    return;
-  }
-  const teacher = STATE.teachers[idx];
-  const entered = (document.getElementById('tuMobileVerify').value || '').trim();
-
-  if (!entered || entered !== (teacher.Mobile || '').trim()) {
-    errorBox.textContent = 'মোবাইল নম্বর মিলেনি। রেজিষ্ট্রেশনের সময় দেওয়া সঠিক মোবাইল নম্বর দিন।';
-    errorBox.classList.add('show');
-    return;
-  }
+function loadTeacherForEdit(idx) {
+  document.getElementById('tSearchResults').style.display = 'none';
+  document.getElementById('tSearchExisting').value = '';
   startEditTeacher(idx);
 }
+
+function hideTeacherSearchResults() {
+  setTimeout(() => {
+    const box = document.getElementById('tSearchResults');
+    if (box) box.style.display = 'none';
+  }, 200);
+}
+
 
 
 /* ==================== js/events.js ==================== */
@@ -3809,8 +3817,8 @@ async function refreshDashboardData() {
 // নেভিগেশন সিস্টেম - এক মেনু খুললে অন্যটি বন্ধ
 // ============================================================
 const NAV_GROUPS = {
-  studentRegister: 'student', studentPortal: 'student', studentUpdate: 'student',
-  teacherRegister: 'teacher', teacherPortal: 'teacher', teacherUpdate: 'teacher'
+  studentRegister: 'student', studentPortal: 'student',
+  teacherRegister: 'teacher', teacherPortal: 'teacher'
 };
 
 function initNav() {
@@ -3890,8 +3898,6 @@ function showView(viewId) {
   if (viewId === 'teacherPortal') renderTeacherPortal();
   if (viewId === 'studentRegister') { if (window._skipFormReset) { window._skipFormReset = false; previewNextStudentRegNo(); } else resetStudentForm(); }
   if (viewId === 'teacherRegister') { if (window._skipFormReset) { window._skipFormReset = false; previewNextTeacherRegNo(); } else resetTeacherForm(); }
-  if (viewId === 'studentUpdate') resetStudentUpdateView();
-  if (viewId === 'teacherUpdate') resetTeacherUpdateView();
   if (viewId === 'events') renderEventsList();
   if (viewId === 'admin') initAdminView();
 }
@@ -3935,6 +3941,7 @@ function renderFormLetterheads() {
   const info = STATE.forumInfo;
   ['lhForumName1', 'lhForumName2'].forEach(id => { const el = document.getElementById(id); if (el) el.textContent = info.ForumName || ''; });
   ['lhInstitute1', 'lhInstitute2'].forEach(id => { const el = document.getElementById(id); if (el) el.textContent = info.InstituteName || ''; });
+  ['lhAddress1', 'lhAddress2'].forEach(id => { const el = document.getElementById(id); if (el) el.textContent = info.Address || ''; });
   ['lhSlogan1', 'lhSlogan2'].forEach(id => { const el = document.getElementById(id); if (el) el.textContent = info.Slogan || ''; });
   const logoInitial = (info.ForumName || 'ফো').charAt(0);
   ['lhLogo1', 'lhLogo2'].forEach(id => {

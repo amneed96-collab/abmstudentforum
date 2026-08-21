@@ -3335,7 +3335,6 @@ function downloadEventRegCard(regId) {
         border-radius:10px;
       }
 
- .evc-divider { border-top: 2px solid #1a1a5c; margin-top: 10px; }
 
 
       .evc-fields { margin-top: 14px; flex: 1; }
@@ -3410,6 +3409,7 @@ function downloadEventRegCard(regId) {
           <div class="evc-datetime">অনুষ্ঠানের তারিখ ও সময় : ${esc(eventDateTime)}</div>
           ${reg.BatchOrClass ? `<div class="evc-batch-badge">${esc(batchLabel)} : ${esc(reg.BatchOrClass)}</div>` : ''}
         </div>
+        <div class="evc-divider"></div>
 
         <div class="evc-fields">
           <div class="evc-field"><span class="evc-flabel">রেজিষ্ট্রেশন আইডি</span><span class="evc-fcolon">:</span><span class="evc-fvalue">${esc(reg.PersonRegNo)}</span></div>

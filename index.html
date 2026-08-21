@@ -918,80 +918,87 @@ button { font-family: inherit; cursor: pointer; }
   font-size: 32px;
 }
 
-/* ===================== প্রিন্ট কপি (সনদ স্টাইল) ===================== */
+/* ===================== প্রিন্ট কপি (সনদ স্টাইল - পার্চমেন্ট থিম) ===================== */
 .print-copy {
-  background: #fff;
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
-  padding: 0;
-  max-width: 560px;
+  background: #eef0e4;
+  border: 3px solid #1a1a5c;
+  padding: 4px;
+  max-width: 780px;
   margin: 0 auto;
-  overflow: hidden;
   box-shadow: var(--shadow-lg);
 }
-.pc-header {
-  text-align: center;
-  background: linear-gradient(135deg, var(--reg-accent-deep) 0%, var(--reg-accent) 100%);
-  padding: 18px 20px 16px;
-  color: #fff;
-}
-.pc-header .pc-logo {
-  width: 52px; height: 52px;
-  border-radius: 6px;
-  margin: 0 auto 6px;
-  object-fit: cover;
-  border: 2px solid #fff;
+.pc-inner { border: 1px solid #1a1a5c; padding: 18px 24px 22px; }
+
+.pc-header-row { display: flex; align-items: flex-start; gap: 16px; }
+.pc-logo-box-print {
+  width: 84px; height: 84px;
+  border: 2px solid #1a1a5c;
   background: #fff;
+  flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  overflow: hidden;
 }
-.pc-header .pc-forum { font-family: var(--font-display); font-weight: 700; font-size: 18px; color: #ffffff; }
-.pc-header .pc-address { font-size: 10.5px; color: #d8e2ec; margin-top: 2px; }
-.pc-header .pc-slogan { font-size: 10.5px; color: var(--reg-accent-gold); font-style: italic; margin-top: 3px; }
+.pc-logo-box-print img { width: 100%; height: 100%; object-fit: contain; }
+.pc-logo-box-print .img-fallback { font-size: 26px; }
 
-.pc-title-wrap { background: var(--reg-accent-soft); padding: 10px 20px; border-bottom: 1px solid var(--line); }
-.pc-title {
-  text-align: center;
-  font-weight: 700;
-  font-size: 13px;
-  color: var(--reg-accent-deep);
-  letter-spacing: 0.3px;
-}
-.pc-regno {
-  text-align: center;
-  font-size: 11.5px;
-  font-weight: 700;
-  color: #fff;
-  background: var(--reg-accent);
-  display: inline-block;
-  padding: 2px 14px;
-  border-radius: 20px;
-  margin-top: 6px;
-}
-.pc-regno-wrap { text-align: center; }
+.pc-header-center { flex: 1; text-align: center; }
+.pc-forum { font-family: var(--font-display); font-weight: 800; font-size: clamp(24px, 4vw, 32px); color: #1a6b4a; line-height: 1.15; }
+.pc-institute { font-size: 15px; font-weight: 700; color: #1a1a5c; margin-top: 2px; }
+.pc-address { font-size: 11px; color: #333; margin-top: 2px; }
+.pc-slogan { font-size: 10.5px; font-style: italic; color: #8b1a1a; margin-top: 4px; }
 
-.pc-content { padding: 18px 20px; }
-.pc-body { display: flex; gap: 16px; }
-.pc-photo { width: 88px; height: 104px; object-fit: cover; border: 2px solid var(--reg-accent-soft); flex-shrink: 0; border-radius: 6px; }
-.pc-fields { flex: 1; font-size: 12px; min-width: 0; }
-.pc-fields div { padding: 3px 0; border-bottom: 1px dotted var(--line); display: flex; align-items: baseline; gap: 4px; }
+.pc-divider-line { border-top: 1.5px solid #1a1a5c; margin-top: 10px; }
+
+.pc-title-row { display: flex; justify-content: space-between; align-items: center; margin-top: 12px; flex-wrap: wrap; gap: 8px; }
+.pc-title-bracket {
+  position: relative;
+  padding: 4px 18px;
+  font-size: 15px;
+  font-weight: 700;
+  color: #1a1a5c;
+}
+.pc-title-bracket::before {
+  content: '';
+  position: absolute; top: 0; left: 0;
+  width: 9px; height: 9px;
+  border-top: 2px solid #1a1a5c;
+  border-left: 2px solid #1a1a5c;
+}
+.pc-title-bracket::after {
+  content: '';
+  position: absolute; bottom: 0; right: 0;
+  width: 9px; height: 9px;
+  border-bottom: 2px solid #1a1a5c;
+  border-right: 2px solid #1a1a5c;
+}
+.pc-reg-date { font-size: 12px; font-weight: 700; color: #1a1a5c; }
+
+.pc-body-row { display: flex; gap: 20px; margin-top: 18px; align-items: flex-start; }
+.pc-photo { width: 108px; height: 132px; object-fit: cover; border: 2px solid #1a1a5c; flex-shrink: 0; }
+.pc-fields { flex: 1; min-width: 0; }
+.pc-fields div { padding: 6px 0; border-bottom: 1.5px dotted #1a1a5c; display: flex; align-items: baseline; gap: 8px; }
+.pc-fields div:last-child { border-bottom: none; }
 .pc-fields .pf-label {
-  color: var(--text-muted);
-  flex: 0 0 92px;
+  color: #1a1a5c;
+  font-weight: 700;
+  font-size: 13.5px;
+  flex: 0 0 165px;
   text-align: left;
 }
-.pc-fields .pf-label::after { content: ':'; margin-left: 2px; }
-.pc-fields .pf-value { font-weight: 600; text-align: left; flex: 1; color: var(--ink); }
+.pc-fields .pf-label::after { content: ':'; margin-left: 3px; }
+.pc-fields .pf-value { font-weight: 700; text-align: left; flex: 1; color: #111; font-size: 15px; }
 
-.pc-signatures { display: flex; justify-content: space-between; margin-top: 24px; padding-top: 4px; }
-.pc-sig { text-align: center; width: 45%; }
-.pc-sig img { height: 36px; object-fit: contain; margin: 0 auto 3px; }
-.pc-sig .sig-line { border-top: 1.5px solid var(--reg-accent); padding-top: 4px; font-size: 10.5px; color: var(--text-muted); }
+.pc-signatures { display: flex; justify-content: space-between; margin-top: 40px; }
+.pc-sig { text-align: center; width: 220px; }
+.pc-sig img { height: 34px; object-fit: contain; margin: 0 auto 4px; }
+.pc-sig .sig-line { border-top: 1.5px solid #1a1a5c; padding-top: 5px; font-size: 12px; font-weight: 600; color: #1a1a1a; }
 
 .print-actions { text-align: center; margin-top: 18px; display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
 
 @media print {
   .site-header, .site-nav, .site-footer, .print-actions, .no-print { display: none !important; }
   body { background: #fff; }
-  .print-copy { border: 1px solid #999; box-shadow: none; max-width: 100%; }
+  .print-copy { border: 3px solid #1a1a5c; box-shadow: none; max-width: 100%; }
   .page-section { padding: 0; }
 }
 
@@ -2188,40 +2195,54 @@ function showStudentPrintCopy(data, allowEdit) {
   wrap.style.display = 'block';
 
   const info = STATE.forumInfo;
+  const regDate = formatBengaliDate(new Date());
+  const logoHtml = info.LogoURL
+    ? `<img src="${esc(info.LogoURL)}" alt="লোগো" onerror="fallbackAvatar(this, '${esc((info.ForumName || 'ফ').charAt(0))}')">`
+    : `<div class="img-fallback">${esc((info.ForumName || 'ফ').charAt(0))}</div>`;
+
   wrap.innerHTML = `
     <div class="print-copy">
-      <div class="pc-header">
-        ${info.LogoURL ? `<img src="${esc(info.LogoURL)}" class="pc-logo" onerror="fallbackAvatar(this, '${esc((info.ForumName || 'ফ').charAt(0))}')">` : ''}
-        <div class="pc-forum">${esc(info.ForumName)}</div>
-        <div class="pc-address">${esc(info.Address)} | ${esc(info.Mobile)}</div>
-        <div class="pc-slogan">${esc(info.Slogan)}</div>
-      </div>
-      <div class="pc-title-wrap">
-        <div class="pc-title">শিক্ষার্থী রেজিষ্ট্রেশন কপি</div>
-        <div class="pc-regno-wrap"><span class="pc-regno">রেজি. নং: ${esc(data.RegNo || '-')}</span></div>
-      </div>
-      <div class="pc-content">
-      <div class="pc-body">
-        ${data.PhotoURL ? `<img class="pc-photo" src="${esc(data.PhotoURL)}" alt="" onerror="fallbackAvatar(this, '${esc(initials(data.Name))}')">` : `<div class="pc-photo img-fallback">${esc(initials(data.Name))}</div>`}
-        <div class="pc-fields">
-          <div><span class="pf-label">নাম</span><span class="pf-value">${esc(data.Name)}</span></div>
-          <div><span class="pf-label">পিতার নাম</span><span class="pf-value">${esc(data.FatherName)}</span></div>
-          <div><span class="pf-label">মোবাইল নং</span><span class="pf-value">${esc(data.Mobile)}</span></div>
-          <div><span class="pf-label">দাখিল ব্যাচ</span><span class="pf-value">${esc(data.DakhilBatch || '-')}</span></div>
-          <div><span class="pf-label">সর্বশেষ শিক্ষাগত যোগ্যতা</span><span class="pf-value">${esc(data.HighestEducationClass || '-')}</span></div>
-          <div><span class="pf-label">ধরন</span><span class="pf-value">${esc(data.Type)}</span></div>
+      <div class="pc-inner">
+        <div class="pc-header-row">
+          <div class="pc-logo-box-print">${logoHtml}</div>
+          <div class="pc-header-center">
+            <div class="pc-forum">${esc(info.ForumName)}</div>
+            <div class="pc-institute">${esc(info.InstituteName)}</div>
+            <div class="pc-address">${esc(info.Address)}</div>
+            ${info.Slogan ? `<div class="pc-slogan">"${esc(info.Slogan)}"</div>` : ''}
+          </div>
         </div>
-      </div>
-      <div class="pc-signatures">
-        <div class="pc-sig">
-          ${data.SignatureURL ? `<img src="${esc(data.SignatureURL)}" onerror="this.style.display='none'">` : '<div style="height:36px"></div>'}
-          <div class="sig-line">শিক্ষার্থীর স্বাক্ষর</div>
+
+        <div class="pc-divider-line"></div>
+
+        <div class="pc-title-row">
+          <div class="pc-title-bracket">শিক্ষার্থী রেজিষ্ট্রেশন কপি</div>
+          <div class="pc-reg-date">রেজি. তাং : ${regDate}</div>
         </div>
-        <div class="pc-sig">
-          ${info.PresidentSignatureURL ? `<img src="${esc(info.PresidentSignatureURL)}" onerror="this.style.display='none'">` : '<div style="height:36px"></div>'}
-          <div class="sig-line">সভাপতির স্বাক্ষর</div>
+
+        <div class="pc-body-row">
+          ${data.PhotoURL ? `<img class="pc-photo" src="${esc(data.PhotoURL)}" alt="" onerror="fallbackAvatar(this, '${esc(initials(data.Name))}')">` : `<div class="pc-photo img-fallback">${esc(initials(data.Name))}</div>`}
+          <div class="pc-fields">
+            <div><span class="pf-label">রেজিষ্ট্রেশন নং</span><span class="pf-value">${esc(data.RegNo || '-')}</span></div>
+            <div><span class="pf-label">নাম</span><span class="pf-value">${esc(data.Name)}</span></div>
+            <div><span class="pf-label">পিতার নাম</span><span class="pf-value">${esc(data.FatherName)}</span></div>
+            <div><span class="pf-label">মোবাইল নং</span><span class="pf-value">${esc(data.Mobile)}</span></div>
+            <div><span class="pf-label">দাখিল ব্যাচ/সর্বশেষ ক্লাস</span><span class="pf-value">${esc(data.DakhilBatch || data.LastClass || '-')}</span></div>
+            <div><span class="pf-label">সর্বশেষ শিক্ষাগত যোগ্যতা</span><span class="pf-value">${esc(data.HighestEducationClass || '-')}</span></div>
+            <div><span class="pf-label">ধরন</span><span class="pf-value">${esc(data.Type)}</span></div>
+          </div>
         </div>
-      </div>
+
+        <div class="pc-signatures">
+          <div class="pc-sig">
+            ${data.SignatureURL ? `<img src="${esc(data.SignatureURL)}" onerror="this.style.display='none'">` : '<div style="height:34px"></div>'}
+            <div class="sig-line">শিক্ষার্থীর স্বাক্ষর</div>
+          </div>
+          <div class="pc-sig">
+            ${info.PresidentSignatureURL ? `<img src="${esc(info.PresidentSignatureURL)}" onerror="this.style.display='none'">` : '<div style="height:34px"></div>'}
+            <div class="sig-line">সভাপতির স্বাক্ষর</div>
+          </div>
+        </div>
       </div>
     </div>
     <div class="print-actions no-print">
@@ -2582,40 +2603,53 @@ function showTeacherPrintCopy(data, allowEdit) {
   wrap.style.display = 'block';
 
   const info = STATE.forumInfo;
+  const regDate = formatBengaliDate(new Date());
+  const logoHtml = info.LogoURL
+    ? `<img src="${esc(info.LogoURL)}" alt="লোগো" onerror="fallbackAvatar(this, '${esc((info.ForumName || 'ফ').charAt(0))}')">`
+    : `<div class="img-fallback">${esc((info.ForumName || 'ফ').charAt(0))}</div>`;
 
   wrap.innerHTML = `
     <div class="print-copy">
-      <div class="pc-header">
-        ${info.LogoURL ? `<img src="${esc(info.LogoURL)}" class="pc-logo" onerror="fallbackAvatar(this, '${esc((info.ForumName || 'ফ').charAt(0))}')">` : ''}
-        <div class="pc-forum">${esc(info.ForumName)}</div>
-        <div class="pc-address">${esc(info.Address)} | ${esc(info.Mobile)}</div>
-        <div class="pc-slogan">${esc(info.Slogan)}</div>
-      </div>
-      <div class="pc-title-wrap">
-        <div class="pc-title">শিক্ষক রেজিষ্ট্রেশন কপি</div>
-        <div class="pc-regno-wrap"><span class="pc-regno">রেজি. নং: ${esc(data.RegNo || '-')}</span></div>
-      </div>
-      <div class="pc-content">
-      <div class="pc-body">
-        ${data.PhotoURL ? `<img class="pc-photo" src="${esc(data.PhotoURL)}" alt="" onerror="fallbackAvatar(this, '${esc(initials(data.Name))}')">` : `<div class="pc-photo img-fallback">${esc(initials(data.Name))}</div>`}
-        <div class="pc-fields">
-          <div><span class="pf-label">নাম</span><span class="pf-value">${esc(data.Name)}</span></div>
-          <div><span class="pf-label">ধরন</span><span class="pf-value">${esc(data.Type)}</span></div>
-          <div><span class="pf-label">পদবি</span><span class="pf-value">${esc(data.Designation)}</span></div>
-          <div><span class="pf-label">মোবাইল নং</span><span class="pf-value">${esc(data.Mobile)}</span></div>
-          <div><span class="pf-label">${data.Type === 'প্রাক্তন' ? 'অবসর তারিখ' : 'যোগদানের তারিখ'}</span><span class="pf-value">${esc(data.Type === 'প্রাক্তন' ? data.RetirementDate : data.JoiningDate)}</span></div>
+      <div class="pc-inner">
+        <div class="pc-header-row">
+          <div class="pc-logo-box-print">${logoHtml}</div>
+          <div class="pc-header-center">
+            <div class="pc-forum">${esc(info.ForumName)}</div>
+            <div class="pc-institute">${esc(info.InstituteName)}</div>
+            <div class="pc-address">${esc(info.Address)}</div>
+            ${info.Slogan ? `<div class="pc-slogan">"${esc(info.Slogan)}"</div>` : ''}
+          </div>
         </div>
-      </div>
-      <div class="pc-signatures">
-        <div class="pc-sig">
-          ${data.SignatureURL ? `<img src="${esc(data.SignatureURL)}" onerror="this.style.display='none'">` : '<div style="height:36px"></div>'}
-          <div class="sig-line">শিক্ষকের স্বাক্ষর</div>
+
+        <div class="pc-divider-line"></div>
+
+        <div class="pc-title-row">
+          <div class="pc-title-bracket">শিক্ষক রেজিষ্ট্রেশন কপি</div>
+          <div class="pc-reg-date">রেজি. তাং : ${regDate}</div>
         </div>
-        <div class="pc-sig">
-          ${info.PresidentSignatureURL ? `<img src="${esc(info.PresidentSignatureURL)}" onerror="this.style.display='none'">` : '<div style="height:36px"></div>'}
-          <div class="sig-line">সভাপতির স্বাক্ষর</div>
+
+        <div class="pc-body-row">
+          ${data.PhotoURL ? `<img class="pc-photo" src="${esc(data.PhotoURL)}" alt="" onerror="fallbackAvatar(this, '${esc(initials(data.Name))}')">` : `<div class="pc-photo img-fallback">${esc(initials(data.Name))}</div>`}
+          <div class="pc-fields">
+            <div><span class="pf-label">রেজিষ্ট্রেশন নং</span><span class="pf-value">${esc(data.RegNo || '-')}</span></div>
+            <div><span class="pf-label">নাম</span><span class="pf-value">${esc(data.Name)}</span></div>
+            <div><span class="pf-label">ধরন</span><span class="pf-value">${esc(data.Type)}</span></div>
+            <div><span class="pf-label">পদবি</span><span class="pf-value">${esc(data.Designation)}</span></div>
+            <div><span class="pf-label">মোবাইল নং</span><span class="pf-value">${esc(data.Mobile)}</span></div>
+            <div><span class="pf-label">${data.Type === 'প্রাক্তন' ? 'অবসর তারিখ' : 'যোগদানের তারিখ'}</span><span class="pf-value">${esc(data.Type === 'প্রাক্তন' ? data.RetirementDate : data.JoiningDate)}</span></div>
+          </div>
         </div>
-      </div>
+
+        <div class="pc-signatures">
+          <div class="pc-sig">
+            ${data.SignatureURL ? `<img src="${esc(data.SignatureURL)}" onerror="this.style.display='none'">` : '<div style="height:34px"></div>'}
+            <div class="sig-line">শিক্ষকের স্বাক্ষর</div>
+          </div>
+          <div class="pc-sig">
+            ${info.PresidentSignatureURL ? `<img src="${esc(info.PresidentSignatureURL)}" onerror="this.style.display='none'">` : '<div style="height:34px"></div>'}
+            <div class="sig-line">সভাপতির স্বাক্ষর</div>
+          </div>
+        </div>
       </div>
     </div>
     <div class="print-actions no-print">
@@ -3053,35 +3087,217 @@ function downloadEventRegCard(regId) {
   const ev = STATE.events.find(e => e.ID === reg.EventID);
   const info = STATE.forumInfo;
 
+  const batchLabel = reg.PersonType === 'Teacher' ? 'পদবি' : 'দাখিল ব্যাচ';
+  const eventTitle = ev ? ev.Name : '-';
+  const eventDateTime = ev ? formatEventDateTime(ev.EventDateTime) : '-';
+
+  const logoHtml = info.LogoURL
+    ? `<img src="${esc(info.LogoURL)}" alt="লোগো">`
+    : `<div class="evc-logo-fallback">${esc((info.ForumName || 'ফ').charAt(0))}</div>`;
+
+  const photoHtml = reg.PhotoURL
+    ? `<img src="${esc(reg.PhotoURL)}" alt="ছবি">`
+    : `<div class="evc-photo-fallback">${esc(initials(reg.Name))}</div>`;
+
   const w = window.open('', '_blank');
   w.document.write(`
     <html><head><title>অনুষ্ঠান রেজিষ্ট্রেশন কার্ড</title>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
-      body{font-family:'Noto Sans Bengali','Hind Siliguri',sans-serif;padding:20px;background:#faf7f0;}
-      .card{max-width:420px;margin:0 auto;background:#fff;border:3px double #1f4d3a;border-radius:10px;padding:20px;text-align:center;}
-      .card h2{color:#1f4d3a;margin-bottom:4px;font-size:18px;}
-      .card .sub{color:#b8863b;font-size:12px;font-style:italic;margin-bottom:14px;}
-      .card img{width:90px;height:100px;object-fit:cover;border-radius:6px;border:1px solid #ccc;margin-bottom:10px;}
-      .card table{width:100%;border-collapse:collapse;font-size:13px;margin-top:10px;}
-      .card table td{padding:5px 8px;border-bottom:1px dotted #ccc;text-align:right;}
-      .card table td:first-child{color:#5c6b62;text-align:left;}
-      .badge{display:inline-block;background:#1f4d3a;color:#fff;padding:4px 14px;border-radius:20px;font-size:12px;font-weight:700;margin-top:12px;}
-    </style></head><body>
-    <div class="card">
-      <h2>${esc(info.ForumName)}</h2>
-      <div class="sub">অনুষ্ঠান রেজিষ্ট্রেশন কার্ড</div>
-      ${reg.PhotoURL ? `<img src="${esc(reg.PhotoURL)}">` : ''}
-      <table>
-        <tr><td>অনুষ্ঠান</td><td>${esc(ev ? ev.Name : '-')}</td></tr>
-        <tr><td>নাম</td><td>${esc(reg.Name)}</td></tr>
-        <tr><td>রেজিষ্ট্রেশন আইডি</td><td>${esc(reg.PersonRegNo)}</td></tr>
-        <tr><td>মোবাইল</td><td>${esc(reg.Mobile)}</td></tr>
-        <tr><td>ঠিকানা</td><td>${esc(reg.Address)}</td></tr>
-      </table>
-      <div class="badge">✅ নিশ্চিতকৃত</div>
+      @import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;600;700;800&family=Noto+Sans+Bengali:wght@400;600;700&display=swap');
+
+      * { box-sizing: border-box; margin: 0; padding: 0; }
+      body {
+        font-family: 'Noto Sans Bengali', 'Hind Siliguri', sans-serif;
+        background: #eef2ee;
+        padding: 24px 16px;
+      }
+
+      .evc-outer {
+        max-width: 920px;
+        margin: 0 auto;
+        border: 4px solid #1a1a5c;
+        padding: 5px;
+        position: relative;
+        overflow: hidden;
+        background:
+          radial-gradient(circle at 8% 78%, rgba(255,255,255,0.35) 0%, transparent 9%),
+          radial-gradient(circle at 14% 82%, rgba(255,255,255,0.30) 0%, transparent 7%),
+          radial-gradient(circle at 92% 34%, rgba(255,255,255,0.25) 0%, transparent 8%),
+          repeating-linear-gradient(115deg, rgba(255,255,255,0.16) 0px, rgba(255,255,255,0.16) 6px, transparent 6px, transparent 70px),
+          linear-gradient(135deg, #cfe8bd 0%, #a9d68f 35%, #bfe0a8 65%, #9dcf8a 100%);
+      }
+
+      .evc-inner {
+        border: 1.5px solid #1a1a5c;
+        padding: 22px 30px 26px;
+        position: relative;
+        z-index: 1;
+      }
+
+      .evc-header { display: flex; align-items: flex-start; gap: 18px; }
+
+      .evc-logo-box {
+        width: 96px; height: 96px;
+        border: 2px solid #1a1a5c;
+        background: #fff;
+        flex-shrink: 0;
+        display: flex; align-items: center; justify-content: center;
+        overflow: hidden;
+      }
+      .evc-logo-box img { width: 100%; height: 100%; object-fit: contain; }
+      .evc-logo-fallback {
+        width: 100%; height: 100%;
+        display: flex; align-items: center; justify-content: center;
+        font-size: 34px; font-weight: 800; color: #1a1a5c;
+        font-family: 'Hind Siliguri', sans-serif;
+      }
+
+      .evc-header-text { flex: 1; text-align: center; padding-top: 2px; }
+      .evc-forum-name {
+        font-size: clamp(30px, 5vw, 46px);
+        font-weight: 800;
+        color: #3a1a6b;
+        font-family: 'Hind Siliguri', sans-serif;
+        line-height: 1.15;
+      }
+      .evc-institute-name { font-size: 20px; font-weight: 700; color: #1a1a5c; margin-top: 4px; }
+      .evc-institute-address { font-size: 13.5px; color: #2a2a2a; margin-top: 3px; }
+
+      .evc-photo-box {
+        width: 104px; height: 128px;
+        border: 2px solid #1a1a5c;
+        flex-shrink: 0;
+        overflow: hidden;
+        background: #fff;
+      }
+      .evc-photo-box img { width: 100%; height: 100%; object-fit: cover; }
+      .evc-photo-fallback {
+        width: 100%; height: 100%;
+        display: flex; align-items: center; justify-content: center;
+        font-size: 30px; font-weight: 800; color: #1a1a5c; background: #e8f0ea;
+        font-family: 'Hind Siliguri', sans-serif;
+      }
+
+      .evc-event-badge-wrap { text-align: center; margin-top: 12px; }
+      .evc-event-badge {
+        display: inline-block;
+        background: #1a1a5c;
+        color: #fff;
+        font-size: 21px;
+        font-weight: 700;
+        padding: 8px 28px;
+      }
+
+      .evc-divider { border-top: 2px solid #1a1a5c; margin-top: 14px; }
+
+      .evc-datetime-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 14px;
+        margin-top: 12px;
+        flex-wrap: wrap;
+      }
+      .evc-datetime { font-size: 14.5px; font-weight: 700; color: #1a1a5c; }
+      .evc-batch-badge {
+        border: 2px solid #1a1a5c;
+        padding: 6px 16px;
+        font-size: 15px;
+        font-weight: 700;
+        color: #1a1a5c;
+        white-space: nowrap;
+      }
+
+      .evc-fields { margin-top: 20px; }
+      .evc-field {
+        display: flex;
+        gap: 10px;
+        padding: 9px 0;
+        border-bottom: 2px dotted #1a1a5c;
+        align-items: baseline;
+      }
+      .evc-field:last-child { border-bottom: none; }
+      .evc-flabel { flex: 0 0 175px; font-size: 17px; font-weight: 700; color: #1a1a1a; }
+      .evc-fcolon { font-size: 17px; font-weight: 700; color: #1a1a1a; }
+      .evc-fvalue { font-size: 19px; font-weight: 600; color: #1a1a1a; flex: 1; }
+
+      .evc-signatures {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 46px;
+      }
+      .evc-sig {
+        border-top: 2px solid #1a1a5c;
+        padding-top: 6px;
+        font-size: 14.5px;
+        font-weight: 700;
+        color: #1a1a1a;
+        width: 220px;
+        text-align: center;
+      }
+
+      .evc-print-actions { text-align: center; margin-top: 20px; }
+      .evc-print-actions button {
+        background: #1a1a5c;
+        color: #fff;
+        border: none;
+        padding: 10px 26px;
+        font-size: 14px;
+        font-weight: 700;
+        border-radius: 6px;
+        cursor: pointer;
+        font-family: inherit;
+      }
+
+      @media print {
+        body { padding: 0; background: #fff; }
+        .evc-print-actions { display: none; }
+        .evc-outer { max-width: 100%; }
+      }
+    </style>
+    </head><body>
+    <div class="evc-outer">
+      <div class="evc-inner">
+        <div class="evc-header">
+          <div class="evc-logo-box">${logoHtml}</div>
+          <div class="evc-header-text">
+            <div class="evc-forum-name">${esc(info.ForumName)}</div>
+            <div class="evc-institute-name">${esc(info.InstituteName)}</div>
+            <div class="evc-institute-address">${esc(info.Address)}</div>
+          </div>
+          <div class="evc-photo-box">${photoHtml}</div>
+        </div>
+
+        <div class="evc-event-badge-wrap">
+          <div class="evc-event-badge">${esc(eventTitle)}</div>
+        </div>
+
+        <div class="evc-divider"></div>
+
+        <div class="evc-datetime-row">
+          <div class="evc-datetime">অনুষ্ঠানের তারিখ ও সময় : ${esc(eventDateTime)}</div>
+          ${reg.BatchOrClass ? `<div class="evc-batch-badge">${esc(batchLabel)} : ${esc(reg.BatchOrClass)}</div>` : ''}
+        </div>
+
+        <div class="evc-fields">
+          <div class="evc-field"><span class="evc-flabel">রেজিষ্ট্রেশন আইডি</span><span class="evc-fcolon">:</span><span class="evc-fvalue">${esc(reg.PersonRegNo)}</span></div>
+          <div class="evc-field"><span class="evc-flabel">নাম</span><span class="evc-fcolon">:</span><span class="evc-fvalue">${esc(reg.Name)}</span></div>
+          <div class="evc-field"><span class="evc-flabel">মোবাইল নং</span><span class="evc-fcolon">:</span><span class="evc-fvalue">${esc(reg.Mobile)}</span></div>
+          <div class="evc-field"><span class="evc-flabel">ঠিকানা</span><span class="evc-fcolon">:</span><span class="evc-fvalue">${esc(reg.Address)}</span></div>
+        </div>
+
+        <div class="evc-signatures">
+          <div class="evc-sig">রেজিস্ট্রেশনকারী</div>
+          <div class="evc-sig">বাস্তবায়ন কমিটি</div>
+        </div>
+      </div>
     </div>
-    <script>window.print();<\/script>
+
+    <div class="evc-print-actions no-print">
+      <button onclick="window.print()">🖨️ প্রিন্ট করুন</button>
+    </div>
     </body></html>
   `);
   w.document.close();
@@ -4127,6 +4343,14 @@ function toBn(num) {
 function toEnDigits(str) {
   if (str === undefined || str === null) return '';
   return String(str).replace(/[০-৯]/g, d => String(BN_DIGITS.indexOf(d)));
+}
+
+const BN_MONTHS = ['জানুয়ারি', 'ফেব্রুয়ারি', 'মার্চ', 'এপ্রিল', 'মে', 'জুন', 'জুলাই', 'আগস্ট', 'সেপ্টেম্বর', 'অক্টোবর', 'নভেম্বর', 'ডিসেম্বর'];
+function formatBengaliDate(d) {
+  if (!d) d = new Date();
+  else if (!(d instanceof Date)) d = new Date(d);
+  if (isNaN(d.getTime())) d = new Date();
+  return toBn(d.getDate()) + ' ' + BN_MONTHS[d.getMonth()] + ' ' + toBn(d.getFullYear());
 }
 
 function initials(name) {

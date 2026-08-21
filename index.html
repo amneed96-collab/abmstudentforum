@@ -3310,18 +3310,20 @@ function downloadEventRegCard(regId) {
         font-size: 20px;
         font-weight: 700;
         padding: 7px 26px;
+        border-radius:10px;
       }
 
       .evc-divider { border-top: 2px solid #1a1a5c; margin-top: 10px; }
 
       .evc-datetime-row {
         display: flex;
-        justify-content: space-between;
-        align-items: center;
-        gap: 14px;
-        margin-top: 10px;
-        flex-wrap: wrap;
+        justify-content:flex-end;
+        align-items:baseline;
+        gap: 60px;
+        flex-direction:row;
+        margin-top:7px;
       }
+
       .evc-datetime { font-size: 14px; font-weight: 700; color: #1a1a5c; }
       .evc-batch-badge {
         border: 2px solid #1a1a5c;
@@ -3330,7 +3332,11 @@ function downloadEventRegCard(regId) {
         font-weight: 700;
         color: #1a1a5c;
         white-space: nowrap;
+        border-radius:10px;
       }
+
+ .evc-divider { border-top: 2px solid #1a1a5c; margin-top: 10px; }
+
 
       .evc-fields { margin-top: 14px; flex: 1; }
       .evc-field {

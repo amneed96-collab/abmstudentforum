@@ -20,7 +20,9 @@ const SHEETS = {
   SETTINGS: 'Settings',
   ADMIN: 'Admin',
   EVENTS: 'Events',
-  EVENT_REGISTRATIONS: 'EventRegistrations'
+  EVENT_REGISTRATIONS: 'EventRegistrations',
+  INCOME: 'Income',
+  EXPENSES: 'Expenses'
 };
 
 // ============================================================
@@ -97,6 +99,14 @@ function setupSheets() {
     'AccountNumber', 'Amount', 'PaymentDate', 'Status', 'Timestamp'
   ]);
 
+  // Income শীট (আয়)
+  sh = getOrCreateSheet(ss, SHEETS.INCOME);
+  setHeaderIfEmpty(sh, ['ID', 'InvoiceNo', 'Date', 'Name', 'Mobile', 'Address', 'Items', 'Total', 'CreatedAt']);
+
+  // Expenses শীট (খরচ)
+  sh = getOrCreateSheet(ss, SHEETS.EXPENSES);
+  setHeaderIfEmpty(sh, ['ID', 'VoucherNo', 'Date', 'Items', 'Total', 'Paid', 'Due', 'CreatedAt']);
+
   SpreadsheetApp.flush();
   Logger.log('Setup complete!');
 }
@@ -154,6 +164,12 @@ function doGet(e) {
       case 'getEventRegistrations':
         result = getSheetAsObjects(SHEETS.EVENT_REGISTRATIONS);
         break;
+      case 'getIncomes':
+        result = getSheetAsObjects(SHEETS.INCOME);
+        break;
+      case 'getExpenses':
+        result = getSheetAsObjects(SHEETS.EXPENSES);
+        break;
       case 'checkPassword':
         result = { valid: checkAdminPassword(e.parameter.password) };
         break;
@@ -173,7 +189,10 @@ function doPost(e) {
     let result;
 
     // পাসওয়ার্ড প্রোটেক্টেড action গুলোর জন্য চেক করুন
-    const PROTECTED = ['saveForumInfo', 'saveCommittee', 'saveSpecialCommittee', 'changePassword', 'addEvent', 'confirmEventRegistration'];
+    const PROTECTED = [
+      'saveForumInfo', 'saveCommittee', 'saveSpecialCommittee', 'changePassword', 'addEvent', 'confirmEventRegistration',
+      'addIncome', 'updateIncome', 'deleteIncome', 'addExpense', 'updateExpense', 'deleteExpense'
+    ];
     if (PROTECTED.includes(action)) {
       if (!checkAdminPassword(body.password)) {
         return jsonResponse({ error: 'Unauthorized: ভুল পাসওয়ার্ড' });
@@ -216,6 +235,24 @@ function doPost(e) {
         break;
       case 'confirmEventRegistration':
         result = confirmEventRegistration(body.id);
+        break;
+      case 'addIncome':
+        result = addIncomeRow(body.data);
+        break;
+      case 'updateIncome':
+        result = updateRowById(SHEETS.INCOME, body.data);
+        break;
+      case 'deleteIncome':
+        result = deleteRowById(SHEETS.INCOME, body.id);
+        break;
+      case 'addExpense':
+        result = addExpenseRow(body.data);
+        break;
+      case 'updateExpense':
+        result = updateRowById(SHEETS.EXPENSES, body.data);
+        break;
+      case 'deleteExpense':
+        result = deleteRowById(SHEETS.EXPENSES, body.id);
         break;
       default:
         result = { error: 'Unknown action' };
@@ -356,6 +393,52 @@ function addEventRegistrationRow(dataObj) {
 // অ্যাডমিন কর্তৃক অনুষ্ঠান রেজিষ্ট্রেশন নিশ্চিতকরণ (প্রোটেক্টেড)
 function confirmEventRegistration(id) {
   return updateRowById(SHEETS.EVENT_REGISTRATIONS, { ID: id, Status: 'Confirmed' });
+}
+
+// ============================================================
+// আয়-ব্যয় সংক্রান্ত ফাংশন
+// ============================================================
+function addIncomeRow(dataObj) {
+  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  const sh = ss.getSheetByName(SHEETS.INCOME);
+  const headers = sh.getRange(1, 1, 1, sh.getLastColumn()).getValues()[0];
+  const id = 'INC' + new Date().getTime();
+  dataObj['ID'] = id;
+  dataObj['CreatedAt'] = new Date();
+  const row = headers.map(h => dataObj[h] !== undefined ? dataObj[h] : '');
+  sh.appendRow(row);
+  return { success: true, id: id };
+}
+
+function addExpenseRow(dataObj) {
+  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  const sh = ss.getSheetByName(SHEETS.EXPENSES);
+  const headers = sh.getRange(1, 1, 1, sh.getLastColumn()).getValues()[0];
+  const id = 'EXP' + new Date().getTime();
+  dataObj['ID'] = id;
+  dataObj['CreatedAt'] = new Date();
+  const row = headers.map(h => dataObj[h] !== undefined ? dataObj[h] : '');
+  sh.appendRow(row);
+  return { success: true, id: id };
+}
+
+// ID মিলিয়ে বিদ্যমান রো মুছে ফেলে (আয়/খরচ ডিলেট করার জন্য)
+function deleteRowById(sheetName, id) {
+  if (!id) return { success: false, error: 'ID পাওয়া যায়নি' };
+  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  const sh = ss.getSheetByName(sheetName);
+  const values = sh.getDataRange().getValues();
+  const headers = values[0];
+  const idCol = headers.indexOf('ID');
+  if (idCol === -1) return { success: false, error: 'ID কলাম পাওয়া যায়নি' };
+
+  for (let r = 1; r < values.length; r++) {
+    if (values[r][idCol] === id) {
+      sh.deleteRow(r + 1);
+      return { success: true };
+    }
+  }
+  return { success: false, error: 'রেকর্ড খুঁজে পাওয়া যায়নি' };
 }
 
 function replaceSheetRows(sheetName, rowsArray) {

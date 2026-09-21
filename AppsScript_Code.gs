@@ -22,7 +22,9 @@ const SHEETS = {
   EVENTS: 'Events',
   EVENT_REGISTRATIONS: 'EventRegistrations',
   INCOME: 'Income',
-  EXPENSES: 'Expenses'
+  EXPENSES: 'Expenses',
+  FEE_SETTINGS: 'FeeSettings',
+  FEE_PAYMENTS: 'FeePayments'
 };
 
 // ============================================================
@@ -107,6 +109,18 @@ function setupSheets() {
   sh = getOrCreateSheet(ss, SHEETS.EXPENSES);
   setHeaderIfEmpty(sh, ['ID', 'VoucherNo', 'Date', 'Items', 'Total', 'Paid', 'Due', 'CreatedAt']);
 
+  // FeeSettings শীট (সদস্য ফি নির্ধারণ — ইতিহাস সংরক্ষিত থাকে, কার্যকরের তারিখ অনুযায়ী)
+  sh = getOrCreateSheet(ss, SHEETS.FEE_SETTINGS);
+  setHeaderIfEmpty(sh, ['ID', 'MemberType', 'Amount', 'EffectiveDate', 'CreatedAt']);
+
+  // FeePayments শীট (সদস্যদের ফি প্রদান — পেন্ডিং/কনফার্মড)
+  sh = getOrCreateSheet(ss, SHEETS.FEE_PAYMENTS);
+  setHeaderIfEmpty(sh, [
+    'ID', 'Date', 'MemberType', 'PersonRegNo', 'PersonID', 'Name', 'Mobile',
+    'BatchOrClass', 'Profession', 'Address', 'FeeAmount', 'PaymentMethod',
+    'DirectRecipientName', 'Status', 'Timestamp'
+  ]);
+
   SpreadsheetApp.flush();
   Logger.log('Setup complete!');
 }
@@ -170,6 +184,12 @@ function doGet(e) {
       case 'getExpenses':
         result = getSheetAsObjects(SHEETS.EXPENSES);
         break;
+      case 'getFeeSettings':
+        result = getSheetAsObjects(SHEETS.FEE_SETTINGS);
+        break;
+      case 'getFeePayments':
+        result = getSheetAsObjects(SHEETS.FEE_PAYMENTS);
+        break;
       case 'checkPassword':
         result = { valid: checkAdminPassword(e.parameter.password) };
         break;
@@ -191,7 +211,8 @@ function doPost(e) {
     // পাসওয়ার্ড প্রোটেক্টেড action গুলোর জন্য চেক করুন
     const PROTECTED = [
       'saveForumInfo', 'saveCommittee', 'saveSpecialCommittee', 'changePassword', 'addEvent', 'confirmEventRegistration',
-      'addIncome', 'updateIncome', 'deleteIncome', 'addExpense', 'updateExpense', 'deleteExpense'
+      'addIncome', 'updateIncome', 'deleteIncome', 'addExpense', 'updateExpense', 'deleteExpense',
+      'addFeeSetting', 'confirmFeePayment'
     ];
     if (PROTECTED.includes(action)) {
       if (!checkAdminPassword(body.password)) {
@@ -253,6 +274,15 @@ function doPost(e) {
         break;
       case 'deleteExpense':
         result = deleteRowById(SHEETS.EXPENSES, body.id);
+        break;
+      case 'addFeeSetting':
+        result = addFeeSettingRow(body.data);
+        break;
+      case 'addFeePayment':
+        result = addFeePaymentRow(body.data);
+        break;
+      case 'confirmFeePayment':
+        result = confirmFeePayment(body.id);
         break;
       default:
         result = { error: 'Unknown action' };
@@ -421,6 +451,44 @@ function addExpenseRow(dataObj) {
   sh.appendRow(row);
   return { success: true, id: id };
 }
+
+// ============================================================
+// ফি নির্ধারণ ও ফি প্রদান সংক্রান্ত ফাংশন
+// ============================================================
+
+// নতুন ফি নির্ধারণ যোগ করে (ইতিহাস সংরক্ষিত থাকে, ওভাররাইট হয় না)
+function addFeeSettingRow(dataObj) {
+  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  const sh = ss.getSheetByName(SHEETS.FEE_SETTINGS);
+  const headers = sh.getRange(1, 1, 1, sh.getLastColumn()).getValues()[0];
+  const id = 'FEE' + new Date().getTime();
+  dataObj['ID'] = id;
+  dataObj['CreatedAt'] = new Date();
+  const row = headers.map(h => dataObj[h] !== undefined ? dataObj[h] : '');
+  sh.appendRow(row);
+  return { success: true, id: id };
+}
+
+// সদস্যের ফি প্রদানের অনুরোধ (পাবলিক, পাসওয়ার্ড লাগবে না) — প্রথমে Pending থাকে
+function addFeePaymentRow(dataObj) {
+  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  const sh = ss.getSheetByName(SHEETS.FEE_PAYMENTS);
+  const headers = sh.getRange(1, 1, 1, sh.getLastColumn()).getValues()[0];
+  const id = 'FPY' + new Date().getTime();
+  dataObj['ID'] = id;
+  dataObj['Status'] = 'Pending';
+  dataObj['Timestamp'] = new Date();
+  const row = headers.map(h => dataObj[h] !== undefined ? dataObj[h] : '');
+  sh.appendRow(row);
+  return { success: true, id: id };
+}
+
+// অ্যাডমিন কর্তৃক ফি প্রদান নিশ্চিতকরণ (প্রোটেক্টেড)
+function confirmFeePayment(id) {
+  return updateRowById(SHEETS.FEE_PAYMENTS, { ID: id, Status: 'Confirmed' });
+}
+
+
 
 // ID মিলিয়ে বিদ্যমান রো মুছে ফেলে (আয়/খরচ ডিলেট করার জন্য)
 function deleteRowById(sheetName, id) {

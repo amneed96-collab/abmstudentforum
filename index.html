@@ -14,19 +14,19 @@
 @import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Noto+Sans+Bengali:wght@400;500;600&display=swap');
 
 :root {
-  --ink: #1a2e22;
-  --forest: #1f4d3a;
-  --forest-deep: #123023;
-  --forest-soft: #e8f0ea;
+  --ink: #14302f;
+  --forest: #0d4f4f;
+  --forest-deep: #063636;
+  --forest-soft: #e3f0ef;
   --gold: #b8863b;
   --gold-bright: #d4a24e;
-    --paper: #e9f3f1;
-    --paper-raised: #edf1f1;
-  --line: #d8d0bd;
-  --text-muted: #5c6b62;
+    --paper: #eaf4f3;
+    --paper-raised: #eef3f2;
+  --line: #d3ddd2;
+  --text-muted: #55716f;
   --danger: #a83232;
-  --shadow: 0 4px 16px rgba(18, 48, 35, 0.08);
-  --shadow-lg: 0 12px 32px rgba(18, 48, 35, 0.14);
+  --shadow: 0 4px 16px rgba(13, 54, 54, 0.08);
+  --shadow-lg: 0 12px 32px rgba(13, 54, 54, 0.14);
   --radius: 10px;
   --radius-sm: 6px;
   --font-display: 'Hind Siliguri', 'Noto Sans Bengali', sans-serif;
@@ -407,12 +407,12 @@ button { font-family: inherit; cursor: pointer; }
   font-weight: 600;
   border: none;
   outline: none;
-  box-shadow: 0 2px 8px rgba(18, 48, 35, 0.16);
+  box-shadow: 0 2px 8px rgba(13, 54, 54, 0.16);
   transition: all 0.18s ease;
 }
 
-.btn:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(18, 48, 35, 0.22); }
-.btn:active { transform: translateY(0); box-shadow: 0 1px 4px rgba(18, 48, 35, 0.16); }
+.btn:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(13, 54, 54, 0.22); }
+.btn:active { transform: translateY(0); box-shadow: 0 1px 4px rgba(13, 54, 54, 0.16); }
 .btn:focus-visible { outline: 2px solid var(--gold-bright); outline-offset: 2px; }
 
 .btn-primary {
@@ -431,7 +431,7 @@ button { font-family: inherit; cursor: pointer; }
   background: var(--paper-raised);
   border: 1.5px solid var(--forest);
   color: var(--forest);
-  box-shadow: 0 1px 4px rgba(18, 48, 35, 0.08);
+  box-shadow: 0 1px 4px rgba(13, 54, 54, 0.08);
 }
 .btn-outline:hover { background: var(--forest-soft); }
 
@@ -791,43 +791,44 @@ button { font-family: inherit; cursor: pointer; }
   margin-top: 20px;
 }
 
-/* অনুষ্ঠান তালিকা (লিস্ট স্টাইল, কার্ড নয়) */
-.events-list {
-  display: flex;
-  flex-direction: column;
+/* অনুষ্ঠান তালিকা (টেবিল স্টাইল) */
+.events-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--paper-raised);
   border: 1px solid var(--line);
   border-radius: var(--radius);
   overflow: hidden;
-  background: var(--paper-raised);
   box-shadow: var(--shadow);
 }
-.events-list-item {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 14px;
-  padding: 16px 20px;
+.events-table th {
+  background: var(--forest-soft);
+  color: var(--forest-deep);
+  font-weight: 700;
+  font-size: 13px;
+  padding: 12px 14px;
+  text-align: right;
   border-bottom: 1px solid var(--line);
-  cursor: pointer;
-  transition: background 0.15s ease;
 }
-.events-list-item:last-child { border-bottom: none; }
-.events-list-item:hover { background: var(--forest-soft); }
-.events-list-main { min-width: 0; }
-.events-list-name {
+.events-table th:nth-child(2) { text-align: right; }
+.events-table td {
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--line);
+  font-size: 13.5px;
+  text-align: right;
+  vertical-align: middle;
+}
+.events-table-row { cursor: pointer; transition: background 0.15s ease; }
+.events-table-row:hover { background: var(--forest-soft); }
+.events-table-row:last-child td { border-bottom: none; }
+.events-table-name {
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: 16px;
   color: var(--forest-deep);
+  text-align: right;
 }
-.events-list-meta {
+.events-table-arrow {
   font-size: 12.5px;
-  color: var(--text-muted);
-  margin-top: 3px;
-}
-.events-list-arrow {
-  flex-shrink: 0;
-  font-size: 13px;
   font-weight: 600;
   color: var(--gold);
   white-space: nowrap;
@@ -871,6 +872,25 @@ button { font-family: inherit; cursor: pointer; }
   font-size: 16px;
   font-weight: 700;
   color: var(--forest-deep);
+}
+
+/* আয়/খরচ ফরমের স্বাক্ষর সারি — একই লাইনে পাশাপাশি */
+.finance-sig-row {
+  display: flex !important;
+  flex-direction: row !important;
+  justify-content: space-between;
+  gap: 20px;
+  margin-top: 14px;
+  flex-wrap: wrap;
+}
+.finance-sig-line {
+  text-align: center;
+  flex: 1 1 200px;
+  max-width: 220px;
+  border-top: 1.5px solid var(--ink);
+  padding-top: 6px;
+  font-size: 13px;
+  color: var(--ink);
 }
 
 /* আয়/খরচ তালিকা */
@@ -953,7 +973,7 @@ button { font-family: inherit; cursor: pointer; }
 .modal-overlay {
   display: none;
   position: fixed; inset: 0;
-  background: rgba(18, 48, 35, 0.55);
+  background: rgba(13, 54, 54, 0.55);
   z-index: 1000;
   align-items: center;
   justify-content: center;
@@ -1370,6 +1390,7 @@ button { font-family: inherit; cursor: pointer; }
         </div>
       </div>
 
+      <a href="#" class="nav-link" data-nav="feePayment">ফি প্রদান</a>
       <a href="#" class="nav-link" data-nav="admin">ব্যবস্থাপনা</a>
     </div>
   </nav>
@@ -1721,9 +1742,9 @@ button { font-family: inherit; cursor: pointer; }
             </div>
 
             <div class="form-group full form-section-divider">স্বাক্ষর</div>
-            <div class="form-group full" style="display:flex;justify-content:space-between;gap:20px;margin-top:10px">
-              <div style="text-align:center;width:200px;border-top:1.5px solid var(--ink);padding-top:6px;font-size:13px">গ্রহণকারীর স্বাক্ষর</div>
-              <div style="text-align:center;width:200px;border-top:1.5px solid var(--ink);padding-top:6px;font-size:13px">সভাপতির স্বাক্ষর</div>
+            <div class="form-group full finance-sig-row">
+              <div class="finance-sig-line">গ্রহণকারীর স্বাক্ষর</div>
+              <div class="finance-sig-line">সভাপতির স্বাক্ষর</div>
             </div>
 
             <div class="form-error" id="incomeFormError"></div>
@@ -1778,9 +1799,9 @@ button { font-family: inherit; cursor: pointer; }
             <div class="form-group"><label>বকেয়া</label><input type="text" id="expDue" readonly></div>
 
             <div class="form-group full form-section-divider">স্বাক্ষর</div>
-            <div class="form-group full" style="display:flex;justify-content:space-between;gap:20px;margin-top:10px">
-              <div style="text-align:center;width:200px;border-top:1.5px solid var(--ink);padding-top:6px;font-size:13px">খরচকারীর স্বাক্ষর</div>
-              <div style="text-align:center;width:200px;border-top:1.5px solid var(--ink);padding-top:6px;font-size:13px">ক্যাশিয়ারের স্বাক্ষর</div>
+            <div class="form-group full finance-sig-row">
+              <div class="finance-sig-line">খরচকারীর স্বাক্ষর</div>
+              <div class="finance-sig-line">ক্যাশিয়ারের স্বাক্ষর</div>
             </div>
 
             <div class="form-error" id="expenseFormError"></div>
@@ -1796,6 +1817,45 @@ button { font-family: inherit; cursor: pointer; }
           <div id="expenseListWrap"></div>
         </div>
       </div>
+    </div>
+  </section>
+
+  <!-- ===================== ফি প্রদান ===================== -->
+  <section id="view-feePayment" class="view-panel">
+    <div class="page-section">
+      <form id="feePaymentForm" class="form-card form-card-wide" onsubmit="submitFeePaymentForm(event)">
+        <div class="form-body-padding">
+        <div class="form-grid">
+          <div class="form-group full form-section-divider">ফি প্রদান ফরম</div>
+          <div class="form-group">
+            <label>তারিখ <span class="req">*</span></label>
+            <input type="date" id="fpDate" required>
+          </div>
+          <div class="form-group">
+            <label>ধরণ <span class="req">*</span></label>
+            <select id="fpMemberType" onchange="onFeePaymentTypeChange()" required>
+              <option value="">নির্বাচন করুন</option>
+              <option value="StudentFormer">শিক্ষার্থী (প্রাক্তন)</option>
+              <option value="StudentCurrent">শিক্ষার্থী (বর্তমান)</option>
+              <option value="TeacherFormer">শিক্ষক (প্রাক্তন)</option>
+              <option value="TeacherCurrent">শিক্ষক (বর্তমান)</option>
+            </select>
+          </div>
+
+          <div class="form-group full" id="fpNameWrap" style="display:none">
+            <label>নাম নির্বাচন করুন <span class="req">*</span></label>
+            <select id="fpNameSelect" onchange="onFeePaymentNameChange()"></select>
+          </div>
+
+          <div id="fpDynamicWrap" class="form-group full"></div>
+
+          <div class="form-error" id="feePaymentError"></div>
+          <div class="form-actions">
+            <button type="submit" class="btn btn-primary" id="fpSubmitBtn" style="display:none">সাবমিট করুন</button>
+          </div>
+        </div>
+        </div>
+      </form>
     </div>
   </section>
 
@@ -1830,6 +1890,7 @@ button { font-family: inherit; cursor: pointer; }
           <div class="admin-tab" data-admintab="editRecords" onclick="showAdminTab('editRecords')">রেকর্ড এডিট</div>
           <div class="admin-tab" data-admintab="printLists" onclick="showAdminTab('printLists')">তালিকা প্রিন্ট</div>
           <div class="admin-tab" data-admintab="events" onclick="showAdminTab('events')">অনুষ্ঠান</div>
+          <div class="admin-tab" data-admintab="feeSettings" onclick="showAdminTab('feeSettings')">ফি নির্ধারণ</div>
           <div class="admin-tab" data-admintab="password" onclick="showAdminTab('password')">পাসওয়ার্ড</div>
         </div>
 
@@ -1996,15 +2057,52 @@ button { font-family: inherit; cursor: pointer; }
           </div>
         </div>
 
+        <!-- ফি নির্ধারণ -->
+        <div id="adminPanel-feeSettings" class="admin-panel">
+          <form id="feeSettingForm" class="form-card form-card-wide" onsubmit="saveFeeSetting(event)">
+            <div class="form-grid">
+              <div class="form-group full form-section-divider">নতুন ফি নির্ধারণ করুন</div>
+              <div class="form-group">
+                <label>ধরণ <span class="req">*</span></label>
+                <select id="fsMemberType" required>
+                  <option value="">নির্বাচন করুন</option>
+                  <option value="StudentFormer">শিক্ষার্থী (প্রাক্তন)</option>
+                  <option value="StudentCurrent">শিক্ষার্থী (বর্তমান)</option>
+                  <option value="TeacherFormer">শিক্ষক (প্রাক্তন)</option>
+                  <option value="TeacherCurrent">শিক্ষক (বর্তমান)</option>
+                </select>
+              </div>
+              <div class="form-group"><label>ফি এর পরিমাণ (টাকা) <span class="req">*</span></label><input type="number" id="fsAmount" min="0" step="0.01" required></div>
+              <div class="form-group"><label>কার্যকরের তারিখ <span class="req">*</span></label><input type="date" id="fsEffectiveDate" required></div>
+              <div class="form-error" id="feeSettingError"></div>
+              <div class="form-actions">
+                <button type="submit" class="btn btn-primary" id="fsSaveBtn">নির্ধারণ করুন</button>
+              </div>
+            </div>
+          </form>
+
+          <div class="form-card form-card-wide" style="margin-top:20px">
+            <div class="form-section-divider" style="margin-bottom:14px">বর্তমানে কার্যকর ফি</div>
+            <div id="currentFeesGrid" class="stat-grid"></div>
+          </div>
+
+          <div class="form-card form-card-wide" style="margin-top:20px">
+            <div class="form-section-divider" style="margin-bottom:14px">ফি প্রদানের অনুমোদন</div>
+            <div id="feePaymentsListWrap"></div>
+          </div>
+        </div>
+
         <!-- পাসওয়ার্ড -->
         <div id="adminPanel-password" class="admin-panel">
           <form id="changePasswordForm" class="form-card" onsubmit="changeAdminPassword(event)">
+            <div class="form-body-padding">
             <div class="form-grid">
               <div class="form-group full"><label>বর্তমান পাসওয়ার্ড</label><input type="password" id="pwOldPassword" required></div>
               <div class="form-group full"><label>নতুন পাসওয়ার্ড</label><input type="password" id="pwNewPassword" required></div>
               <div class="form-group full"><label>নতুন পাসওয়ার্ড আবার লিখুন</label><input type="password" id="pwConfirmPassword" required></div>
               <div class="form-error" id="pwError"></div>
               <div class="form-actions"><button type="submit" class="btn btn-primary">পরিবর্তন করুন</button></div>
+            </div>
             </div>
           </form>
         </div>
@@ -2192,6 +2290,12 @@ const API = {
   updateExpense(data, password) { return this.post('updateExpense', { data, password }); },
   deleteExpense(id, password) { return this.post('deleteExpense', { id, password }); },
 
+  getFeeSettings() { return this.get('getFeeSettings'); },
+  getFeePayments() { return this.get('getFeePayments'); },
+  addFeeSetting(data, password) { return this.post('addFeeSetting', { data, password }); },
+  addFeePayment(data) { return this.post('addFeePayment', { data }); },
+  confirmFeePayment(id, password) { return this.post('confirmFeePayment', { id, password }); },
+
   uploadImage(base64, filename, mimeType) {
     return this.post('uploadImage', { base64, filename, mimeType });
   }
@@ -2285,6 +2389,17 @@ function loadDemoData() {
 
   STATE.expenses = [
     { ID: 'EXP0001', VoucherNo: 'EXV0001', Date: '2026-08-05', Items: JSON.stringify([{ desc: 'প্যান্ডেল ভাড়া', amount: 2000 }, { desc: 'খাবার খরচ', amount: 3000 }]), Total: 5000, Paid: 4000, Due: 1000 }
+  ];
+
+  STATE.feeSettings = [
+    { ID: 'FEE0001', MemberType: 'StudentFormer', Amount: 200, EffectiveDate: '2026-01-01' },
+    { ID: 'FEE0002', MemberType: 'StudentCurrent', Amount: 100, EffectiveDate: '2026-01-01' },
+    { ID: 'FEE0003', MemberType: 'TeacherFormer', Amount: 300, EffectiveDate: '2026-01-01' },
+    { ID: 'FEE0004', MemberType: 'TeacherCurrent', Amount: 300, EffectiveDate: '2026-01-01' }
+  ];
+
+  STATE.feePayments = [
+    { ID: 'FPY0001', Date: '2026-08-10', MemberType: 'StudentFormer', PersonRegNo: 'SRN19850001', PersonID: '1', Name: 'মোঃ আব্দুল করিম', Mobile: '০১৭১১xxxxxx', BatchOrClass: '২০০৫', Profession: 'শিক্ষকতা', Address: 'রামপুর, রামপুর বাজার, রামপুর, সদর, কুমিল্লা', FeeAmount: 200, PaymentMethod: 'বিকাশ', DirectRecipientName: '', Status: 'Pending' }
   ];
 }
 
@@ -3196,17 +3311,29 @@ function renderEventsList() {
     return events.indexOf(b) - events.indexOf(a);
   });
 
-  grid.innerHTML = `<div class="events-list">` + sorted.map((ev) => {
-    const idx = STATE.events.indexOf(ev);
-    return `
-    <div class="events-list-item" onclick="openEventModal(${idx})">
-      <div class="events-list-main">
-        <div class="events-list-name">${esc(ev.Name)}</div>
-        <div class="events-list-meta">🗓️ ${esc(formatEventDateTime(ev.EventDateTime))} &nbsp;•&nbsp; 📍 ${esc(ev.Venue || '-')}</div>
-      </div>
-      <div class="events-list-arrow">বিস্তারিত ও রেজিষ্ট্রেশন ›</div>
-    </div>`;
-  }).join('') + `</div>`;
+  grid.innerHTML = `
+    <div style="overflow-x:auto">
+    <table class="events-table">
+      <thead>
+        <tr><th>ক্রম</th><th>অনুষ্ঠানের নাম</th><th>তারিখ ও সময়</th><th>স্থান</th><th>ফি</th><th></th></tr>
+      </thead>
+      <tbody>
+        ${sorted.map((ev, i) => {
+          const idx = STATE.events.indexOf(ev);
+          return `
+          <tr class="events-table-row" onclick="openEventModal(${idx})">
+            <td>${toBn(i + 1)}</td>
+            <td class="events-table-name">${esc(ev.Name)}</td>
+            <td>${esc(formatEventDateTime(ev.EventDateTime))}</td>
+            <td>${esc(ev.Venue || '-')}</td>
+            <td>${ev.Fee ? toBn(ev.Fee) + ' টাকা' : 'ফ্রি'}</td>
+            <td class="events-table-arrow">বিস্তারিত ও রেজিষ্ট্রেশন ›</td>
+          </tr>`;
+        }).join('')}
+      </tbody>
+    </table>
+    </div>
+  `;
 }
 
 // ============================================================
@@ -3285,7 +3412,7 @@ function onEventRegNoChange() {
 
   if (existing && existing.Status === 'Confirmed') {
     dynamicWrap.innerHTML = `
-      <div class="form-error show" style="background:#e8f0ea;color:var(--forest-deep)">✅ আপনার রেজিষ্ট্রেশন নিশ্চিত হয়েছে।</div>
+      <div class="form-error show" style="background:#e3f0ef;color:var(--forest-deep)">✅ আপনার রেজিষ্ট্রেশন নিশ্চিত হয়েছে।</div>
       <div class="form-actions"><button type="button" class="btn btn-gold" onclick="downloadEventRegCard('${esc(existing.ID)}')">🖨️ রেজিষ্ট্রেশন কার্ড ডাউনলোড করুন</button></div>
     `;
     return;
@@ -3519,7 +3646,7 @@ function downloadEventRegCard(regId) {
       .evc-photo-fallback {
         width: 100%; height: 100%;
         display: flex; align-items: center; justify-content: center;
-        font-size: 28px; font-weight: 800; color: #1a1a5c; background: #e8f0ea;
+        font-size: 28px; font-weight: 800; color: #1a1a5c; background: #e3f0ef;
         font-family: 'Hind Siliguri', sans-serif;
       }
 
@@ -3948,13 +4075,13 @@ function printIncomeRecord(id) {
     <meta charset="UTF-8">
     <style>
       body{font-family:'Noto Sans Bengali','Hind Siliguri',sans-serif;padding:26px;}
-      h2{text-align:center;color:#1f4d3a;margin-bottom:2px;}
+      h2{text-align:center;color:#0d4f4f;margin-bottom:2px;}
       .sub{text-align:center;color:#5c6b62;font-size:13px;margin-bottom:18px;}
       .meta{display:flex;justify-content:space-between;font-size:14px;margin-bottom:16px;flex-wrap:wrap;gap:10px;}
       table{width:100%;border-collapse:collapse;font-size:14px;margin-top:6px;}
       th,td{border:1px solid #333;padding:8px 12px;text-align:right;}
       th:nth-child(2),td:nth-child(2){text-align:right;}
-      th{background:#e8f0ea;}
+      th{background:#e3f0ef;}
       .total-row{text-align:right;font-weight:700;font-size:16px;margin-top:10px;}
       .signatures{display:flex;justify-content:space-between;margin-top:60px;}
       .sig{width:220px;text-align:center;border-top:1.5px solid #000;padding-top:6px;font-size:13px;}
@@ -4161,13 +4288,13 @@ function printExpenseRecord(id) {
     <meta charset="UTF-8">
     <style>
       body{font-family:'Noto Sans Bengali','Hind Siliguri',sans-serif;padding:26px;}
-      h2{text-align:center;color:#1f4d3a;margin-bottom:2px;}
+      h2{text-align:center;color:#0d4f4f;margin-bottom:2px;}
       .sub{text-align:center;color:#5c6b62;font-size:13px;margin-bottom:18px;}
       .meta{display:flex;justify-content:space-between;font-size:14px;margin-bottom:16px;flex-wrap:wrap;gap:10px;}
       table{width:100%;border-collapse:collapse;font-size:14px;margin-top:6px;}
       th,td{border:1px solid #333;padding:8px 12px;text-align:right;}
       th:nth-child(2),td:nth-child(2){text-align:right;}
-      th{background:#e8f0ea;}
+      th{background:#e3f0ef;}
       .totals{margin-top:10px;font-size:15px;text-align:right;}
       .totals div{margin-top:3px;}
       .signatures{display:flex;justify-content:space-between;margin-top:60px;}
@@ -4196,6 +4323,315 @@ function printExpenseRecord(id) {
     </body></html>
   `);
   w.document.close();
+}
+
+
+/* ==================== js/fee.js ==================== */
+/**
+ * ============================================================
+ * ফি নির্ধারণ ও ফি প্রদান মডিউল
+ * ============================================================
+ */
+
+const FEE_TYPE_LABELS = {
+  StudentFormer: 'শিক্ষার্থী (প্রাক্তন)',
+  StudentCurrent: 'শিক্ষার্থী (বর্তমান)',
+  TeacherFormer: 'শিক্ষক (প্রাক্তন)',
+  TeacherCurrent: 'শিক্ষক (বর্তমান)'
+};
+
+// আজকের তারিখ অনুযায়ী কোনো ক্যাটাগরির সর্বশেষ কার্যকর ফি বের করে
+function getCurrentFee(memberType) {
+  const settings = (STATE.feeSettings || []).filter(f => f.MemberType === memberType);
+  const today = new Date();
+  today.setHours(23, 59, 59, 999);
+  const applicable = settings.filter(f => f.EffectiveDate && new Date(f.EffectiveDate) <= today);
+  if (applicable.length === 0) return null;
+  applicable.sort((a, b) => new Date(b.EffectiveDate) - new Date(a.EffectiveDate));
+  return applicable[0];
+}
+
+// ============================================================
+// অ্যাডমিন: ফি নির্ধারণ ফরম + বর্তমান ফি সারাংশ + ফি প্রদান অনুমোদন
+// ============================================================
+function loadFeeSettingsView() {
+  document.getElementById('fsEffectiveDate').value = new Date().toISOString().slice(0, 10);
+  renderCurrentFeesGrid();
+  renderFeePaymentsAdminList();
+}
+
+function renderCurrentFeesGrid() {
+  const grid = document.getElementById('currentFeesGrid');
+  const types = ['StudentFormer', 'StudentCurrent', 'TeacherFormer', 'TeacherCurrent'];
+  grid.innerHTML = types.map(t => {
+    const fee = getCurrentFee(t);
+    return `
+    <div class="stat-card">
+      <div class="stat-number">${fee ? toBn(fee.Amount) : '-'}</div>
+      <div class="stat-label">${esc(FEE_TYPE_LABELS[t])}${fee ? ' (কার্যকর: ' + esc(fee.EffectiveDate) + ')' : ' — নির্ধারিত হয়নি'}</div>
+    </div>`;
+  }).join('');
+}
+
+async function saveFeeSetting(e) {
+  e.preventDefault();
+  const errorBox = document.getElementById('feeSettingError');
+  errorBox.classList.remove('show');
+
+  const data = {
+    MemberType: val('fsMemberType'),
+    Amount: val('fsAmount'),
+    EffectiveDate: val('fsEffectiveDate')
+  };
+
+  if (!data.MemberType || !data.Amount || !data.EffectiveDate) {
+    errorBox.textContent = 'সব ফিল্ড পূরণ করুন।';
+    errorBox.classList.add('show');
+    return;
+  }
+
+  const btn = document.getElementById('fsSaveBtn');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="loading-spinner"></span> সংরক্ষণ হচ্ছে...';
+
+  try {
+    if (STATE.isDemoMode) {
+      data.ID = 'FEE' + Date.now();
+      STATE.feeSettings.push(data);
+      showToast('ডেমো মোডে ফি নির্ধারিত হয়েছে');
+    } else {
+      const result = await API.addFeeSetting(data, adminPassword);
+      data.ID = result.id;
+      STATE.feeSettings.push(data);
+      showToast('ফি সফলভাবে নির্ধারিত হয়েছে');
+    }
+    document.getElementById('feeSettingForm').reset();
+    document.getElementById('fsEffectiveDate').value = new Date().toISOString().slice(0, 10);
+    renderCurrentFeesGrid();
+  } catch (err) {
+    errorBox.textContent = 'সমস্যা হয়েছে: ' + err.message;
+    errorBox.classList.add('show');
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = 'নির্ধারণ করুন';
+  }
+}
+
+function renderFeePaymentsAdminList() {
+  const wrap = document.getElementById('feePaymentsListWrap');
+  const list = (STATE.feePayments || []).slice().reverse();
+  if (list.length === 0) {
+    wrap.innerHTML = '<p style="color:var(--text-muted);font-size:13px">এখনো কোনো ফি প্রদানের অনুরোধ নেই।</p>';
+    return;
+  }
+  wrap.innerHTML = `
+    <div style="overflow-x:auto">
+    <table class="finance-list-table">
+      <thead><tr><th>তারিখ</th><th>ধরণ</th><th>নাম</th><th>মাধ্যম</th><th>ফি</th><th>অবস্থা</th><th></th></tr></thead>
+      <tbody>
+        ${list.map(p => `
+          <tr>
+            <td>${esc(p.Date)}</td>
+            <td>${esc(FEE_TYPE_LABELS[p.MemberType] || p.MemberType)}</td>
+            <td>${esc(p.Name)}</td>
+            <td>${esc(p.PaymentMethod)}${p.PaymentMethod === 'সরাসরি' && p.DirectRecipientName ? ' (' + esc(p.DirectRecipientName) + ')' : ''}</td>
+            <td>${esc(p.FeeAmount)} টাকা</td>
+            <td>${p.Status === 'Confirmed' ? '✅ নিশ্চিত' : '⏳ পেন্ডিং'}</td>
+            <td>${p.Status !== 'Confirmed' ? `<button class="btn btn-primary btn-sm" onclick="confirmFeePaymentAdmin('${esc(p.ID)}')">নিশ্চিত করুন</button>` : ''}</td>
+          </tr>`).join('')}
+      </tbody>
+    </table>
+    </div>
+  `;
+}
+
+async function confirmFeePaymentAdmin(id) {
+  try {
+    if (STATE.isDemoMode) {
+      const p = STATE.feePayments.find(x => x.ID === id);
+      if (p) p.Status = 'Confirmed';
+      showToast('ডেমো মোডে নিশ্চিত করা হয়েছে');
+    } else {
+      await API.confirmFeePayment(id, adminPassword);
+      const p = STATE.feePayments.find(x => x.ID === id);
+      if (p) p.Status = 'Confirmed';
+      showToast('ফি প্রদান নিশ্চিত করা হয়েছে');
+    }
+    renderFeePaymentsAdminList();
+  } catch (err) {
+    showToast('সমস্যা হয়েছে: ' + err.message, true);
+  }
+}
+
+// ============================================================
+// পাবলিক: ফি প্রদান ফরম
+// ============================================================
+function resetFeePaymentForm() {
+  const form = document.getElementById('feePaymentForm');
+  if (form) form.reset();
+  document.getElementById('fpDate').value = new Date().toISOString().slice(0, 10);
+  document.getElementById('fpNameWrap').style.display = 'none';
+  document.getElementById('fpDynamicWrap').innerHTML = '';
+  document.getElementById('fpSubmitBtn').style.display = 'none';
+  document.getElementById('feePaymentError').classList.remove('show');
+}
+
+function feeTypeToPersonList(memberType) {
+  if (memberType === 'StudentFormer') return (STATE.students || []).filter(s => s.Type === 'প্রাক্তন' && s.RegNo);
+  if (memberType === 'StudentCurrent') return (STATE.students || []).filter(s => s.Type === 'বর্তমান' && s.RegNo);
+  if (memberType === 'TeacherFormer') return (STATE.teachers || []).filter(t => t.Type === 'প্রাক্তন' && t.RegNo);
+  if (memberType === 'TeacherCurrent') return (STATE.teachers || []).filter(t => t.Type === 'বর্তমান' && t.RegNo);
+  return [];
+}
+
+function onFeePaymentTypeChange() {
+  const memberType = document.getElementById('fpMemberType').value;
+  const nameWrap = document.getElementById('fpNameWrap');
+  const nameSelect = document.getElementById('fpNameSelect');
+  document.getElementById('fpDynamicWrap').innerHTML = '';
+  document.getElementById('fpSubmitBtn').style.display = 'none';
+
+  if (!memberType) { nameWrap.style.display = 'none'; return; }
+
+  const list = feeTypeToPersonList(memberType);
+  const isStudent = memberType.indexOf('Student') === 0;
+  const menuName = isStudent ? 'শিক্ষার্থী' : 'শিক্ষক';
+
+  if (list.length === 0) {
+    nameWrap.style.display = 'none';
+    document.getElementById('fpDynamicWrap').innerHTML =
+      `<div class="form-error show">এই ক্যাটাগরিতে কোনো ${esc(menuName)} প্রোফাইল পাওয়া যায়নি। অনুগ্রহ করে আগে "${esc(menuName)} → রেজিষ্ট্রেশন" থেকে প্রোফাইল তৈরি করুন।</div>`;
+    return;
+  }
+
+  nameWrap.style.display = 'block';
+  nameSelect.innerHTML = '<option value="">নির্বাচন করুন</option>' +
+    list.map(p => `<option value="${esc(p.RegNo)}">${esc(p.RegNo)} — ${esc(p.Name)}</option>`).join('');
+}
+
+function onFeePaymentNameChange() {
+  const memberType = document.getElementById('fpMemberType').value;
+  const regNo = document.getElementById('fpNameSelect').value;
+  const dynamicWrap = document.getElementById('fpDynamicWrap');
+  const submitBtn = document.getElementById('fpSubmitBtn');
+  dynamicWrap.innerHTML = '';
+  submitBtn.style.display = 'none';
+  if (!regNo) return;
+
+  const list = feeTypeToPersonList(memberType);
+  const person = list.find(p => p.RegNo === regNo);
+  if (!person) return;
+
+  const isStudent = memberType.indexOf('Student') === 0;
+  const batchOrClass = isStudent
+    ? (person.Type === 'প্রাক্তন' ? (person.DakhilBatch || '-') : (person.LastClass || '-'))
+    : (person.Designation || '-');
+  const profession = isStudent ? (person.Profession || '-') : (person.Designation || '-');
+  const address = formatAddress(person);
+  const feeSetting = getCurrentFee(memberType);
+  const feeAmount = feeSetting ? feeSetting.Amount : '';
+
+  dynamicWrap.innerHTML = `
+    <div class="detail-grid" style="margin-bottom:16px">
+      ${detailRow('নাম', person.Name)}
+      ${detailRow('মোবাইল নং', person.Mobile)}
+      ${detailRow(isStudent ? 'ব্যাচ/সর্বশেষ ক্লাস' : 'পদবি', batchOrClass)}
+      ${detailRow('পেশা', profession)}
+      ${detailRow('ঠিকানা', address)}
+      ${detailRow('ফি এর পরিমাণ', feeAmount ? feeAmount + ' টাকা' : 'নির্ধারিত হয়নি')}
+    </div>
+    ${!feeSetting ? '<div class="form-error show">এই ক্যাটাগরির জন্য এখনো ফি নির্ধারণ করা হয়নি। ব্যবস্থাপনার সাথে যোগাযোগ করুন।</div>' : `
+    <div class="form-grid">
+      <div class="form-group full form-section-divider">পরিশোধের তথ্য</div>
+      <div class="form-group">
+        <label>টাকা পাঠানোর মাধ্যম <span class="req">*</span></label>
+        <select id="fpPaymentMethod" onchange="onFeePaymentMethodChange()" required>
+          <option value="">নির্বাচন করুন</option>
+          <option value="সরাসরি">সরাসরি</option>
+          <option value="বিকাশ">বিকাশ</option>
+          <option value="ব্যাংক">ব্যাংক</option>
+        </select>
+      </div>
+      <div class="form-group" id="fpDirectNameWrap" style="display:none">
+        <label>যার নিকট জমা দিয়েছেন তার নাম</label>
+        <input type="text" id="fpDirectRecipientName">
+      </div>
+    </div>
+    `}
+  `;
+
+  if (feeSetting) submitBtn.style.display = 'inline-flex';
+}
+
+function onFeePaymentMethodChange() {
+  const method = document.getElementById('fpPaymentMethod').value;
+  const wrap = document.getElementById('fpDirectNameWrap');
+  if (wrap) wrap.style.display = method === 'সরাসরি' ? 'flex' : 'none';
+}
+
+async function submitFeePaymentForm(e) {
+  e.preventDefault();
+  const errorBox = document.getElementById('feePaymentError');
+  errorBox.classList.remove('show');
+
+  const memberType = val('fpMemberType');
+  const regNo = document.getElementById('fpNameSelect') ? document.getElementById('fpNameSelect').value : '';
+  const list = feeTypeToPersonList(memberType);
+  const person = list.find(p => p.RegNo === regNo);
+  const methodEl = document.getElementById('fpPaymentMethod');
+
+  if (!person || !methodEl || !methodEl.value) {
+    errorBox.textContent = 'অনুগ্রহ করে নাম ও পরিশোধের মাধ্যম নির্বাচন করুন।';
+    errorBox.classList.add('show');
+    return;
+  }
+
+  const isStudent = memberType.indexOf('Student') === 0;
+  const feeSetting = getCurrentFee(memberType);
+  const batchOrClass = isStudent
+    ? (person.Type === 'প্রাক্তন' ? (person.DakhilBatch || '') : (person.LastClass || ''))
+    : (person.Designation || '');
+
+  const data = {
+    Date: val('fpDate'),
+    MemberType: memberType,
+    PersonRegNo: person.RegNo,
+    PersonID: person.ID,
+    Name: person.Name,
+    Mobile: person.Mobile || '',
+    BatchOrClass: batchOrClass,
+    Profession: isStudent ? (person.Profession || '') : (person.Designation || ''),
+    Address: formatAddress(person),
+    FeeAmount: feeSetting ? feeSetting.Amount : '',
+    PaymentMethod: methodEl.value,
+    DirectRecipientName: methodEl.value === 'সরাসরি' ? val('fpDirectRecipientName') : ''
+  };
+
+  const btn = document.getElementById('fpSubmitBtn');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="loading-spinner"></span> সাবমিট হচ্ছে...';
+
+  try {
+    if (STATE.isDemoMode) {
+      data.ID = 'FPY' + Date.now();
+      data.Status = 'Pending';
+      STATE.feePayments.push(data);
+      showToast('ডেমো মোডে ফি প্রদানের অনুরোধ পাঠানো হয়েছে (পেন্ডিং)');
+    } else {
+      const result = await API.addFeePayment(data);
+      data.ID = result.id;
+      data.Status = 'Pending';
+      STATE.feePayments.push(data);
+      showToast('আপনার ফি প্রদানের অনুরোধ পাঠানো হয়েছে। ব্যবস্থাপনা নিশ্চিত করার পর তালিকায় যুক্ত হবে।');
+    }
+    resetFeePaymentForm();
+  } catch (err) {
+    errorBox.textContent = 'সমস্যা হয়েছে: ' + err.message;
+    errorBox.classList.add('show');
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = 'সাবমিট করুন';
+  }
 }
 
 
@@ -4264,6 +4700,7 @@ function showAdminPanel() {
   loadCommitteeForm();
   loadSpecialCommitteeForm();
   populateAdminEventSelect();
+  loadFeeSettingsView();
 }
 
 function adminLogout() {
@@ -4508,10 +4945,10 @@ function printCommittee() {
     <html><head><title>কমিটি তালিকা</title>
     <style>
       body{font-family:'Noto Sans Bengali',sans-serif;padding:30px;}
-      h2{text-align:center;color:#1f4d3a;}
+      h2{text-align:center;color:#0d4f4f;}
       table{width:100%;border-collapse:collapse;margin-top:20px;}
       th,td{border:1px solid #ccc;padding:8px 12px;text-align:right;}
-      th{background:#e8f0ea;}
+      th{background:#e3f0ef;}
     </style></head><body>
     <h2>${esc(info.ForumName)} — কমিটি তালিকা</h2>
     <p style="text-align:center">গঠনের তারিখ: ${esc(tempCommitteeRows[0]?.FormationDate || '')} | মেয়াদ: ${esc(tempCommitteeRows[0]?.TermLength || '')}</p>
@@ -4601,10 +5038,10 @@ function printSpecialCommittee() {
     <html><head><title>বিশেষ কমিটি তালিকা</title>
     <style>
       body{font-family:'Noto Sans Bengali',sans-serif;padding:30px;}
-      h2{text-align:center;color:#1f4d3a;}
+      h2{text-align:center;color:#0d4f4f;}
       table{width:100%;border-collapse:collapse;margin-top:20px;}
       th,td{border:1px solid #ccc;padding:8px 12px;text-align:right;}
-      th{background:#e8f0ea;}
+      th{background:#e3f0ef;}
     </style></head><body>
     <h2>${esc(info.ForumName)} — ${esc(tempSpecialCommitteeRows[0]?.CommitteeName || 'বিশেষ কমিটি')}</h2>
     <p style="text-align:center">গঠনের তারিখ: ${esc(tempSpecialCommitteeRows[0]?.FormationDate || '')} | মেয়াদ: ${esc(tempSpecialCommitteeRows[0]?.TermLength || '')}</p>
@@ -4809,12 +5246,12 @@ function openPrintListWindow(title, rowsHtml) {
     <meta charset="UTF-8">
     <style>
       body{font-family:'Noto Sans Bengali','Hind Siliguri',sans-serif;padding:24px;}
-      h2{text-align:center;color:#1f4d3a;margin-bottom:2px;}
+      h2{text-align:center;color:#0d4f4f;margin-bottom:2px;}
       .sub{text-align:center;color:#5c6b62;font-size:13px;margin-bottom:18px;}
       table{width:100%;border-collapse:collapse;font-size:13px;}
       th,td{border:1px solid #ccc;padding:7px 10px;text-align:right;}
       th:nth-child(2),td:nth-child(2),th:nth-child(6),td:nth-child(6){text-align:right;}
-      th{background:#e8f0ea;color:#1f4d3a;}
+      th{background:#e3f0ef;color:#0d4f4f;}
       tr:nth-child(even){background:#faf7f0;}
     </style></head><body>
     <h2>${esc(info.ForumName || '')}</h2>
@@ -4887,6 +5324,8 @@ const STATE = {
   eventRegistrations: [],
   incomes: [],
   expenses: [],
+  feeSettings: [],
+  feePayments: [],
   isAdmin: false,
   isDemoMode: false,
   lastStudentSubmission: null,
@@ -4930,10 +5369,12 @@ async function loadAllData() {
     API.getEvents(),
     API.getEventRegistrations(),
     API.getIncomes(),
-    API.getExpenses()
+    API.getExpenses(),
+    API.getFeeSettings(),
+    API.getFeePayments()
   ]);
 
-  const [infoR, studentsR, teachersR, committeeR, specialCommitteeR, eventsR, eventRegR, incomesR, expensesR] = results;
+  const [infoR, studentsR, teachersR, committeeR, specialCommitteeR, eventsR, eventRegR, incomesR, expensesR, feeSettingsR, feePaymentsR] = results;
 
   STATE.forumInfo = infoR.status === 'fulfilled' ? infoR.value : {};
   STATE.students = studentsR.status === 'fulfilled' ? studentsR.value : [];
@@ -4944,9 +5385,11 @@ async function loadAllData() {
   STATE.eventRegistrations = eventRegR.status === 'fulfilled' ? eventRegR.value : [];
   STATE.incomes = incomesR.status === 'fulfilled' ? incomesR.value : [];
   STATE.expenses = expensesR.status === 'fulfilled' ? expensesR.value : [];
+  STATE.feeSettings = feeSettingsR.status === 'fulfilled' ? feeSettingsR.value : [];
+  STATE.feePayments = feePaymentsR.status === 'fulfilled' ? feePaymentsR.value : [];
 
   // প্রতিটি অংশের ব্যর্থতা আলাদাভাবে লগ করা হয় — একটি অংশ ব্যর্থ হলেও বাকি ডাটা লোড হবে
-  const labels = ['ফোরাম তথ্য', 'শিক্ষার্থী', 'শিক্ষক', 'কমিটি', 'বিশেষ কমিটি', 'অনুষ্ঠান', 'অনুষ্ঠান রেজিষ্ট্রেশন', 'আয়', 'খরচ'];
+  const labels = ['ফোরাম তথ্য', 'শিক্ষার্থী', 'শিক্ষক', 'কমিটি', 'বিশেষ কমিটি', 'অনুষ্ঠান', 'অনুষ্ঠান রেজিষ্ট্রেশন', 'আয়', 'খরচ', 'ফি নির্ধারণ', 'ফি প্রদান'];
   const failed = [];
   results.forEach((r, i) => {
     if (r.status === 'rejected') {
@@ -5060,6 +5503,7 @@ function showView(viewId) {
   if (viewId === 'events') renderEventsList();
   if (viewId === 'income') initFinanceView('income');
   if (viewId === 'expense') initFinanceView('expense');
+  if (viewId === 'feePayment') resetFeePaymentForm();
   if (viewId === 'admin') initAdminView();
 }
 

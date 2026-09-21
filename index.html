@@ -14,10 +14,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Noto+Sans+Bengali:wght@400;500;600&display=swap');
 
 :root {
-  --ink: #14302f;
-  --forest: #0d4f4f;
-  --forest-deep: #063636;
-  --forest-soft: #e3f0ef;
+  --ink: #132f33;
+  --forest: #26727c;
+  --forest-deep: #164147;
+  --forest-soft: #e1eef0;
   --gold: #b8863b;
   --gold-bright: #d4a24e;
     --paper: #eaf4f3;
@@ -25,8 +25,8 @@
   --line: #d3ddd2;
   --text-muted: #55716f;
   --danger: #a83232;
-  --shadow: 0 4px 16px rgba(13, 54, 54, 0.08);
-  --shadow-lg: 0 12px 32px rgba(13, 54, 54, 0.14);
+  --shadow: 0 4px 16px rgba(19, 47, 51, 0.08);
+  --shadow-lg: 0 12px 32px rgba(19, 47, 51, 0.14);
   --radius: 10px;
   --radius-sm: 6px;
   --font-display: 'Hind Siliguri', 'Noto Sans Bengali', sans-serif;
@@ -407,12 +407,12 @@ button { font-family: inherit; cursor: pointer; }
   font-weight: 600;
   border: none;
   outline: none;
-  box-shadow: 0 2px 8px rgba(13, 54, 54, 0.16);
+  box-shadow: 0 2px 8px rgba(19, 47, 51, 0.16);
   transition: all 0.18s ease;
 }
 
-.btn:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(13, 54, 54, 0.22); }
-.btn:active { transform: translateY(0); box-shadow: 0 1px 4px rgba(13, 54, 54, 0.16); }
+.btn:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(19, 47, 51, 0.22); }
+.btn:active { transform: translateY(0); box-shadow: 0 1px 4px rgba(19, 47, 51, 0.16); }
 .btn:focus-visible { outline: 2px solid var(--gold-bright); outline-offset: 2px; }
 
 .btn-primary {
@@ -431,7 +431,7 @@ button { font-family: inherit; cursor: pointer; }
   background: var(--paper-raised);
   border: 1.5px solid var(--forest);
   color: var(--forest);
-  box-shadow: 0 1px 4px rgba(13, 54, 54, 0.08);
+  box-shadow: 0 1px 4px rgba(19, 47, 51, 0.08);
 }
 .btn-outline:hover { background: var(--forest-soft); }
 
@@ -973,7 +973,7 @@ button { font-family: inherit; cursor: pointer; }
 .modal-overlay {
   display: none;
   position: fixed; inset: 0;
-  background: rgba(13, 54, 54, 0.55);
+  background: rgba(19, 47, 51, 0.55);
   z-index: 1000;
   align-items: center;
   justify-content: center;
@@ -2292,6 +2292,7 @@ const API = {
 
   getFeeSettings() { return this.get('getFeeSettings'); },
   getFeePayments() { return this.get('getFeePayments'); },
+  getAllData() { return this.get('getAllData'); },
   addFeeSetting(data, password) { return this.post('addFeeSetting', { data, password }); },
   addFeePayment(data) { return this.post('addFeePayment', { data }); },
   confirmFeePayment(id, password) { return this.post('confirmFeePayment', { id, password }); },
@@ -3412,7 +3413,7 @@ function onEventRegNoChange() {
 
   if (existing && existing.Status === 'Confirmed') {
     dynamicWrap.innerHTML = `
-      <div class="form-error show" style="background:#e3f0ef;color:var(--forest-deep)">✅ আপনার রেজিষ্ট্রেশন নিশ্চিত হয়েছে।</div>
+      <div class="form-error show" style="background:#e1eef0;color:var(--forest-deep)">✅ আপনার রেজিষ্ট্রেশন নিশ্চিত হয়েছে।</div>
       <div class="form-actions"><button type="button" class="btn btn-gold" onclick="downloadEventRegCard('${esc(existing.ID)}')">🖨️ রেজিষ্ট্রেশন কার্ড ডাউনলোড করুন</button></div>
     `;
     return;
@@ -3646,7 +3647,7 @@ function downloadEventRegCard(regId) {
       .evc-photo-fallback {
         width: 100%; height: 100%;
         display: flex; align-items: center; justify-content: center;
-        font-size: 28px; font-weight: 800; color: #1a1a5c; background: #e3f0ef;
+        font-size: 28px; font-weight: 800; color: #1a1a5c; background: #e1eef0;
         font-family: 'Hind Siliguri', sans-serif;
       }
 
@@ -4075,13 +4076,13 @@ function printIncomeRecord(id) {
     <meta charset="UTF-8">
     <style>
       body{font-family:'Noto Sans Bengali','Hind Siliguri',sans-serif;padding:26px;}
-      h2{text-align:center;color:#0d4f4f;margin-bottom:2px;}
+      h2{text-align:center;color:#26727c;margin-bottom:2px;}
       .sub{text-align:center;color:#5c6b62;font-size:13px;margin-bottom:18px;}
       .meta{display:flex;justify-content:space-between;font-size:14px;margin-bottom:16px;flex-wrap:wrap;gap:10px;}
       table{width:100%;border-collapse:collapse;font-size:14px;margin-top:6px;}
       th,td{border:1px solid #333;padding:8px 12px;text-align:right;}
       th:nth-child(2),td:nth-child(2){text-align:right;}
-      th{background:#e3f0ef;}
+      th{background:#e1eef0;}
       .total-row{text-align:right;font-weight:700;font-size:16px;margin-top:10px;}
       .signatures{display:flex;justify-content:space-between;margin-top:60px;}
       .sig{width:220px;text-align:center;border-top:1.5px solid #000;padding-top:6px;font-size:13px;}
@@ -4288,13 +4289,13 @@ function printExpenseRecord(id) {
     <meta charset="UTF-8">
     <style>
       body{font-family:'Noto Sans Bengali','Hind Siliguri',sans-serif;padding:26px;}
-      h2{text-align:center;color:#0d4f4f;margin-bottom:2px;}
+      h2{text-align:center;color:#26727c;margin-bottom:2px;}
       .sub{text-align:center;color:#5c6b62;font-size:13px;margin-bottom:18px;}
       .meta{display:flex;justify-content:space-between;font-size:14px;margin-bottom:16px;flex-wrap:wrap;gap:10px;}
       table{width:100%;border-collapse:collapse;font-size:14px;margin-top:6px;}
       th,td{border:1px solid #333;padding:8px 12px;text-align:right;}
       th:nth-child(2),td:nth-child(2){text-align:right;}
-      th{background:#e3f0ef;}
+      th{background:#e1eef0;}
       .totals{margin-top:10px;font-size:15px;text-align:right;}
       .totals div{margin-top:3px;}
       .signatures{display:flex;justify-content:space-between;margin-top:60px;}
@@ -4945,10 +4946,10 @@ function printCommittee() {
     <html><head><title>কমিটি তালিকা</title>
     <style>
       body{font-family:'Noto Sans Bengali',sans-serif;padding:30px;}
-      h2{text-align:center;color:#0d4f4f;}
+      h2{text-align:center;color:#26727c;}
       table{width:100%;border-collapse:collapse;margin-top:20px;}
       th,td{border:1px solid #ccc;padding:8px 12px;text-align:right;}
-      th{background:#e3f0ef;}
+      th{background:#e1eef0;}
     </style></head><body>
     <h2>${esc(info.ForumName)} — কমিটি তালিকা</h2>
     <p style="text-align:center">গঠনের তারিখ: ${esc(tempCommitteeRows[0]?.FormationDate || '')} | মেয়াদ: ${esc(tempCommitteeRows[0]?.TermLength || '')}</p>
@@ -5038,10 +5039,10 @@ function printSpecialCommittee() {
     <html><head><title>বিশেষ কমিটি তালিকা</title>
     <style>
       body{font-family:'Noto Sans Bengali',sans-serif;padding:30px;}
-      h2{text-align:center;color:#0d4f4f;}
+      h2{text-align:center;color:#26727c;}
       table{width:100%;border-collapse:collapse;margin-top:20px;}
       th,td{border:1px solid #ccc;padding:8px 12px;text-align:right;}
-      th{background:#e3f0ef;}
+      th{background:#e1eef0;}
     </style></head><body>
     <h2>${esc(info.ForumName)} — ${esc(tempSpecialCommitteeRows[0]?.CommitteeName || 'বিশেষ কমিটি')}</h2>
     <p style="text-align:center">গঠনের তারিখ: ${esc(tempSpecialCommitteeRows[0]?.FormationDate || '')} | মেয়াদ: ${esc(tempSpecialCommitteeRows[0]?.TermLength || '')}</p>
@@ -5069,8 +5070,8 @@ async function changeAdminPassword(e) {
     errorBox.classList.add('show');
     return;
   }
-  if (newPass.length < 6) {
-    errorBox.textContent = 'নতুন পাসওয়ার্ড কমপক্ষে ৬ অক্ষরের হতে হবে।';
+  if (newPass.length < 5) {
+    errorBox.textContent = 'নতুন পাসওয়ার্ড কমপক্ষে ৫ অক্ষরের হতে হবে।';
     errorBox.classList.add('show');
     return;
   }
@@ -5246,12 +5247,12 @@ function openPrintListWindow(title, rowsHtml) {
     <meta charset="UTF-8">
     <style>
       body{font-family:'Noto Sans Bengali','Hind Siliguri',sans-serif;padding:24px;}
-      h2{text-align:center;color:#0d4f4f;margin-bottom:2px;}
+      h2{text-align:center;color:#26727c;margin-bottom:2px;}
       .sub{text-align:center;color:#5c6b62;font-size:13px;margin-bottom:18px;}
       table{width:100%;border-collapse:collapse;font-size:13px;}
       th,td{border:1px solid #ccc;padding:7px 10px;text-align:right;}
       th:nth-child(2),td:nth-child(2),th:nth-child(6),td:nth-child(6){text-align:right;}
-      th{background:#e3f0ef;color:#0d4f4f;}
+      th{background:#e1eef0;color:#26727c;}
       tr:nth-child(even){background:#faf7f0;}
     </style></head><body>
     <h2>${esc(info.ForumName || '')}</h2>
@@ -5360,6 +5361,27 @@ document.addEventListener('DOMContentLoaded', async () => {
 });
 
 async function loadAllData() {
+  // দ্রুততর পথ: একটি মাত্র রিকোয়েস্টে সব ডাটা আনার চেষ্টা করা হয় (নতুন getAllData অ্যাকশন)।
+  // এতে ১১টি আলাদা Apps Script এক্সিকিউশনের বদলে মাত্র ১টি লাগে — লোড হতে অনেক কম সময় লাগবে।
+  try {
+    const bundle = await API.getAllData();
+    STATE.forumInfo = bundle.forumInfo || {};
+    STATE.students = bundle.students || [];
+    STATE.teachers = bundle.teachers || [];
+    STATE.committee = bundle.committee || [];
+    STATE.specialCommittee = bundle.specialCommittee || [];
+    STATE.events = bundle.events || [];
+    STATE.eventRegistrations = bundle.eventRegistrations || [];
+    STATE.incomes = bundle.incomes || [];
+    STATE.expenses = bundle.expenses || [];
+    STATE.feeSettings = bundle.feeSettings || [];
+    STATE.feePayments = bundle.feePayments || [];
+    return;
+  } catch (err) {
+    // পুরনো Apps Script ডিপ্লয়মেন্টে (যেখানে getAllData এখনো যোগ হয়নি) পুরনো পদ্ধতিতে ফিরে যাওয়া হয়
+    console.warn('getAllData ব্যর্থ, পুরনো পদ্ধতিতে চেষ্টা করা হচ্ছে:', err.message);
+  }
+
   const results = await Promise.allSettled([
     API.getForumInfo(),
     API.getStudents(),

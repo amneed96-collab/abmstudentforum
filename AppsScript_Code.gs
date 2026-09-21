@@ -190,6 +190,9 @@ function doGet(e) {
       case 'getFeePayments':
         result = getSheetAsObjects(SHEETS.FEE_PAYMENTS);
         break;
+      case 'getAllData':
+        result = getAllDataBundle();
+        break;
       case 'checkPassword':
         result = { valid: checkAdminPassword(e.parameter.password) };
         break;
@@ -529,9 +532,29 @@ function replaceSheetRows(sheetName, rowsArray) {
   return { success: true };
 }
 
+// একটি মাত্র এক্সিকিউশনে সব ডাটা একসাথে ফেরত দেয় — এতে আলাদা আলাদা ১১টি রিকোয়েস্টের বদলে
+// মাত্র ১টি রিকোয়েস্ট লাগে, ফলে ওয়েবসাইট লোড হতে অনেক কম সময় লাগে
+function getAllDataBundle() {
+  return {
+    forumInfo: getKeyValueSheet(SHEETS.FORUM_INFO),
+    students: getSheetAsObjects(SHEETS.STUDENTS),
+    teachers: getSheetAsObjects(SHEETS.TEACHERS),
+    committee: getSheetAsObjects(SHEETS.COMMITTEE),
+    specialCommittee: getSheetAsObjects(SHEETS.SPECIAL_COMMITTEE),
+    events: getSheetAsObjects(SHEETS.EVENTS),
+    eventRegistrations: getSheetAsObjects(SHEETS.EVENT_REGISTRATIONS),
+    incomes: getSheetAsObjects(SHEETS.INCOME),
+    expenses: getSheetAsObjects(SHEETS.EXPENSES),
+    feeSettings: getSheetAsObjects(SHEETS.FEE_SETTINGS),
+    feePayments: getSheetAsObjects(SHEETS.FEE_PAYMENTS)
+  };
+}
+
 function checkAdminPassword(password) {
   const settings = getKeyValueSheet(SHEETS.SETTINGS);
-  return settings.AdminPassword === password;
+  // Sheet-এ পাসওয়ার্ড শুধু সংখ্যা দিয়ে লেখা হলে Google Sheets এটাকে Number টাইপে রূপান্তর করে ফেলে,
+  // অথচ ফরম থেকে আসা পাসওয়ার্ড সবসময় String — তাই strict (===) তুলনা ব্যর্থ হতো। String() দিয়ে ঠিক করা হলো।
+  return String(settings.AdminPassword).trim() === String(password).trim();
 }
 
 function getDashboardStats() {

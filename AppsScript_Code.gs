@@ -118,7 +118,7 @@ function setupSheets() {
   setHeaderIfEmpty(sh, [
     'ID', 'Date', 'MemberType', 'PersonRegNo', 'PersonID', 'Name', 'Mobile',
     'BatchOrClass', 'Profession', 'Address', 'FeeAmount', 'PaymentMethod',
-    'DirectRecipientName', 'Status', 'Timestamp'
+    'DirectRecipientName', 'BkashSenderNumber', 'BankLast6', 'Status', 'Timestamp'
   ]);
 
   SpreadsheetApp.flush();
@@ -135,6 +135,14 @@ function setHeaderIfEmpty(sh, headers) {
   if (sh.getLastRow() === 0) {
     sh.appendRow(headers);
     sh.setFrozenRows(1);
+    return;
+  }
+  // শীট আগে থেকেই ছিল কিন্তু কোডে নতুন কলাম যোগ হয়েছে — বিদ্যমান ডাটা অক্ষত রেখে
+  // শুধু অনুপস্থিত কলামগুলো শেষে যোগ করে দেওয়া হয়
+  const existingHeaders = sh.getRange(1, 1, 1, Math.max(sh.getLastColumn(), 1)).getValues()[0];
+  const missing = headers.filter(h => existingHeaders.indexOf(h) === -1);
+  if (missing.length > 0) {
+    sh.getRange(1, existingHeaders.length + 1, 1, missing.length).setValues([missing]);
   }
 }
 

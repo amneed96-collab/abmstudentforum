@@ -783,7 +783,13 @@ button { font-family: inherit; cursor: pointer; }
 }
 .form-error.show { display: block; }
 
-
+/* ===================== কার্ড গ্রিড (পোর্টাল) ===================== */
+.people-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 14px;
+  margin-top: 20px;
+}
 
 /* অনুষ্ঠান তালিকা (টেবিল স্টাইল) */
 .events-table {
@@ -1817,39 +1823,69 @@ button { font-family: inherit; cursor: pointer; }
   <!-- ===================== ফি প্রদান ===================== -->
   <section id="view-feePayment" class="view-panel">
     <div class="page-section">
-      <form id="feePaymentForm" class="form-card form-card-wide" onsubmit="submitFeePaymentForm(event)">
+      <div class="form-card form-card-wide">
         <div class="form-body-padding">
-        <div class="form-grid">
-          <div class="form-group full form-section-divider">ফি প্রদান ফরম</div>
-          <div class="form-group">
-            <label>তারিখ <span class="req">*</span></label>
-            <input type="date" id="fpDate" required>
-          </div>
-          <div class="form-group">
-            <label>ধরণ <span class="req">*</span></label>
-            <select id="fpMemberType" onchange="onFeePaymentTypeChange()" required>
-              <option value="">নির্বাচন করুন</option>
-              <option value="StudentFormer">শিক্ষার্থী (প্রাক্তন)</option>
-              <option value="StudentCurrent">শিক্ষার্থী (বর্তমান)</option>
-              <option value="TeacherFormer">শিক্ষক (প্রাক্তন)</option>
-              <option value="TeacherCurrent">শিক্ষক (বর্তমান)</option>
-            </select>
-          </div>
-
-          <div class="form-group full" id="fpNameWrap" style="display:none">
-            <label>নাম নির্বাচন করুন <span class="req">*</span></label>
-            <select id="fpNameSelect" onchange="onFeePaymentNameChange()"></select>
-          </div>
-
-          <div id="fpDynamicWrap" class="form-group full"></div>
-
-          <div class="form-error" id="feePaymentError"></div>
-          <div class="form-actions">
-            <button type="submit" class="btn btn-primary" id="fpSubmitBtn" style="display:none">সাবমিট করুন</button>
+          <div class="form-grid">
+            <div class="form-group full form-section-divider">ফি প্রদান</div>
+            <div class="form-group full">
+              <label>ফি এর ধরণ নির্বাচন করুন <span class="req">*</span></label>
+              <select id="fpCategorySelect" onchange="onFeeCategoryChange()">
+                <option value="">নির্বাচন করুন</option>
+                <option value="membership">সদস্য ফি</option>
+                <option value="event">অনুষ্ঠান রেজিস্ট্রেশন ফি</option>
+              </select>
+            </div>
           </div>
         </div>
+      </div>
+
+      <!-- সদস্য ফি -->
+      <div id="feeCategoryMembershipWrap" style="display:none; margin-top:20px;">
+        <form id="feePaymentForm" class="form-card form-card-wide" onsubmit="submitFeePaymentForm(event)">
+          <div class="form-body-padding">
+          <div class="form-grid">
+            <div class="form-group full form-section-divider">সদস্য ফি প্রদান ফরম</div>
+            <div class="form-group">
+              <label>তারিখ <span class="req">*</span></label>
+              <input type="date" id="fpDate" required>
+            </div>
+            <div class="form-group">
+              <label>ধরণ <span class="req">*</span></label>
+              <select id="fpMemberType" onchange="onFeePaymentTypeChange()" required>
+                <option value="">নির্বাচন করুন</option>
+                <option value="StudentFormer">শিক্ষার্থী (প্রাক্তন)</option>
+                <option value="StudentCurrent">শিক্ষার্থী (বর্তমান)</option>
+                <option value="TeacherFormer">শিক্ষক (প্রাক্তন)</option>
+                <option value="TeacherCurrent">শিক্ষক (বর্তমান)</option>
+              </select>
+            </div>
+
+            <div class="form-group full" id="fpNameWrap" style="display:none">
+              <label>নাম নির্বাচন করুন <span class="req">*</span></label>
+              <select id="fpNameSelect" onchange="onFeePaymentNameChange()"></select>
+            </div>
+
+            <div id="fpDynamicWrap" class="form-group full"></div>
+
+            <div class="form-error" id="feePaymentError"></div>
+            <div class="form-actions">
+              <button type="submit" class="btn btn-primary" id="fpSubmitBtn" style="display:none">সাবমিট করুন</button>
+            </div>
+          </div>
+          </div>
+        </form>
+      </div>
+
+      <!-- অনুষ্ঠান রেজিস্ট্রেশন ফি -->
+      <div id="feeCategoryEventWrap" style="display:none; margin-top:20px;">
+        <div class="form-card form-card-wide">
+          <div class="form-body-padding">
+            <div class="form-section-divider" style="margin-bottom:14px">অনুষ্ঠান নির্বাচন করুন</div>
+            <p style="color:var(--text-muted);font-size:13px;margin-bottom:14px">যে অনুষ্ঠানের জন্য ফি প্রদান করতে চান, তালিকা থেকে সেটি নির্বাচন করুন</p>
+            <div id="feePaymentEventsListWrap"></div>
+          </div>
         </div>
-      </form>
+      </div>
     </div>
   </section>
 
@@ -2394,7 +2430,7 @@ function loadDemoData() {
   ];
 
   STATE.feePayments = [
-    { ID: 'FPY0001', Date: '2026-08-10', MemberType: 'StudentFormer', PersonRegNo: 'SRN19850001', PersonID: '1', Name: 'মোঃ আব্দুল করিম', Mobile: '০১৭১১xxxxxx', BatchOrClass: '২০০৫', Profession: 'শিক্ষকতা', Address: 'রামপুর, রামপুর বাজার, রামপুর, সদর, কুমিল্লা', FeeAmount: 200, PaymentMethod: 'বিকাশ', DirectRecipientName: '', Status: 'Pending' }
+    { ID: 'FPY0001', Date: '2026-08-10', MemberType: 'StudentFormer', PersonRegNo: 'SRN19850001', PersonID: '1', Name: 'মোঃ আব্দুল করিম', Mobile: '০১৭১১xxxxxx', BatchOrClass: '২০০৫', Profession: 'শিক্ষকতা', Address: 'রামপুর, রামপুর বাজার, রামপুর, সদর, কুমিল্লা', FeeAmount: 200, PaymentMethod: 'বিকাশ', DirectRecipientName: '', BkashSenderNumber: '০১৭১১xxxxxx', BankLast6: '', Status: 'Pending' }
   ];
 }
 
@@ -4412,6 +4448,13 @@ async function saveFeeSetting(e) {
   }
 }
 
+function formatFeePaymentDetail(p) {
+  if (p.PaymentMethod === 'সরাসরি' && p.DirectRecipientName) return ' (' + esc(p.DirectRecipientName) + ')';
+  if (p.PaymentMethod === 'বিকাশ' && p.BkashSenderNumber) return ' (প্রেরক: ' + esc(p.BkashSenderNumber) + ')';
+  if (p.PaymentMethod === 'ব্যাংক' && p.BankLast6) return ' (শেষ ৬ সংখ্যা: ' + esc(p.BankLast6) + ')';
+  return '';
+}
+
 function renderFeePaymentsAdminList() {
   const wrap = document.getElementById('feePaymentsListWrap');
   const list = (STATE.feePayments || []).slice().reverse();
@@ -4429,7 +4472,7 @@ function renderFeePaymentsAdminList() {
             <td>${esc(p.Date)}</td>
             <td>${esc(FEE_TYPE_LABELS[p.MemberType] || p.MemberType)}</td>
             <td>${esc(p.Name)}</td>
-            <td>${esc(p.PaymentMethod)}${p.PaymentMethod === 'সরাসরি' && p.DirectRecipientName ? ' (' + esc(p.DirectRecipientName) + ')' : ''}</td>
+            <td>${esc(p.PaymentMethod)}${formatFeePaymentDetail(p)}</td>
             <td>${esc(p.FeeAmount)} টাকা</td>
             <td>${p.Status === 'Confirmed' ? '✅ নিশ্চিত' : '⏳ পেন্ডিং'}</td>
             <td>${p.Status !== 'Confirmed' ? `<button class="btn btn-primary btn-sm" onclick="confirmFeePaymentAdmin('${esc(p.ID)}')">নিশ্চিত করুন</button>` : ''}</td>
@@ -4461,6 +4504,63 @@ async function confirmFeePaymentAdmin(id) {
 // ============================================================
 // পাবলিক: ফি প্রদান ফরম
 // ============================================================
+// পেজ খোলার সময় প্রাথমিক অবস্থায় ফিরিয়ে আনে — ফি এর ধরণ নির্বাচন করাই লাগবে প্রথমে
+function resetFeePaymentPage() {
+  const catSelect = document.getElementById('fpCategorySelect');
+  if (catSelect) catSelect.value = '';
+  document.getElementById('feeCategoryMembershipWrap').style.display = 'none';
+  document.getElementById('feeCategoryEventWrap').style.display = 'none';
+  resetFeePaymentForm();
+}
+
+function onFeeCategoryChange() {
+  const cat = document.getElementById('fpCategorySelect').value;
+  document.getElementById('feeCategoryMembershipWrap').style.display = cat === 'membership' ? 'block' : 'none';
+  document.getElementById('feeCategoryEventWrap').style.display = cat === 'event' ? 'block' : 'none';
+
+  if (cat === 'membership') {
+    resetFeePaymentForm();
+  } else if (cat === 'event') {
+    renderFeePaymentEventsList();
+  }
+}
+
+// অনুষ্ঠান তালিকা দেখানো — সিলেক্ট করলে বিদ্যমান অনুষ্ঠান রেজিষ্ট্রেশন মোডাল খুলবে (একই ফ্লো পুনঃব্যবহার)
+function renderFeePaymentEventsList() {
+  const wrap = document.getElementById('feePaymentEventsListWrap');
+  const events = STATE.events || [];
+  if (events.length === 0) {
+    wrap.innerHTML = '<div class="empty-state">এখনো কোনো অনুষ্ঠান যোগ করা হয়নি।</div>';
+    return;
+  }
+
+  const sorted = events.slice().sort((a, b) => {
+    if (a.CreatedAt && b.CreatedAt) return new Date(b.CreatedAt) - new Date(a.CreatedAt);
+    return events.indexOf(b) - events.indexOf(a);
+  });
+
+  wrap.innerHTML = `
+    <div style="overflow-x:auto">
+    <table class="events-table">
+      <thead><tr><th>ক্রম</th><th>অনুষ্ঠানের নাম</th><th>তারিখ ও সময়</th><th>ফি</th><th></th></tr></thead>
+      <tbody>
+        ${sorted.map((ev, i) => {
+          const idx = STATE.events.indexOf(ev);
+          return `
+          <tr class="events-table-row" onclick="openEventModal(${idx})">
+            <td>${toBn(i + 1)}</td>
+            <td class="events-table-name">${esc(ev.Name)}</td>
+            <td>${esc(formatEventDateTime(ev.EventDateTime))}</td>
+            <td>${ev.Fee ? toBn(ev.Fee) + ' টাকা' : 'ফ্রি'}</td>
+            <td class="events-table-arrow">রেজিষ্ট্রেশন ও ফি প্রদান ›</td>
+          </tr>`;
+        }).join('')}
+      </tbody>
+    </table>
+    </div>
+  `;
+}
+
 function resetFeePaymentForm() {
   const form = document.getElementById('feePaymentForm');
   if (form) form.reset();
@@ -4551,6 +4651,14 @@ function onFeePaymentNameChange() {
         <label>যার নিকট জমা দিয়েছেন তার নাম</label>
         <input type="text" id="fpDirectRecipientName">
       </div>
+      <div class="form-group" id="fpBkashWrap" style="display:none">
+        <label>যে নাম্বার থেকে পাঠিয়েছেন <span class="req">*</span></label>
+        <input type="tel" id="fpBkashSenderNumber" placeholder="যেমন: ০১৭xxxxxxxx" maxlength="11">
+      </div>
+      <div class="form-group" id="fpBankWrap" style="display:none">
+        <label>ব্যাংক একাউন্ট নং এর শেষ ৬ সংখ্যা <span class="req">*</span></label>
+        <input type="text" id="fpBankLast6" placeholder="যেমন: ৪৫৬৭৮৯" maxlength="6" inputmode="numeric">
+      </div>
     </div>
     `}
   `;
@@ -4560,8 +4668,12 @@ function onFeePaymentNameChange() {
 
 function onFeePaymentMethodChange() {
   const method = document.getElementById('fpPaymentMethod').value;
-  const wrap = document.getElementById('fpDirectNameWrap');
-  if (wrap) wrap.style.display = method === 'সরাসরি' ? 'flex' : 'none';
+  const directWrap = document.getElementById('fpDirectNameWrap');
+  const bkashWrap = document.getElementById('fpBkashWrap');
+  const bankWrap = document.getElementById('fpBankWrap');
+  if (directWrap) directWrap.style.display = method === 'সরাসরি' ? 'flex' : 'none';
+  if (bkashWrap) bkashWrap.style.display = method === 'বিকাশ' ? 'flex' : 'none';
+  if (bankWrap) bankWrap.style.display = method === 'ব্যাংক' ? 'flex' : 'none';
 }
 
 async function submitFeePaymentForm(e) {
@@ -4577,6 +4689,17 @@ async function submitFeePaymentForm(e) {
 
   if (!person || !methodEl || !methodEl.value) {
     errorBox.textContent = 'অনুগ্রহ করে নাম ও পরিশোধের মাধ্যম নির্বাচন করুন।';
+    errorBox.classList.add('show');
+    return;
+  }
+
+  if (methodEl.value === 'বিকাশ' && !val('fpBkashSenderNumber')) {
+    errorBox.textContent = 'যে নাম্বার থেকে পাঠিয়েছেন তা লিখুন।';
+    errorBox.classList.add('show');
+    return;
+  }
+  if (methodEl.value === 'ব্যাংক' && !val('fpBankLast6')) {
+    errorBox.textContent = 'ব্যাংক একাউন্ট নং এর শেষ ৬ সংখ্যা লিখুন।';
     errorBox.classList.add('show');
     return;
   }
@@ -4599,7 +4722,9 @@ async function submitFeePaymentForm(e) {
     Address: formatAddress(person),
     FeeAmount: feeSetting ? feeSetting.Amount : '',
     PaymentMethod: methodEl.value,
-    DirectRecipientName: methodEl.value === 'সরাসরি' ? val('fpDirectRecipientName') : ''
+    DirectRecipientName: methodEl.value === 'সরাসরি' ? val('fpDirectRecipientName') : '',
+    BkashSenderNumber: methodEl.value === 'বিকাশ' ? val('fpBkashSenderNumber') : '',
+    BankLast6: methodEl.value === 'ব্যাংক' ? val('fpBankLast6') : ''
   };
 
   const btn = document.getElementById('fpSubmitBtn');
@@ -5519,7 +5644,7 @@ function showView(viewId) {
   if (viewId === 'events') renderEventsList();
   if (viewId === 'income') initFinanceView('income');
   if (viewId === 'expense') initFinanceView('expense');
-  if (viewId === 'feePayment') resetFeePaymentForm();
+  if (viewId === 'feePayment') resetFeePaymentPage();
   if (viewId === 'admin') initAdminView();
 }
 

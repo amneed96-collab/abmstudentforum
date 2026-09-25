@@ -91,7 +91,10 @@ function setupSheets() {
 
   // Events শীট (অনুষ্ঠান তালিকা)
   sh = getOrCreateSheet(ss, SHEETS.EVENTS);
-  setHeaderIfEmpty(sh, ['ID', 'Name', 'EventDateTime', 'Venue', 'Fee', 'RegDeadline', 'CreatedAt']);
+  setHeaderIfEmpty(sh, [
+    'ID', 'Name', 'EventDateTime', 'Venue', 'Fee', 'RegDeadline', 'CreatedAt',
+    'FeeType', 'FeeStudentFormer', 'FeeStudentCurrent', 'FeeTeacherFormer', 'FeeTeacherCurrent'
+  ]);
 
   // EventRegistrations শীট (অনুষ্ঠানে অংশগ্রহণের রেজিষ্ট্রেশন)
   sh = getOrCreateSheet(ss, SHEETS.EVENT_REGISTRATIONS);
@@ -326,7 +329,13 @@ function getSheetAsObjects(sheetName) {
       const obj = {};
       headers.forEach((h, i) => {
         let val = r[i];
-        if (val instanceof Date) val = Utilities.formatDate(val, Session.getScriptTimeZone(), 'yyyy-MM-dd');
+        if (val instanceof Date) {
+          // "...DateTime" কলামে সময়সহ ফরম্যাট (datetime-local ইনপুটের সাথে মিলিয়ে),
+          // বাকি সব তারিখ কলামে শুধু yyyy-MM-dd (সময় ছাড়া) — যাতে ব্রাউজারে
+          // পূর্ণ ISO (যেমন 2026-08-20T18:00:00.000Z) দেখা না যায়
+          const fmt = /DateTime$/.test(h) ? "yyyy-MM-dd'T'HH:mm" : 'yyyy-MM-dd';
+          val = Utilities.formatDate(val, Session.getScriptTimeZone(), fmt);
+        }
         obj[h] = val;
       });
       return obj;

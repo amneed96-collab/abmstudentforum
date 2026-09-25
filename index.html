@@ -807,15 +807,14 @@ button { font-family: inherit; cursor: pointer; }
   font-weight: 700;
   font-size: 13px;
   padding: 12px 14px;
-  text-align: right;
+  text-align: center;
   border-bottom: 1px solid var(--line);
 }
-.events-table th:nth-child(2) { text-align: right; }
 .events-table td {
   padding: 12px 14px;
   border-bottom: 1px solid var(--line);
   font-size: 13.5px;
-  text-align: right;
+  text-align: center;
   vertical-align: middle;
 }
 .events-table-row { cursor: pointer; transition: background 0.15s ease; }
@@ -825,7 +824,7 @@ button { font-family: inherit; cursor: pointer; }
   font-family: var(--font-display);
   font-weight: 700;
   color: var(--forest-deep);
-  text-align: right;
+  text-align: left;
 }
 .events-table-arrow {
   font-size: 12.5px;
@@ -843,10 +842,9 @@ button { font-family: inherit; cursor: pointer; }
 .finance-items-table th, .finance-items-table td {
   border: 1px solid var(--line);
   padding: 8px 10px;
-  text-align: right;
+  text-align: center;
   font-size: 13.5px;
 }
-.finance-items-table th:nth-child(2), .finance-items-table td:nth-child(2) { text-align: right; }
 .finance-items-table th { background: var(--forest-soft); color: var(--forest-deep); font-weight: 700; }
 .finance-items-table input {
   width: 100%;
@@ -855,7 +853,7 @@ button { font-family: inherit; cursor: pointer; }
   font-family: var(--font-body);
   font-size: 13.5px;
   padding: 4px;
-  text-align: right;
+  text-align: center;
 }
 .finance-items-table input:focus { outline: 1.5px solid var(--forest); border-radius: 3px; }
 .finance-items-table .fi-remove-btn {
@@ -898,12 +896,12 @@ button { font-family: inherit; cursor: pointer; }
 .finance-list-table th, .finance-list-table td {
   border: 1px solid var(--line);
   padding: 9px 12px;
-  text-align: right;
+  text-align: center;
   font-size: 13.5px;
 }
 .finance-list-table th { background: var(--forest-soft); color: var(--forest-deep); font-weight: 700; }
-.finance-list-table td:first-child, .finance-list-table th:first-child { text-align: right; }
-.finance-list-actions { display: flex; gap: 6px; justify-content: flex-end; }
+.finance-list-table td.name-col { text-align: left; }
+.finance-list-actions { display: flex; gap: 6px; justify-content: center; flex-wrap: wrap; }
 
 .person-card {
   background: var(--paper-raised);
@@ -1330,10 +1328,10 @@ button { font-family: inherit; cursor: pointer; }
 .committee-table th, .committee-table td {
   padding: 10px 12px;
   border-bottom: 1px solid var(--line);
-  text-align: right;
+  text-align: center;
   font-size: 14px;
 }
-.committee-table th:first-child, .committee-table td:first-child { text-align: right; }
+.committee-table td.name-col { text-align: left; }
 .committee-table th { background: var(--forest-soft); color: var(--forest-deep); font-weight: 700; }
 
 </style>
@@ -2069,7 +2067,25 @@ button { font-family: inherit; cursor: pointer; }
               <div class="form-group full"><label>অনুষ্ঠানের নাম <span class="req">*</span></label><input type="text" id="evName" required></div>
               <div class="form-group"><label>সময় <span class="req">*</span></label><input type="datetime-local" id="evDateTime" required></div>
               <div class="form-group"><label>স্থান</label><input type="text" id="evVenue"></div>
-              <div class="form-group"><label>রেজিষ্ট্রেশন ফি</label><input type="number" id="evFee" min="0" placeholder="০ হলে ফ্রি"></div>
+              <div class="form-group full">
+                <label>ফি এর ধরন</label>
+                <select id="evFeeType" onchange="onEventFeeTypeChange()">
+                  <option value="All">সকল (সবার জন্য সমান ফি)</option>
+                  <option value="StudentFormer">প্রাক্তন শিক্ষার্থী</option>
+                  <option value="StudentCurrent">বর্তমান শিক্ষার্থী</option>
+                  <option value="TeacherFormer">প্রাক্তন শিক্ষক</option>
+                  <option value="TeacherCurrent">বর্তমান শিক্ষক</option>
+                </select>
+              </div>
+              <div class="form-group" id="evFeeAllWrap"><label>রেজিষ্ট্রেশন ফি</label><input type="number" id="evFee" min="0" placeholder="০ হলে ফ্রি"></div>
+              <div class="form-group full" id="evFeeByTypeWrap" style="display:none">
+                <div class="form-grid">
+                  <div class="form-group"><label>প্রাক্তন শিক্ষার্থী ফি</label><input type="number" id="evFeeStudentFormer" min="0" placeholder="০ হলে ফ্রি"></div>
+                  <div class="form-group"><label>বর্তমান শিক্ষার্থী ফি</label><input type="number" id="evFeeStudentCurrent" min="0" placeholder="০ হলে ফ্রি"></div>
+                  <div class="form-group"><label>প্রাক্তন শিক্ষক ফি</label><input type="number" id="evFeeTeacherFormer" min="0" placeholder="০ হলে ফ্রি"></div>
+                  <div class="form-group"><label>বর্তমান শিক্ষক ফি</label><input type="number" id="evFeeTeacherCurrent" min="0" placeholder="০ হলে ফ্রি"></div>
+                </div>
+              </div>
               <div class="form-group"><label>রেজিষ্ট্রেশনের শেষ তারিখ</label><input type="date" id="evDeadline"></div>
               <div class="form-actions">
                 <button type="submit" class="btn btn-primary" id="evSaveBtn">অনুষ্ঠান যোগ করুন</button>
@@ -2096,10 +2112,11 @@ button { font-family: inherit; cursor: pointer; }
                 <label>ধরণ <span class="req">*</span></label>
                 <select id="fsMemberType" required>
                   <option value="">নির্বাচন করুন</option>
-                  <option value="StudentFormer">শিক্ষার্থী (প্রাক্তন)</option>
-                  <option value="StudentCurrent">শিক্ষার্থী (বর্তমান)</option>
-                  <option value="TeacherFormer">শিক্ষক (প্রাক্তন)</option>
-                  <option value="TeacherCurrent">শিক্ষক (বর্তমান)</option>
+                  <option value="All">সকল (সবার জন্য সমান ফি)</option>
+                  <option value="StudentFormer">প্রাক্তন শিক্ষার্থী</option>
+                  <option value="StudentCurrent">বর্তমান শিক্ষার্থী</option>
+                  <option value="TeacherFormer">প্রাক্তন শিক্ষক</option>
+                  <option value="TeacherCurrent">বর্তমান শিক্ষক</option>
                 </select>
               </div>
               <div class="form-group"><label>ফি এর পরিমাণ (টাকা) <span class="req">*</span></label><input type="number" id="fsAmount" min="0" step="0.01" required></div>
@@ -3106,7 +3123,7 @@ function showTeacherPrintCopy(data, allowEdit) {
             <div><span class="pf-label">ধরন</span><span class="pf-colon">:</span><span class="pf-value">${esc(data.Type)}</span></div>
             <div><span class="pf-label">পদবি</span><span class="pf-colon">:</span><span class="pf-value">${esc(data.Designation)}</span></div>
             <div><span class="pf-label">মোবাইল নং</span><span class="pf-colon">:</span><span class="pf-value">${esc(data.Mobile)}</span></div>
-            <div><span class="pf-label">${data.Type === 'প্রাক্তন' ? 'অবসর তারিখ' : 'যোগদানের তারিখ'}</span><span class="pf-colon">:</span><span class="pf-value">${esc(data.Type === 'প্রাক্তন' ? data.RetirementDate : data.JoiningDate)}</span></div>
+            <div><span class="pf-label">${data.Type === 'প্রাক্তন' ? 'অবসর তারিখ' : 'যোগদানের তারিখ'}</span><span class="pf-colon">:</span><span class="pf-value">${esc(formatDateOnly(data.Type === 'প্রাক্তন' ? data.RetirementDate : data.JoiningDate))}</span></div>
           </div>
         </div>
 
@@ -3200,7 +3217,7 @@ function renderTeacherPortal() {
 
   grid.innerHTML = list.map((t) => {
     const realIdx = STATE.teachers.indexOf(t);
-    const dateLine = t.Type === 'প্রাক্তন' ? `অবসর: ${esc(t.RetirementDate || '-')}` : `যোগদান: ${esc(t.JoiningDate || '-')}`;
+    const dateLine = t.Type === 'প্রাক্তন' ? `অবসর: ${esc(formatDateOnly(t.RetirementDate))}` : `যোগদান: ${esc(formatDateOnly(t.JoiningDate))}`;
     return `
     <div class="person-card">
       ${t.PhotoURL ? `<img class="person-photo" src="${esc(t.PhotoURL)}" alt="" onerror="fallbackAvatar(this, '${esc(initials(t.Name))}')">` : `<div class="person-photo-placeholder">${esc(initials(t.Name))}</div>`}
@@ -3241,8 +3258,8 @@ function showTeacherDetail(idx) {
       ${detailRow('জেলা', t.Thana)}
       ${detailRow('সর্বশেষ শিক্ষাগত যোগ্যতা', (t.HighestEducationClass || '') + ' - ' + (t.HighestEducationInstitute || ''))}
       ${detailRow('বৈবাহিক অবস্থা', t.MaritalStatus)}
-      ${detailRow('যোগদানের তারিখ', t.JoiningDate)}
-      ${t.Type === 'প্রাক্তন' ? detailRow('অবসর তারিখ', t.RetirementDate) : ''}
+      ${detailRow('যোগদানের তারিখ', formatDateOnly(t.JoiningDate))}
+      ${t.Type === 'প্রাক্তন' ? detailRow('অবসর তারিখ', formatDateOnly(t.RetirementDate)) : ''}
       ${detailRow('চাকরিকাল', t.ServiceLength)}
       ${detailRow('Facebook', t.Facebook)}
       ${detailRow('E-mail', t.Email)}
@@ -3324,6 +3341,58 @@ function formatEventDateTime(dt) {
   }
 }
 
+// ফি নির্ধারণের ধরন অনুযায়ী ফরমে সংশ্লিষ্ট ইনপুট দেখানো/লুকানো
+function onEventFeeTypeChange() {
+  const type = document.getElementById('evFeeType').value;
+  const allWrap = document.getElementById('evFeeAllWrap');
+  const byTypeWrap = document.getElementById('evFeeByTypeWrap');
+  if (!allWrap || !byTypeWrap) return;
+  if (type === 'All') {
+    allWrap.style.display = '';
+    byTypeWrap.style.display = 'none';
+  } else {
+    allWrap.style.display = 'none';
+    byTypeWrap.style.display = '';
+  }
+}
+
+// একটি অনুষ্ঠানের জন্য নির্দিষ্ট ধরনের ব্যক্তির (StudentFormer/StudentCurrent/
+// TeacherFormer/TeacherCurrent) প্রযোজ্য ফি বের করে। "সকল" ধরনে সবার জন্য একই ফি।
+function getEventFeeForType(ev, memberType) {
+  if (!ev) return 0;
+  if (!ev.FeeType || ev.FeeType === 'All') return Number(ev.Fee) || 0;
+  const map = {
+    StudentFormer: ev.FeeStudentFormer,
+    StudentCurrent: ev.FeeStudentCurrent,
+    TeacherFormer: ev.FeeTeacherFormer,
+    TeacherCurrent: ev.FeeTeacherCurrent
+  };
+  return Number(map[memberType]) || 0;
+}
+
+// ব্যক্তির PersonType (Student/Teacher) ও প্রোফাইলের Type (প্রাক্তন/বর্তমান)
+// থেকে fee.js এ ব্যবহৃত MemberType কোডে রূপান্তর করে
+function personToMemberType(personType, statusType) {
+  const former = statusType === 'প্রাক্তন';
+  if (personType === 'Student') return former ? 'StudentFormer' : 'StudentCurrent';
+  return former ? 'TeacherFormer' : 'TeacherCurrent';
+}
+
+function eventFeeLabel(ev) {
+  if (!ev) return 'ফ্রি';
+  if (!ev.FeeType || ev.FeeType === 'All') {
+    return ev.Fee ? toBn(ev.Fee) + ' টাকা' : 'ফ্রি';
+  }
+  const parts = [
+    ['প্রাক্তন শিক্ষার্থী', ev.FeeStudentFormer],
+    ['বর্তমান শিক্ষার্থী', ev.FeeStudentCurrent],
+    ['প্রাক্তন শিক্ষক', ev.FeeTeacherFormer],
+    ['বর্তমান শিক্ষক', ev.FeeTeacherCurrent]
+  ].filter(p => p[1]);
+  if (parts.length === 0) return 'ফ্রি';
+  return parts.map(p => `${p[0]}: ${toBn(p[1])} টাকা`).join(', ');
+}
+
 // ============================================================
 // অনুষ্ঠান তালিকা
 // ============================================================
@@ -3357,7 +3426,7 @@ function renderEventsList() {
             <td class="events-table-name">${esc(ev.Name)}</td>
             <td>${esc(formatEventDateTime(ev.EventDateTime))}</td>
             <td>${esc(ev.Venue || '-')}</td>
-            <td>${ev.Fee ? toBn(ev.Fee) + ' টাকা' : 'ফ্রি'}</td>
+            <td>${eventFeeLabel(ev)}</td>
             <td class="events-table-arrow">বিস্তারিত ও রেজিষ্ট্রেশন ›</td>
           </tr>`;
         }).join('')}
@@ -3381,8 +3450,8 @@ function openEventModal(idx) {
     <div class="detail-grid" style="margin-bottom:18px">
       ${detailRow('সময়', formatEventDateTime(ev.EventDateTime))}
       ${detailRow('স্থান', ev.Venue)}
-      ${detailRow('রেজিষ্ট্রেশন ফি', ev.Fee ? toBn(ev.Fee) + ' টাকা' : 'ফ্রি')}
-      ${detailRow('রেজিষ্ট্রেশনের শেষ তারিখ', ev.RegDeadline)}
+      ${detailRow('রেজিষ্ট্রেশন ফি', eventFeeLabel(ev))}
+      ${detailRow('রেজিষ্ট্রেশনের শেষ তারিখ', formatDateOnly(ev.RegDeadline))}
     </div>
     <div class="form-section-divider" style="margin-bottom:12px">অনুষ্ঠানে অংশগ্রহণের রেজিষ্ট্রেশন</div>
     <div id="eventRegStep1">
@@ -3486,7 +3555,7 @@ function onEventRegNoChange() {
         </div>
         <div class="form-group"><label>গ্রহণকারীর নাম</label><input type="text" id="evReceiverName"></div>
         <div class="form-group"><label>হিসাব নম্বর</label><input type="text" id="evAccountNumber"></div>
-        <div class="form-group"><label>পরিমাণ <span class="req">*</span></label><input type="number" id="evAmount" min="0" value="${ev && ev.Fee ? esc(ev.Fee) : ''}" required></div>
+        <div class="form-group"><label>পরিমাণ <span class="req">*</span></label><input type="number" id="evAmount" min="0" value="${ev ? esc(getEventFeeForType(ev, personToMemberType(type, person.Type)) || '') : ''}" required></div>
         <div class="form-group"><label>তারিখ <span class="req">*</span></label><input type="date" id="evPayDate" required></div>
         <div class="form-error" id="eventRegError"></div>
         <div class="form-actions">
@@ -4037,8 +4106,8 @@ function renderIncomeList() {
         ${list.map(inc => `
           <tr>
             <td>${esc(inc.InvoiceNo || '-')}</td>
-            <td>${esc(inc.Date || '-')}</td>
-            <td>${esc(inc.Name || '-')}</td>
+            <td>${esc(formatDateOnly(inc.Date))}</td>
+            <td class="name-col">${esc(inc.Name || '-')}</td>
             <td>${esc(inc.Total)} টাকা</td>
             <td>
               <div class="finance-list-actions">
@@ -4110,8 +4179,7 @@ function printIncomeRecord(id) {
       .sub{text-align:center;color:#5c6b62;font-size:13px;margin-bottom:18px;}
       .meta{display:flex;justify-content:space-between;font-size:14px;margin-bottom:16px;flex-wrap:wrap;gap:10px;}
       table{width:100%;border-collapse:collapse;font-size:14px;margin-top:6px;}
-      th,td{border:1px solid #333;padding:8px 12px;text-align:right;}
-      th:nth-child(2),td:nth-child(2){text-align:right;}
+      th,td{border:1px solid #333;padding:8px 12px;text-align:center;}
       th{background:#e1eef0;}
       .total-row{text-align:right;font-weight:700;font-size:16px;margin-top:10px;}
       .signatures{display:flex;justify-content:space-between;margin-top:60px;}
@@ -4121,7 +4189,7 @@ function printIncomeRecord(id) {
     <div class="sub">আয় রশিদ</div>
     <div class="meta">
       <div><b>ইনভয়েস নং:</b> ${esc(inc.InvoiceNo || '-')}</div>
-      <div><b>তারিখ:</b> ${esc(inc.Date || '-')}</div>
+      <div><b>তারিখ:</b> ${esc(formatDateOnly(inc.Date))}</div>
     </div>
     <div class="meta">
       <div><b>নাম:</b> ${esc(inc.Name || '-')}</div>
@@ -4251,7 +4319,7 @@ function renderExpenseList() {
         ${list.map(exp => `
           <tr>
             <td>${esc(exp.VoucherNo || '-')}</td>
-            <td>${esc(exp.Date || '-')}</td>
+            <td>${esc(formatDateOnly(exp.Date))}</td>
             <td>${esc(exp.Total)} টাকা</td>
             <td>${esc(exp.Paid)} টাকা</td>
             <td>${esc(exp.Due)} টাকা</td>
@@ -4323,8 +4391,7 @@ function printExpenseRecord(id) {
       .sub{text-align:center;color:#5c6b62;font-size:13px;margin-bottom:18px;}
       .meta{display:flex;justify-content:space-between;font-size:14px;margin-bottom:16px;flex-wrap:wrap;gap:10px;}
       table{width:100%;border-collapse:collapse;font-size:14px;margin-top:6px;}
-      th,td{border:1px solid #333;padding:8px 12px;text-align:right;}
-      th:nth-child(2),td:nth-child(2){text-align:right;}
+      th,td{border:1px solid #333;padding:8px 12px;text-align:center;}
       th{background:#e1eef0;}
       .totals{margin-top:10px;font-size:15px;text-align:right;}
       .totals div{margin-top:3px;}
@@ -4335,7 +4402,7 @@ function printExpenseRecord(id) {
     <div class="sub">খরচ ভাউচার</div>
     <div class="meta">
       <div><b>ভাউচার নং:</b> ${esc(exp.VoucherNo || '-')}</div>
-      <div><b>তারিখ:</b> ${esc(exp.Date || '-')}</div>
+      <div><b>তারিখ:</b> ${esc(formatDateOnly(exp.Date))}</div>
     </div>
     <table>
       <thead><tr><th>ক্রম</th><th>বিবরণ</th><th>টাকা</th></tr></thead>
@@ -4365,15 +4432,18 @@ function printExpenseRecord(id) {
  */
 
 const FEE_TYPE_LABELS = {
+  All: 'সকল',
   StudentFormer: 'শিক্ষার্থী (প্রাক্তন)',
   StudentCurrent: 'শিক্ষার্থী (বর্তমান)',
   TeacherFormer: 'শিক্ষক (প্রাক্তন)',
   TeacherCurrent: 'শিক্ষক (বর্তমান)'
 };
 
-// আজকের তারিখ অনুযায়ী কোনো ক্যাটাগরির সর্বশেষ কার্যকর ফি বের করে
+// আজকের তারিখ অনুযায়ী কোনো ক্যাটাগরির সর্বশেষ কার্যকর ফি বের করে।
+// "সকল" ধরন হিসেবে নির্ধারিত ফি সব ক্যাটাগরির জন্য প্রযোজ্য হবে (নির্দিষ্ট
+// ক্যাটাগরির সাথে তুলনা করে যেটির কার্যকরের তারিখ সবচেয়ে সাম্প্রতিক সেটিই কার্যকর হবে)
 function getCurrentFee(memberType) {
-  const settings = (STATE.feeSettings || []).filter(f => f.MemberType === memberType);
+  const settings = (STATE.feeSettings || []).filter(f => f.MemberType === memberType || f.MemberType === 'All');
   const today = new Date();
   today.setHours(23, 59, 59, 999);
   const applicable = settings.filter(f => f.EffectiveDate && new Date(f.EffectiveDate) <= today);
@@ -4399,7 +4469,7 @@ function renderCurrentFeesGrid() {
     return `
     <div class="stat-card">
       <div class="stat-number">${fee ? toBn(fee.Amount) : '-'}</div>
-      <div class="stat-label">${esc(FEE_TYPE_LABELS[t])}${fee ? ' (কার্যকর: ' + esc(fee.EffectiveDate) + ')' : ' — নির্ধারিত হয়নি'}</div>
+      <div class="stat-label">${esc(FEE_TYPE_LABELS[t])}${fee ? ' (কার্যকর: ' + esc(formatDateOnly(fee.EffectiveDate)) + ')' : ' — নির্ধারিত হয়নি'}</div>
     </div>`;
   }).join('');
 }
@@ -4469,9 +4539,9 @@ function renderFeePaymentsAdminList() {
       <tbody>
         ${list.map(p => `
           <tr>
-            <td>${esc(p.Date)}</td>
+            <td>${esc(formatDateOnly(p.Date))}</td>
             <td>${esc(FEE_TYPE_LABELS[p.MemberType] || p.MemberType)}</td>
-            <td>${esc(p.Name)}</td>
+            <td class="name-col">${esc(p.Name)}</td>
             <td>${esc(p.PaymentMethod)}${formatFeePaymentDetail(p)}</td>
             <td>${esc(p.FeeAmount)} টাকা</td>
             <td>${p.Status === 'Confirmed' ? '✅ নিশ্চিত' : '⏳ পেন্ডিং'}</td>
@@ -4551,7 +4621,7 @@ function renderFeePaymentEventsList() {
             <td>${toBn(i + 1)}</td>
             <td class="events-table-name">${esc(ev.Name)}</td>
             <td>${esc(formatEventDateTime(ev.EventDateTime))}</td>
-            <td>${ev.Fee ? toBn(ev.Fee) + ' টাকা' : 'ফ্রি'}</td>
+            <td>${eventFeeLabel(ev)}</td>
             <td class="events-table-arrow">রেজিষ্ট্রেশন ও ফি প্রদান ›</td>
           </tr>`;
         }).join('')}
@@ -5067,11 +5137,12 @@ function printCommittee() {
       body{font-family:'Noto Sans Bengali',sans-serif;padding:30px;}
       h2{text-align:center;color:#26727c;}
       table{width:100%;border-collapse:collapse;margin-top:20px;}
-      th,td{border:1px solid #ccc;padding:8px 12px;text-align:right;}
+      th,td{border:1px solid #ccc;padding:8px 12px;text-align:center;}
+      td:nth-child(2){text-align:left;}
       th{background:#e1eef0;}
     </style></head><body>
     <h2>${esc(info.ForumName)} — কমিটি তালিকা</h2>
-    <p style="text-align:center">গঠনের তারিখ: ${esc(tempCommitteeRows[0]?.FormationDate || '')} | মেয়াদ: ${esc(tempCommitteeRows[0]?.TermLength || '')}</p>
+    <p style="text-align:center">গঠনের তারিখ: ${esc(formatDateOnly(tempCommitteeRows[0]?.FormationDate))} | মেয়াদ: ${esc(tempCommitteeRows[0]?.TermLength || '')}</p>
     <table><thead><tr><th>পদবি</th><th>নাম</th><th>মোবাইল</th></tr></thead>
     <tbody>${tempCommitteeRows.map(r => `<tr><td>${esc(r.Position)}</td><td>${esc(r.MemberName)}</td><td>${esc(r.Mobile)}</td></tr>`).join('')}</tbody>
     </table></body></html>
@@ -5160,11 +5231,12 @@ function printSpecialCommittee() {
       body{font-family:'Noto Sans Bengali',sans-serif;padding:30px;}
       h2{text-align:center;color:#26727c;}
       table{width:100%;border-collapse:collapse;margin-top:20px;}
-      th,td{border:1px solid #ccc;padding:8px 12px;text-align:right;}
+      th,td{border:1px solid #ccc;padding:8px 12px;text-align:center;}
+      td:nth-child(2){text-align:left;}
       th{background:#e1eef0;}
     </style></head><body>
     <h2>${esc(info.ForumName)} — ${esc(tempSpecialCommitteeRows[0]?.CommitteeName || 'বিশেষ কমিটি')}</h2>
-    <p style="text-align:center">গঠনের তারিখ: ${esc(tempSpecialCommitteeRows[0]?.FormationDate || '')} | মেয়াদ: ${esc(tempSpecialCommitteeRows[0]?.TermLength || '')}</p>
+    <p style="text-align:center">গঠনের তারিখ: ${esc(formatDateOnly(tempSpecialCommitteeRows[0]?.FormationDate))} | মেয়াদ: ${esc(tempSpecialCommitteeRows[0]?.TermLength || '')}</p>
     <table><thead><tr><th>পদবি</th><th>নাম</th><th>মোবাইল</th></tr></thead>
     <tbody>${tempSpecialCommitteeRows.map(r => `<tr><td>${esc(r.Position)}</td><td>${esc(r.MemberName)}</td><td>${esc(r.Mobile)}</td></tr>`).join('')}</tbody>
     </table></body></html>
@@ -5224,11 +5296,17 @@ async function saveNewEvent(e) {
   btn.disabled = true;
   btn.innerHTML = '<span class="loading-spinner"></span> যোগ হচ্ছে...';
 
+  const feeType = val('evFeeType') || 'All';
   const data = {
     Name: val('evName'),
     EventDateTime: val('evDateTime'),
     Venue: val('evVenue'),
-    Fee: val('evFee'),
+    FeeType: feeType,
+    Fee: feeType === 'All' ? val('evFee') : '',
+    FeeStudentFormer: feeType === 'All' ? '' : val('evFeeStudentFormer'),
+    FeeStudentCurrent: feeType === 'All' ? '' : val('evFeeStudentCurrent'),
+    FeeTeacherFormer: feeType === 'All' ? '' : val('evFeeTeacherFormer'),
+    FeeTeacherCurrent: feeType === 'All' ? '' : val('evFeeTeacherCurrent'),
     RegDeadline: val('evDeadline')
   };
 
@@ -5251,6 +5329,7 @@ async function saveNewEvent(e) {
       showToast('অনুষ্ঠান যোগ করা হয়েছে');
     }
     document.getElementById('newEventForm').reset();
+    onEventFeeTypeChange();
     renderEventsList();
     populateAdminEventSelect();
   } catch (err) {
@@ -5288,11 +5367,11 @@ function renderAdminEventRegistrations() {
       <tbody>
         ${regs.map(r => `
           <tr>
-            <td>${esc(r.Name)}</td>
+            <td class="name-col">${esc(r.Name)}</td>
             <td>${esc(r.PersonRegNo)}</td>
             <td>${esc(r.PaymentMethod)}</td>
             <td>${esc(r.Amount)}</td>
-            <td>${esc(r.PaymentDate)}</td>
+            <td>${esc(formatDateOnly(r.PaymentDate))}</td>
             <td>${r.Status === 'Confirmed' ? '✅ নিশ্চিত' : '⏳ পেন্ডিং'}</td>
             <td>${r.Status !== 'Confirmed' ? `<button class="btn btn-primary btn-sm" onclick="confirmEventRegistrationAdmin('${esc(r.ID)}')">নিশ্চিত করুন</button>` : ''}</td>
           </tr>`).join('')}
@@ -5369,8 +5448,8 @@ function openPrintListWindow(title, rowsHtml) {
       h2{text-align:center;color:#26727c;margin-bottom:2px;}
       .sub{text-align:center;color:#5c6b62;font-size:13px;margin-bottom:18px;}
       table{width:100%;border-collapse:collapse;font-size:13px;}
-      th,td{border:1px solid #ccc;padding:7px 10px;text-align:right;}
-      th:nth-child(2),td:nth-child(2),th:nth-child(6),td:nth-child(6){text-align:right;}
+      th,td{border:1px solid #ccc;padding:7px 10px;text-align:center;}
+      td:nth-child(2){text-align:left;}
       th{background:#e1eef0;color:#26727c;}
       tr:nth-child(even){background:#faf7f0;}
     </style></head><body>
@@ -5834,7 +5913,7 @@ function renderAbout() {
       <table class="committee-table">
         <thead><tr><th>পদবি</th><th>নাম</th><th>মোবাইল</th></tr></thead>
         <tbody>
-          ${STATE.committee.map(m => `<tr><td>${esc(m.Position)}</td><td>${esc(m.MemberName)}</td><td>${esc(m.Mobile)}</td></tr>`).join('')}
+          ${STATE.committee.map(m => `<tr><td>${esc(m.Position)}</td><td class="name-col">${esc(m.MemberName)}</td><td>${esc(m.Mobile)}</td></tr>`).join('')}
         </tbody>
       </table>`;
   }
@@ -5901,6 +5980,19 @@ function formatBengaliDate(d) {
   else if (!(d instanceof Date)) d = new Date(d);
   if (isNaN(d.getTime())) d = new Date();
   return toBn(d.getDate()) + ' ' + BN_MONTHS[d.getMonth()] + ' ' + toBn(d.getFullYear());
+}
+
+// ব্যাকএন্ড থেকে আসা তারিখ (yyyy-MM-dd অথবা পুরনো ডাটার ISO ফরম্যাট, যেমন 2026-08-20T18:00:00.000Z)
+// নিরাপদে বাংলা তারিখে রূপান্তর করে — টাইমজোন শিফট এড়াতে স্ট্রিং থেকে সরাসরি Y-M-D পার্স করা হয়
+function formatDateOnly(val) {
+  if (!val) return '-';
+  const s = String(val).trim();
+  const m = s.match(/^(\d{4})-(\d{2})-(\d{2})/);
+  if (m) {
+    const d = new Date(Number(m[1]), Number(m[2]) - 1, Number(m[3]));
+    return formatBengaliDate(d);
+  }
+  return formatBengaliDate(new Date(s));
 }
 
 function initials(name) {

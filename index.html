@@ -2070,20 +2070,17 @@ button { font-family: inherit; cursor: pointer; }
               <div class="form-group full">
                 <label>ফি এর ধরন</label>
                 <select id="evFeeType" onchange="onEventFeeTypeChange()">
-                  <option value="All">সকল (সবার জন্য সমান ফি)</option>
-                  <option value="StudentFormer">প্রাক্তন শিক্ষার্থী</option>
-                  <option value="StudentCurrent">বর্তমান শিক্ষার্থী</option>
-                  <option value="TeacherFormer">প্রাক্তন শিক্ষক</option>
-                  <option value="TeacherCurrent">বর্তমান শিক্ষক</option>
+                  <option value="All">সবার জন্য সমান</option>
+                  <option value="ByType">প্রত্যেকের আলাদা</option>
                 </select>
               </div>
               <div class="form-group" id="evFeeAllWrap"><label>রেজিষ্ট্রেশন ফি</label><input type="number" id="evFee" min="0" placeholder="০ হলে ফ্রি"></div>
               <div class="form-group full" id="evFeeByTypeWrap" style="display:none">
                 <div class="form-grid">
-                  <div class="form-group"><label>প্রাক্তন শিক্ষার্থী ফি</label><input type="number" id="evFeeStudentFormer" min="0" placeholder="০ হলে ফ্রি"></div>
-                  <div class="form-group"><label>বর্তমান শিক্ষার্থী ফি</label><input type="number" id="evFeeStudentCurrent" min="0" placeholder="০ হলে ফ্রি"></div>
-                  <div class="form-group"><label>প্রাক্তন শিক্ষক ফি</label><input type="number" id="evFeeTeacherFormer" min="0" placeholder="০ হলে ফ্রি"></div>
-                  <div class="form-group"><label>বর্তমান শিক্ষক ফি</label><input type="number" id="evFeeTeacherCurrent" min="0" placeholder="০ হলে ফ্রি"></div>
+                  <div class="form-group"><label>শিক্ষার্থী (প্রাক্তন)</label><input type="number" id="evFeeStudentFormer" min="0" placeholder="০ হলে ফ্রি"></div>
+                  <div class="form-group"><label>শিক্ষার্থী (বর্তমান)</label><input type="number" id="evFeeStudentCurrent" min="0" placeholder="০ হলে ফ্রি"></div>
+                  <div class="form-group"><label>শিক্ষক (প্রাক্তন)</label><input type="number" id="evFeeTeacherFormer" min="0" placeholder="০ হলে ফ্রি"></div>
+                  <div class="form-group"><label>শিক্ষক (বর্তমান)</label><input type="number" id="evFeeTeacherCurrent" min="0" placeholder="০ হলে ফ্রি"></div>
                 </div>
               </div>
               <div class="form-group"><label>রেজিষ্ট্রেশনের শেষ তারিখ</label><input type="date" id="evDeadline"></div>
@@ -2108,18 +2105,22 @@ button { font-family: inherit; cursor: pointer; }
           <form id="feeSettingForm" class="form-card form-card-wide" onsubmit="saveFeeSetting(event)">
             <div class="form-grid">
               <div class="form-group full form-section-divider">নতুন ফি নির্ধারণ করুন</div>
-              <div class="form-group">
-                <label>ধরণ <span class="req">*</span></label>
-                <select id="fsMemberType" required>
-                  <option value="">নির্বাচন করুন</option>
-                  <option value="All">সকল (সবার জন্য সমান ফি)</option>
-                  <option value="StudentFormer">প্রাক্তন শিক্ষার্থী</option>
-                  <option value="StudentCurrent">বর্তমান শিক্ষার্থী</option>
-                  <option value="TeacherFormer">প্রাক্তন শিক্ষক</option>
-                  <option value="TeacherCurrent">বর্তমান শিক্ষক</option>
+              <div class="form-group full">
+                <label>ফি এর ধরন <span class="req">*</span></label>
+                <select id="fsFeeType" onchange="onFeeSettingTypeChange()" required>
+                  <option value="All">সবার জন্য সমান</option>
+                  <option value="ByType">প্রত্যেকের আলাদা</option>
                 </select>
               </div>
-              <div class="form-group"><label>ফি এর পরিমাণ (টাকা) <span class="req">*</span></label><input type="number" id="fsAmount" min="0" step="0.01" required></div>
+              <div class="form-group" id="fsAmountAllWrap"><label>ফি এর পরিমাণ (টাকা) <span class="req">*</span></label><input type="number" id="fsAmount" min="0" step="0.01"></div>
+              <div class="form-group full" id="fsAmountByTypeWrap" style="display:none">
+                <div class="form-grid">
+                  <div class="form-group"><label>শিক্ষার্থী (প্রাক্তন)</label><input type="number" id="fsAmountStudentFormer" min="0" step="0.01" placeholder="খালি রাখলে পরিবর্তন হবে না"></div>
+                  <div class="form-group"><label>শিক্ষার্থী (বর্তমান)</label><input type="number" id="fsAmountStudentCurrent" min="0" step="0.01" placeholder="খালি রাখলে পরিবর্তন হবে না"></div>
+                  <div class="form-group"><label>শিক্ষক (প্রাক্তন)</label><input type="number" id="fsAmountTeacherFormer" min="0" step="0.01" placeholder="খালি রাখলে পরিবর্তন হবে না"></div>
+                  <div class="form-group"><label>শিক্ষক (বর্তমান)</label><input type="number" id="fsAmountTeacherCurrent" min="0" step="0.01" placeholder="খালি রাখলে পরিবর্তন হবে না"></div>
+                </div>
+              </div>
               <div class="form-group"><label>কার্যকরের তারিখ <span class="req">*</span></label><input type="date" id="fsEffectiveDate" required></div>
               <div class="form-error" id="feeSettingError"></div>
               <div class="form-actions">
@@ -2343,6 +2344,7 @@ const API = {
   addFeeSetting(data, password) { return this.post('addFeeSetting', { data, password }); },
   addFeePayment(data) { return this.post('addFeePayment', { data }); },
   confirmFeePayment(id, password) { return this.post('confirmFeePayment', { id, password }); },
+  rejectFeePayment(id, password) { return this.post('rejectFeePayment', { id, password }); },
 
   uploadImage(base64, filename, mimeType) {
     return this.post('uploadImage', { base64, filename, mimeType });
@@ -4457,6 +4459,7 @@ function getCurrentFee(memberType) {
 // ============================================================
 function loadFeeSettingsView() {
   document.getElementById('fsEffectiveDate').value = new Date().toISOString().slice(0, 10);
+  onFeeSettingTypeChange();
   renderCurrentFeesGrid();
   renderFeePaymentsAdminList();
 }
@@ -4474,19 +4477,46 @@ function renderCurrentFeesGrid() {
   }).join('');
 }
 
+// ফি নির্ধারণ ফরমে "সবার জন্য সমান" / "প্রত্যেকের আলাদা" টগল করলে সংশ্লিষ্ট ইনপুট দেখানো/লুকানো
+function onFeeSettingTypeChange() {
+  const type = document.getElementById('fsFeeType').value;
+  const allWrap = document.getElementById('fsAmountAllWrap');
+  const byTypeWrap = document.getElementById('fsAmountByTypeWrap');
+  if (!allWrap || !byTypeWrap) return;
+  if (type === 'ByType') {
+    allWrap.style.display = 'none';
+    byTypeWrap.style.display = '';
+  } else {
+    allWrap.style.display = '';
+    byTypeWrap.style.display = 'none';
+  }
+}
+
 async function saveFeeSetting(e) {
   e.preventDefault();
   const errorBox = document.getElementById('feeSettingError');
   errorBox.classList.remove('show');
 
-  const data = {
-    MemberType: val('fsMemberType'),
-    Amount: val('fsAmount'),
-    EffectiveDate: val('fsEffectiveDate')
-  };
+  const feeType = val('fsFeeType') || 'All';
+  const effectiveDate = val('fsEffectiveDate');
 
-  if (!data.MemberType || !data.Amount || !data.EffectiveDate) {
-    errorBox.textContent = 'সব ফিল্ড পূরণ করুন।';
+  // "সবার জন্য সমান" হলে একটি মাত্র (MemberType: 'All') রেকর্ড; "প্রত্যেকের আলাদা"
+  // হলে যে যে বক্সে মান দেওয়া আছে সেগুলোর জন্য আলাদা আলাদা রেকর্ড — সবগুলোর কার্যকরের তারিখ একই
+  let entries;
+  if (feeType === 'ByType') {
+    const byType = [
+      ['StudentFormer', val('fsAmountStudentFormer')],
+      ['StudentCurrent', val('fsAmountStudentCurrent')],
+      ['TeacherFormer', val('fsAmountTeacherFormer')],
+      ['TeacherCurrent', val('fsAmountTeacherCurrent')]
+    ].filter(([, amount]) => amount !== '' && amount !== null && amount !== undefined);
+    entries = byType.map(([memberType, amount]) => ({ MemberType: memberType, Amount: amount, EffectiveDate: effectiveDate }));
+  } else {
+    entries = [{ MemberType: 'All', Amount: val('fsAmount'), EffectiveDate: effectiveDate }];
+  }
+
+  if (!effectiveDate || entries.length === 0 || entries.some(en => en.Amount === '' || en.Amount === null || en.Amount === undefined)) {
+    errorBox.textContent = 'সব ফিল্ড পূরণ করুন (অন্তত একটি ক্যাটাগরির ফি ও কার্যকরের তারিখ আবশ্যক)।';
     errorBox.classList.add('show');
     return;
   }
@@ -4496,18 +4526,20 @@ async function saveFeeSetting(e) {
   btn.innerHTML = '<span class="loading-spinner"></span> সংরক্ষণ হচ্ছে...';
 
   try {
-    if (STATE.isDemoMode) {
-      data.ID = 'FEE' + Date.now();
-      STATE.feeSettings.push(data);
-      showToast('ডেমো মোডে ফি নির্ধারিত হয়েছে');
-    } else {
-      const result = await API.addFeeSetting(data, adminPassword);
-      data.ID = result.id;
-      STATE.feeSettings.push(data);
-      showToast('ফি সফলভাবে নির্ধারিত হয়েছে');
+    for (const data of entries) {
+      if (STATE.isDemoMode) {
+        data.ID = 'FEE' + Date.now() + Math.random().toString(36).slice(2, 6);
+        STATE.feeSettings.push(data);
+      } else {
+        const result = await API.addFeeSetting(data, adminPassword);
+        data.ID = result.id;
+        STATE.feeSettings.push(data);
+      }
     }
+    showToast(STATE.isDemoMode ? 'ডেমো মোডে ফি নির্ধারিত হয়েছে' : 'ফি সফলভাবে নির্ধারিত হয়েছে');
     document.getElementById('feeSettingForm').reset();
     document.getElementById('fsEffectiveDate').value = new Date().toISOString().slice(0, 10);
+    onFeeSettingTypeChange();
     renderCurrentFeesGrid();
   } catch (err) {
     errorBox.textContent = 'সমস্যা হয়েছে: ' + err.message;
@@ -4544,8 +4576,12 @@ function renderFeePaymentsAdminList() {
             <td class="name-col">${esc(p.Name)}</td>
             <td>${esc(p.PaymentMethod)}${formatFeePaymentDetail(p)}</td>
             <td>${esc(p.FeeAmount)} টাকা</td>
-            <td>${p.Status === 'Confirmed' ? '✅ নিশ্চিত' : '⏳ পেন্ডিং'}</td>
-            <td>${p.Status !== 'Confirmed' ? `<button class="btn btn-primary btn-sm" onclick="confirmFeePaymentAdmin('${esc(p.ID)}')">নিশ্চিত করুন</button>` : ''}</td>
+            <td>${p.Status === 'Confirmed' ? '✅ নিশ্চিত' : (p.Status === 'Rejected' ? '❌ বাতিল' : '⏳ পেন্ডিং')}</td>
+            <td>${p.Status !== 'Confirmed' && p.Status !== 'Rejected' ? `
+              <div style="display:flex;gap:6px;justify-content:center;flex-wrap:wrap">
+                <button class="btn btn-primary btn-sm" onclick="confirmFeePaymentAdmin('${esc(p.ID)}')">নিশ্চিত করুন</button>
+                <button class="btn btn-danger btn-sm" onclick="rejectFeePaymentAdmin('${esc(p.ID)}')">বাতিল করুন</button>
+              </div>` : ''}</td>
           </tr>`).join('')}
       </tbody>
     </table>
@@ -4564,6 +4600,25 @@ async function confirmFeePaymentAdmin(id) {
       const p = STATE.feePayments.find(x => x.ID === id);
       if (p) p.Status = 'Confirmed';
       showToast('ফি প্রদান নিশ্চিত করা হয়েছে');
+    }
+    renderFeePaymentsAdminList();
+  } catch (err) {
+    showToast('সমস্যা হয়েছে: ' + err.message, true);
+  }
+}
+
+async function rejectFeePaymentAdmin(id) {
+  if (!confirm('আপনি কি নিশ্চিত এই ফি প্রদানের অনুরোধটি বাতিল করতে চান?')) return;
+  try {
+    if (STATE.isDemoMode) {
+      const p = STATE.feePayments.find(x => x.ID === id);
+      if (p) p.Status = 'Rejected';
+      showToast('ডেমো মোডে বাতিল করা হয়েছে');
+    } else {
+      await API.rejectFeePayment(id, adminPassword);
+      const p = STATE.feePayments.find(x => x.ID === id);
+      if (p) p.Status = 'Rejected';
+      showToast('ফি প্রদানের অনুরোধ বাতিল করা হয়েছে');
     }
     renderFeePaymentsAdminList();
   } catch (err) {

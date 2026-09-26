@@ -226,7 +226,7 @@ function doPost(e) {
     const PROTECTED = [
       'saveForumInfo', 'saveCommittee', 'saveSpecialCommittee', 'changePassword', 'addEvent', 'confirmEventRegistration',
       'addIncome', 'updateIncome', 'deleteIncome', 'addExpense', 'updateExpense', 'deleteExpense',
-      'addFeeSetting', 'confirmFeePayment'
+      'addFeeSetting', 'confirmFeePayment', 'rejectFeePayment'
     ];
     if (PROTECTED.includes(action)) {
       if (!checkAdminPassword(body.password)) {
@@ -297,6 +297,9 @@ function doPost(e) {
         break;
       case 'confirmFeePayment':
         result = confirmFeePayment(body.id);
+        break;
+      case 'rejectFeePayment':
+        result = rejectFeePayment(body.id);
         break;
       default:
         result = { error: 'Unknown action' };
@@ -506,6 +509,11 @@ function addFeePaymentRow(dataObj) {
 // অ্যাডমিন কর্তৃক ফি প্রদান নিশ্চিতকরণ (প্রোটেক্টেড)
 function confirmFeePayment(id) {
   return updateRowById(SHEETS.FEE_PAYMENTS, { ID: id, Status: 'Confirmed' });
+}
+
+// অ্যাডমিন কর্তৃক ফি প্রদানের অনুরোধ বাতিলকরণ (প্রোটেক্টেড)
+function rejectFeePayment(id) {
+  return updateRowById(SHEETS.FEE_PAYMENTS, { ID: id, Status: 'Rejected' });
 }
 
 

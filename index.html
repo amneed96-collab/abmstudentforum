@@ -513,7 +513,7 @@ button { font-family: inherit; cursor: pointer; }
   color: var(--forest-deep);
   letter-spacing: 0.2px;
 }
-.lh-center .lh-institute { font-size: 22px; color: var(--text-muted); margin-top: 2px; }
+.lh-center .lh-institute { font-size: 22px; color: var(--text-muted); margin-top: 2px; white-space: nowrap; overflow: visible; }
 .lh-center .lh-address { font-size: 12.5px; color: var(--text-muted); margin-top: 2px; }
 .reg-form-card .lh-address { color: #cfd9e4; }
 .lh-center .lh-slogan { font-size: 12px; color: var(--gold); margin-top: 5px; }
@@ -1063,9 +1063,9 @@ button { font-family: inherit; cursor: pointer; }
 .pc-logo-box-print img { width: 100%; height: 100%; object-fit: contain; }
 .pc-logo-box-print .img-fallback { font-size: 26px; }
 
-.pc-header-center { flex: 1; text-align: center; }
+.pc-header-center { flex: 1; min-width: 0; text-align: center; }
 .pc-forum { font-family: var(--font-display); font-weight: 800; font-size: clamp(26px, 4.2vw, 34px); color: #1a6b4a; line-height: 1.05; }
-.pc-institute { font-size: 19px; font-weight: 700; color: #1a1a5c; margin-top: 1px; line-height: 1.2; }
+.pc-institute { font-size: 19px; font-weight: 700; color: #1a1a5c; margin-top: 1px; line-height: 1.2; white-space: nowrap; overflow: visible; }
 .pc-address { font-size: 11px; color: #333; margin-top: 1px; line-height: 1.2; }
 .pc-slogan { font-size: 10.5px; font-style: normal; color: #8b1a1a; margin-top: 2px; line-height: 1.2; }
 
@@ -2577,6 +2577,7 @@ function resetStudentForm() {
   document.getElementById('studentFormWrap').style.display = 'block';
   document.getElementById('studentPrintWrap').style.display = 'none';
   document.getElementById('studentFormToggleBar').style.display = '';
+  document.getElementById('studentRegListWrap').style.display = '';
   document.getElementById('sSubmitBtn').textContent = 'সাবমিট করুন';
   const resultsBox = document.getElementById('sSearchResults');
   if (resultsBox) { resultsBox.innerHTML = ''; resultsBox.style.display = 'none'; }
@@ -2609,6 +2610,7 @@ function initStudentRegisterView() {
   document.getElementById('studentFormWrap').style.display = 'none';
   document.getElementById('studentPrintWrap').style.display = 'none';
   document.getElementById('studentFormToggleBar').style.display = '';
+  document.getElementById('studentRegListWrap').style.display = '';
   editingStudentIdx = null;
   updateStudentFormToggleBtn();
   renderStudentRegList();
@@ -2671,30 +2673,35 @@ function printStudentFromList(idx) {
     <style>
       @page { size: A4 portrait; margin: 0.5in; }
       * { box-sizing: border-box; }
-      body { font-family:'Noto Sans Bengali','Hind Siliguri',sans-serif; color:#1a1a1a; padding:0; margin:0; }
-      .rf-header { text-align:center; border-bottom:2px solid #1a1a5c; padding-bottom:10px; margin-bottom:16px; position:relative; }
-      .rf-logo { position:absolute; top:0; left:0; width:64px; height:64px; border:1.5px solid #1a1a5c; border-radius:50%; overflow:hidden; display:flex; align-items:center; justify-content:center; font-weight:800; color:#1a1a5c; }
-      .rf-forum { font-size:20px; font-weight:800; color:#1a1a5c; }
-      .rf-institute { font-size:14px; font-weight:600; margin-top:2px; }
-      .rf-address { font-size:12px; color:#555; }
-      .rf-title { font-size:16px; font-weight:700; margin-top:8px; text-decoration:underline; }
-      .rf-photo { position:absolute; top:0; right:0; width:90px; height:108px; border:1.5px solid #1a1a5c; overflow:hidden; display:flex; align-items:center; justify-content:center; font-size:11px; color:#888; }
+      html, body { height: auto; }
+      body { font-family:'Noto Sans Bengali','Hind Siliguri',sans-serif; color:#1a1a1a; padding:0; margin:0; font-size:12px; }
+      .rf-header { display:flex; align-items:center; gap:10px; text-align:center; border-bottom:2px solid #1a1a5c; padding-bottom:8px; margin-bottom:10px; }
+      .rf-logo { flex:0 0 auto; width:56px; height:56px; border:1.5px solid #1a1a5c; border-radius:50%; overflow:hidden; display:flex; align-items:center; justify-content:center; font-weight:800; color:#1a1a5c; font-size:20px; }
+      .rf-logo img { width:100%; height:100%; object-fit:cover; }
+      .rf-center { flex:1; min-width:0; }
+      .rf-forum { font-size:18px; font-weight:800; color:#1a1a5c; line-height:1.15; }
+      .rf-institute { font-size:13px; font-weight:600; margin-top:1px; white-space:nowrap; overflow:visible; line-height:1.2; }
+      .rf-address { font-size:10.5px; color:#555; line-height:1.2; }
+      .rf-title { font-size:14px; font-weight:700; margin-top:4px; text-decoration:underline; }
+      .rf-photo { flex:0 0 auto; width:78px; height:94px; border:1.5px solid #1a1a5c; overflow:hidden; display:flex; align-items:center; justify-content:center; font-size:10px; color:#888; }
       .rf-photo img { width:100%; height:100%; object-fit:cover; }
-      .rf-section { background:#e1eef0; color:#1a1a5c; font-weight:700; padding:6px 10px; margin:14px 0 6px; font-size:13.5px; border-radius:4px; }
-      table.rf-table { width:100%; border-collapse:collapse; margin-bottom:4px; }
-      table.rf-table td { padding:6px 8px; font-size:13px; border-bottom:1px dotted #bbb; vertical-align:top; }
+      .rf-section { background:#e1eef0; color:#1a1a5c; font-weight:700; padding:3px 8px; margin:8px 0 3px; font-size:12px; border-radius:3px; }
+      table.rf-table { width:100%; border-collapse:collapse; margin-bottom:2px; }
+      table.rf-table td { padding:2.5px 8px; font-size:11.5px; border-bottom:1px dotted #bbb; vertical-align:top; line-height:1.3; }
       table.rf-table td.lbl { width:34%; color:#555; font-weight:600; }
-      .rf-sign-row { display:flex; justify-content:space-between; margin-top:46px; }
-      .rf-sign-box { text-align:center; width:210px; }
-      .rf-sign-box img { max-height:44px; display:block; margin:0 auto 4px; }
-      .rf-sign-line { border-top:1px solid #333; margin-top:26px; padding-top:4px; font-size:12px; }
+      .rf-sign-row { display:flex; justify-content:space-between; margin-top:26px; }
+      .rf-sign-box { text-align:center; width:200px; }
+      .rf-sign-box img { max-height:36px; display:block; margin:0 auto 3px; }
+      .rf-sign-line { border-top:1px solid #333; margin-top:18px; padding-top:3px; font-size:11px; }
     </style></head><body>
     <div class="rf-header">
       <div class="rf-logo">${logoHtml || 'ফো'}</div>
-      <div class="rf-forum">${esc(info.ForumName || '')}</div>
-      <div class="rf-institute">${esc(info.InstituteName || '')}</div>
-      <div class="rf-address">${esc(info.Address || '')}</div>
-      <div class="rf-title">শিক্ষার্থী রেজিষ্ট্রেশন ফরম</div>
+      <div class="rf-center">
+        <div class="rf-forum">${esc(info.ForumName || '')}</div>
+        <div class="rf-institute">${esc(info.InstituteName || '')}</div>
+        <div class="rf-address">${esc(info.Address || '')}</div>
+        <div class="rf-title">শিক্ষার্থী রেজিষ্ট্রেশন ফরম</div>
+      </div>
       <div class="rf-photo">${photoHtml || 'ছবি নেই'}</div>
     </div>
 
@@ -2741,7 +2748,35 @@ function printStudentFromList(idx) {
       <div class="rf-sign-box">${sigHtml}<div class="rf-sign-line">শিক্ষার্থীর স্বাক্ষর</div></div>
       <div class="rf-sign-box"><div class="rf-sign-line">অনুমোদনকারীর স্বাক্ষর</div></div>
     </div>
-    <script>window.print();<\/script>
+    <script>
+      (function() {
+        var el = document.querySelector('.rf-institute');
+        function fit() {
+          if (!el) return;
+          var size = parseFloat(getComputedStyle(el).fontSize);
+          var tries = 0;
+          while (el.scrollWidth > el.clientWidth + 1 && size > 9 && tries < 60) {
+            size -= 0.5;
+            el.style.fontSize = size + 'px';
+            tries++;
+          }
+        }
+        var imgs = document.querySelectorAll('img');
+        var pending = imgs.length;
+        function ready() {
+          fit();
+          setTimeout(function() { window.print(); }, 150);
+        }
+        if (pending === 0) { ready(); return; }
+        imgs.forEach(function(img) {
+          if (img.complete) { pending--; if (pending <= 0) ready(); }
+          else {
+            img.addEventListener('load', function() { pending--; if (pending <= 0) ready(); });
+            img.addEventListener('error', function() { pending--; if (pending <= 0) ready(); });
+          }
+        });
+      })();
+    <\/script>
     </body></html>
   `);
   w.document.close();
@@ -2884,6 +2919,8 @@ function showStudentPrintCopy(data, allowEdit) {
   if (allowEdit === undefined) allowEdit = true;
   document.getElementById('studentFormWrap').style.display = 'none';
   document.getElementById('studentFormToggleBar').style.display = 'none';
+  const regListWrap = document.getElementById('studentRegListWrap');
+  if (regListWrap) regListWrap.style.display = 'none';
   updateStudentFormToggleBtn();
   const wrap = document.getElementById('studentPrintWrap');
   wrap.style.display = 'block';
@@ -2945,6 +2982,7 @@ function showStudentPrintCopy(data, allowEdit) {
       <button class="btn btn-outline" onclick="resetStudentForm()">নতুন রেজিষ্ট্রেশন</button>
     </div>
   `;
+  autoFitOneLine(wrap.querySelector('.pc-institute'), 10);
 }
 
 function editStudentFromPrint(id) {
@@ -2964,6 +3002,7 @@ function startEditStudent(idx) {
   document.getElementById('studentFormWrap').style.display = 'block';
   document.getElementById('studentPrintWrap').style.display = 'none';
   document.getElementById('studentFormToggleBar').style.display = '';
+  document.getElementById('studentRegListWrap').style.display = '';
   updateStudentFormToggleBtn();
 
   document.getElementById('sType').value = s.Type || '';
@@ -3150,6 +3189,7 @@ function resetTeacherForm() {
   document.getElementById('teacherFormWrap').style.display = 'block';
   document.getElementById('teacherPrintWrap').style.display = 'none';
   document.getElementById('teacherFormToggleBar').style.display = '';
+  document.getElementById('teacherRegListWrap').style.display = '';
   document.getElementById('tSubmitBtn').textContent = 'সাবমিট করুন';
   const resultsBox = document.getElementById('tSearchResults');
   if (resultsBox) { resultsBox.innerHTML = ''; resultsBox.style.display = 'none'; }
@@ -3183,6 +3223,7 @@ function initTeacherRegisterView() {
   document.getElementById('teacherFormWrap').style.display = 'none';
   document.getElementById('teacherPrintWrap').style.display = 'none';
   document.getElementById('teacherFormToggleBar').style.display = '';
+  document.getElementById('teacherRegListWrap').style.display = '';
   editingTeacherIdx = null;
   updateTeacherFormToggleBtn();
   renderTeacherRegList();
@@ -3245,30 +3286,35 @@ function printTeacherFromList(idx) {
     <style>
       @page { size: A4 portrait; margin: 0.5in; }
       * { box-sizing: border-box; }
-      body { font-family:'Noto Sans Bengali','Hind Siliguri',sans-serif; color:#1a1a1a; padding:0; margin:0; }
-      .rf-header { text-align:center; border-bottom:2px solid #1a1a5c; padding-bottom:10px; margin-bottom:16px; position:relative; }
-      .rf-logo { position:absolute; top:0; left:0; width:64px; height:64px; border:1.5px solid #1a1a5c; border-radius:50%; overflow:hidden; display:flex; align-items:center; justify-content:center; font-weight:800; color:#1a1a5c; }
-      .rf-forum { font-size:20px; font-weight:800; color:#1a1a5c; }
-      .rf-institute { font-size:14px; font-weight:600; margin-top:2px; }
-      .rf-address { font-size:12px; color:#555; }
-      .rf-title { font-size:16px; font-weight:700; margin-top:8px; text-decoration:underline; }
-      .rf-photo { position:absolute; top:0; right:0; width:90px; height:108px; border:1.5px solid #1a1a5c; overflow:hidden; display:flex; align-items:center; justify-content:center; font-size:11px; color:#888; }
+      html, body { height: auto; }
+      body { font-family:'Noto Sans Bengali','Hind Siliguri',sans-serif; color:#1a1a1a; padding:0; margin:0; font-size:12px; }
+      .rf-header { display:flex; align-items:center; gap:10px; text-align:center; border-bottom:2px solid #1a1a5c; padding-bottom:8px; margin-bottom:10px; }
+      .rf-logo { flex:0 0 auto; width:56px; height:56px; border:1.5px solid #1a1a5c; border-radius:50%; overflow:hidden; display:flex; align-items:center; justify-content:center; font-weight:800; color:#1a1a5c; font-size:20px; }
+      .rf-logo img { width:100%; height:100%; object-fit:cover; }
+      .rf-center { flex:1; min-width:0; }
+      .rf-forum { font-size:18px; font-weight:800; color:#1a1a5c; line-height:1.15; }
+      .rf-institute { font-size:13px; font-weight:600; margin-top:1px; white-space:nowrap; overflow:visible; line-height:1.2; }
+      .rf-address { font-size:10.5px; color:#555; line-height:1.2; }
+      .rf-title { font-size:14px; font-weight:700; margin-top:4px; text-decoration:underline; }
+      .rf-photo { flex:0 0 auto; width:78px; height:94px; border:1.5px solid #1a1a5c; overflow:hidden; display:flex; align-items:center; justify-content:center; font-size:10px; color:#888; }
       .rf-photo img { width:100%; height:100%; object-fit:cover; }
-      .rf-section { background:#e1eef0; color:#1a1a5c; font-weight:700; padding:6px 10px; margin:14px 0 6px; font-size:13.5px; border-radius:4px; }
-      table.rf-table { width:100%; border-collapse:collapse; margin-bottom:4px; }
-      table.rf-table td { padding:6px 8px; font-size:13px; border-bottom:1px dotted #bbb; vertical-align:top; }
+      .rf-section { background:#e1eef0; color:#1a1a5c; font-weight:700; padding:3px 8px; margin:8px 0 3px; font-size:12px; border-radius:3px; }
+      table.rf-table { width:100%; border-collapse:collapse; margin-bottom:2px; }
+      table.rf-table td { padding:2.5px 8px; font-size:11.5px; border-bottom:1px dotted #bbb; vertical-align:top; line-height:1.3; }
       table.rf-table td.lbl { width:34%; color:#555; font-weight:600; }
-      .rf-sign-row { display:flex; justify-content:space-between; margin-top:46px; }
-      .rf-sign-box { text-align:center; width:210px; }
-      .rf-sign-box img { max-height:44px; display:block; margin:0 auto 4px; }
-      .rf-sign-line { border-top:1px solid #333; margin-top:26px; padding-top:4px; font-size:12px; }
+      .rf-sign-row { display:flex; justify-content:space-between; margin-top:26px; }
+      .rf-sign-box { text-align:center; width:200px; }
+      .rf-sign-box img { max-height:36px; display:block; margin:0 auto 3px; }
+      .rf-sign-line { border-top:1px solid #333; margin-top:18px; padding-top:3px; font-size:11px; }
     </style></head><body>
     <div class="rf-header">
       <div class="rf-logo">${logoHtml || 'ফো'}</div>
-      <div class="rf-forum">${esc(info.ForumName || '')}</div>
-      <div class="rf-institute">${esc(info.InstituteName || '')}</div>
-      <div class="rf-address">${esc(info.Address || '')}</div>
-      <div class="rf-title">শিক্ষক রেজিষ্ট্রেশন ফরম</div>
+      <div class="rf-center">
+        <div class="rf-forum">${esc(info.ForumName || '')}</div>
+        <div class="rf-institute">${esc(info.InstituteName || '')}</div>
+        <div class="rf-address">${esc(info.Address || '')}</div>
+        <div class="rf-title">শিক্ষক রেজিষ্ট্রেশন ফরম</div>
+      </div>
       <div class="rf-photo">${photoHtml || 'ছবি নেই'}</div>
     </div>
 
@@ -3314,7 +3360,35 @@ function printTeacherFromList(idx) {
       <div class="rf-sign-box">${sigHtml}<div class="rf-sign-line">শিক্ষকের স্বাক্ষর</div></div>
       <div class="rf-sign-box"><div class="rf-sign-line">অনুমোদনকারীর স্বাক্ষর</div></div>
     </div>
-    <script>window.print();<\/script>
+    <script>
+      (function() {
+        var el = document.querySelector('.rf-institute');
+        function fit() {
+          if (!el) return;
+          var size = parseFloat(getComputedStyle(el).fontSize);
+          var tries = 0;
+          while (el.scrollWidth > el.clientWidth + 1 && size > 9 && tries < 60) {
+            size -= 0.5;
+            el.style.fontSize = size + 'px';
+            tries++;
+          }
+        }
+        var imgs = document.querySelectorAll('img');
+        var pending = imgs.length;
+        function ready() {
+          fit();
+          setTimeout(function() { window.print(); }, 150);
+        }
+        if (pending === 0) { ready(); return; }
+        imgs.forEach(function(img) {
+          if (img.complete) { pending--; if (pending <= 0) ready(); }
+          else {
+            img.addEventListener('load', function() { pending--; if (pending <= 0) ready(); });
+            img.addEventListener('error', function() { pending--; if (pending <= 0) ready(); });
+          }
+        });
+      })();
+    <\/script>
     </body></html>
   `);
   w.document.close();
@@ -3461,6 +3535,8 @@ function showTeacherPrintCopy(data, allowEdit) {
   if (allowEdit === undefined) allowEdit = true;
   document.getElementById('teacherFormWrap').style.display = 'none';
   document.getElementById('teacherFormToggleBar').style.display = 'none';
+  const regListWrap = document.getElementById('teacherRegListWrap');
+  if (regListWrap) regListWrap.style.display = 'none';
   updateTeacherFormToggleBtn();
   const wrap = document.getElementById('teacherPrintWrap');
   wrap.style.display = 'block';
@@ -3521,6 +3597,7 @@ function showTeacherPrintCopy(data, allowEdit) {
       <button class="btn btn-outline" onclick="resetTeacherForm()">নতুন রেজিষ্ট্রেশন</button>
     </div>
   `;
+  autoFitOneLine(wrap.querySelector('.pc-institute'), 10);
 }
 
 function editTeacherFromPrint(id) {
@@ -3540,6 +3617,7 @@ function startEditTeacher(idx) {
   document.getElementById('teacherFormWrap').style.display = 'block';
   document.getElementById('teacherPrintWrap').style.display = 'none';
   document.getElementById('teacherFormToggleBar').style.display = '';
+  document.getElementById('teacherRegListWrap').style.display = '';
   updateTeacherFormToggleBtn();
 
   document.getElementById('tType').value = t.Type || '';
@@ -4104,8 +4182,7 @@ function downloadEventRegCard(regId) {
         margin-top: 0px;
         line-height: 1.15;
         white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
+        overflow: visible;
       }
       .evc-institute-address { font-size: 12px; color: #2a2a2a; margin-top: 0px; line-height: 1.15; }
 
@@ -4251,6 +4328,19 @@ function downloadEventRegCard(regId) {
     <div class="evc-print-actions no-print">
       <button onclick="window.print()">🖨️ প্রিন্ট করুন</button>
     </div>
+    <script>
+      (function() {
+        var el = document.querySelector('.evc-institute-name');
+        if (!el) return;
+        var size = parseFloat(getComputedStyle(el).fontSize);
+        var tries = 0;
+        while (el.scrollWidth > el.clientWidth + 1 && size > 10 && tries < 60) {
+          size -= 0.5;
+          el.style.fontSize = size + 'px';
+          tries++;
+        }
+      })();
+    <\/script>
     </body></html>
   `);
   w.document.close();
@@ -6219,7 +6309,7 @@ function renderHeader() {
 function renderFormLetterheads() {
   const info = STATE.forumInfo;
   ['lhForumName1', 'lhForumName2'].forEach(id => { const el = document.getElementById(id); if (el) el.textContent = info.ForumName || ''; });
-  ['lhInstitute1', 'lhInstitute2'].forEach(id => { const el = document.getElementById(id); if (el) el.textContent = info.InstituteName || ''; });
+  ['lhInstitute1', 'lhInstitute2'].forEach(id => { const el = document.getElementById(id); if (el) { el.textContent = info.InstituteName || ''; el.style.fontSize = ''; autoFitOneLine(el, 10); } });
   ['lhAddress1', 'lhAddress2'].forEach(id => { const el = document.getElementById(id); if (el) el.textContent = info.Address || ''; });
   ['lhSlogan1', 'lhSlogan2'].forEach(id => { const el = document.getElementById(id); if (el) el.textContent = info.Slogan || ''; });
   const logoInitial = (info.ForumName || 'ফো').charAt(0);
@@ -6447,6 +6537,20 @@ function formatDateOnly(val) {
     return formatBengaliDate(d);
   }
   return formatBengaliDate(new Date(s));
+}
+
+// কোনো এলিমেন্টের টেক্সট একলাইনে না আঁটলে ফন্ট সাইজ ধীরে ধীরে কমিয়ে ফিট করানো হয়
+// (যেমন প্রতিষ্ঠানের নাম — না কাটা যাবে, না পরের লাইনে যাবে)
+function autoFitOneLine(el, minPx) {
+  if (!el) return;
+  if (minPx === undefined) minPx = 8;
+  let size = parseFloat(getComputedStyle(el).fontSize);
+  let tries = 0;
+  while (el.scrollWidth > el.clientWidth + 1 && size > minPx && tries < 60) {
+    size -= 0.5;
+    el.style.fontSize = size + 'px';
+    tries++;
+  }
 }
 
 function initials(name) {

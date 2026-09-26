@@ -1041,8 +1041,8 @@ button { font-family: inherit; cursor: pointer; }
   border: 3px solid #1a1a5c;
   border-radius: 16px;
   padding: 4px;
-  width: 8.5in;
-  height: 5.5in;
+  width: 7.27in;
+  height: 5.345in;
   max-width: 100%;
   margin: 0 auto;
   box-shadow: var(--shadow-lg);
@@ -1119,11 +1119,11 @@ button { font-family: inherit; cursor: pointer; }
 
 .print-actions { text-align: center; margin-top: 18px; display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
 
-@page { size: 8.5in 5.5in; margin: 0; }
+@page { size: A4 portrait; margin: 0.5in; }
 @media print {
-  .site-header, .site-nav, .site-footer, .print-actions, .no-print { display: none !important; }
+  .site-header, .site-nav, .site-footer, .print-actions, .no-print, .reg-toggle-bar, #studentRegListWrap, #teacherRegListWrap { display: none !important; }
   body { background: #fff; margin: 0; }
-  .print-copy { border: 3px solid #1a1a5c; border-radius: 16px; box-shadow: none; width: 8.5in; height: 5.5in; margin: 0; }
+  .print-copy { border: 3px solid #1a1a5c; border-radius: 16px; box-shadow: none; width: 7.27in; height: 5.345in; margin: 0 auto; }
   .page-section { padding: 0; }
 }
 
@@ -1450,7 +1450,7 @@ button { font-family: inherit; cursor: pointer; }
   <section id="view-studentRegister" class="view-panel">
     <div class="page-section">
 
-      <div class="reg-toggle-bar">
+      <div class="reg-toggle-bar" id="studentFormToggleBar">
         <button type="button" class="btn btn-primary" id="studentFormToggleBtn" onclick="toggleStudentFormVisibility()">➕ নতুন রেজিষ্ট্রেশন ফরম</button>
       </div>
 
@@ -1596,7 +1596,7 @@ button { font-family: inherit; cursor: pointer; }
   <section id="view-teacherRegister" class="view-panel">
     <div class="page-section">
 
-      <div class="reg-toggle-bar">
+      <div class="reg-toggle-bar" id="teacherFormToggleBar">
         <button type="button" class="btn btn-primary" id="teacherFormToggleBtn" onclick="toggleTeacherFormVisibility()">➕ নতুন রেজিষ্ট্রেশন ফরম</button>
       </div>
 
@@ -2576,6 +2576,7 @@ function resetStudentForm() {
   document.getElementById('studentFormError').classList.remove('show');
   document.getElementById('studentFormWrap').style.display = 'block';
   document.getElementById('studentPrintWrap').style.display = 'none';
+  document.getElementById('studentFormToggleBar').style.display = '';
   document.getElementById('sSubmitBtn').textContent = 'সাবমিট করুন';
   const resultsBox = document.getElementById('sSearchResults');
   if (resultsBox) { resultsBox.innerHTML = ''; resultsBox.style.display = 'none'; }
@@ -2607,6 +2608,7 @@ function toggleStudentFormVisibility() {
 function initStudentRegisterView() {
   document.getElementById('studentFormWrap').style.display = 'none';
   document.getElementById('studentPrintWrap').style.display = 'none';
+  document.getElementById('studentFormToggleBar').style.display = '';
   editingStudentIdx = null;
   updateStudentFormToggleBtn();
   renderStudentRegList();
@@ -2645,7 +2647,6 @@ function renderStudentRegList() {
               <div class="reg-list-actions">
                 <button class="btn btn-primary btn-sm" onclick="startEditStudent(${idx})">✎ এডিট</button>
                 <button class="btn btn-gold btn-sm" onclick="printStudentFromList(${idx})">🖨️ প্রিন্ট</button>
-                <button class="btn btn-danger btn-sm" onclick="deleteStudentRecord(${idx})">🗑️ ডিলেট</button>
               </div>
             </td>
           </tr>`;
@@ -2658,31 +2659,94 @@ function renderStudentRegList() {
 function printStudentFromList(idx) {
   const s = STATE.students[idx];
   if (!s) return;
-  showStudentPrintCopy(s, false);
+  const info = STATE.forumInfo || {};
+  const w = window.open('', '_blank');
+  const logoHtml = info.LogoURL
+    ? `<img src="${esc(info.LogoURL)}" style="width:100%;height:100%;object-fit:cover;">`
+    : '';
+  const photoHtml = s.PhotoURL ? `<img src="${esc(s.PhotoURL)}">` : '';
+  const sigHtml = s.SignatureURL ? `<img src="${esc(s.SignatureURL)}">` : '';
+  w.document.write(`
+    <html><head><title>শিক্ষার্থী রেজিষ্ট্রেশন ফরম — ${esc(s.Name)}</title>
+    <style>
+      @page { size: A4 portrait; margin: 0.5in; }
+      * { box-sizing: border-box; }
+      body { font-family:'Noto Sans Bengali','Hind Siliguri',sans-serif; color:#1a1a1a; padding:0; margin:0; }
+      .rf-header { text-align:center; border-bottom:2px solid #1a1a5c; padding-bottom:10px; margin-bottom:16px; position:relative; }
+      .rf-logo { position:absolute; top:0; left:0; width:64px; height:64px; border:1.5px solid #1a1a5c; border-radius:50%; overflow:hidden; display:flex; align-items:center; justify-content:center; font-weight:800; color:#1a1a5c; }
+      .rf-forum { font-size:20px; font-weight:800; color:#1a1a5c; }
+      .rf-institute { font-size:14px; font-weight:600; margin-top:2px; }
+      .rf-address { font-size:12px; color:#555; }
+      .rf-title { font-size:16px; font-weight:700; margin-top:8px; text-decoration:underline; }
+      .rf-photo { position:absolute; top:0; right:0; width:90px; height:108px; border:1.5px solid #1a1a5c; overflow:hidden; display:flex; align-items:center; justify-content:center; font-size:11px; color:#888; }
+      .rf-photo img { width:100%; height:100%; object-fit:cover; }
+      .rf-section { background:#e1eef0; color:#1a1a5c; font-weight:700; padding:6px 10px; margin:14px 0 6px; font-size:13.5px; border-radius:4px; }
+      table.rf-table { width:100%; border-collapse:collapse; margin-bottom:4px; }
+      table.rf-table td { padding:6px 8px; font-size:13px; border-bottom:1px dotted #bbb; vertical-align:top; }
+      table.rf-table td.lbl { width:34%; color:#555; font-weight:600; }
+      .rf-sign-row { display:flex; justify-content:space-between; margin-top:46px; }
+      .rf-sign-box { text-align:center; width:210px; }
+      .rf-sign-box img { max-height:44px; display:block; margin:0 auto 4px; }
+      .rf-sign-line { border-top:1px solid #333; margin-top:26px; padding-top:4px; font-size:12px; }
+    </style></head><body>
+    <div class="rf-header">
+      <div class="rf-logo">${logoHtml || 'ফো'}</div>
+      <div class="rf-forum">${esc(info.ForumName || '')}</div>
+      <div class="rf-institute">${esc(info.InstituteName || '')}</div>
+      <div class="rf-address">${esc(info.Address || '')}</div>
+      <div class="rf-title">শিক্ষার্থী রেজিষ্ট্রেশন ফরম</div>
+      <div class="rf-photo">${photoHtml || 'ছবি নেই'}</div>
+    </div>
+
+    <div class="rf-section">মৌলিক তথ্য</div>
+    <table class="rf-table">
+      <tr><td class="lbl">রেজিষ্ট্রেশন নং</td><td>${esc(s.RegNo || '-')}</td></tr>
+      <tr><td class="lbl">ধরন</td><td>${esc(s.Type || '-')}</td></tr>
+      <tr><td class="lbl">লিঙ্গ</td><td>${esc(s.Gender || '-')}</td></tr>
+      <tr><td class="lbl">নাম</td><td>${esc(s.Name || '-')}</td></tr>
+      <tr><td class="lbl">পিতার নাম</td><td>${esc(s.FatherName || '-')}</td></tr>
+      <tr><td class="lbl">মোবাইল নং (WhatsApp)</td><td>${esc(s.Mobile || '-')}</td></tr>
+      <tr><td class="lbl">বৈবাহিক অবস্থা</td><td>${esc(s.MaritalStatus || '-')}</td></tr>
+    </table>
+
+    <div class="rf-section">ঠিকানা</div>
+    <table class="rf-table">
+      <tr><td class="lbl">গ্রাম</td><td>${esc(s.Village || '-')}</td></tr>
+      <tr><td class="lbl">ডাকঘর</td><td>${esc(s.PostOffice || '-')}</td></tr>
+      <tr><td class="lbl">ইউনিয়ন</td><td>${esc(s.Union || '-')}</td></tr>
+      <tr><td class="lbl">উপজেলা</td><td>${esc(s.Upazila || '-')}</td></tr>
+      <tr><td class="lbl">জেলা</td><td>${esc(s.Thana || '-')}</td></tr>
+      <tr><td class="lbl">বর্তমান অবস্থানরত দেশ</td><td>${esc(s.CurrentCountry || '-')}</td></tr>
+      <tr><td class="lbl">রক্তের গ্রুপ</td><td>${esc(s.BloodGroup || '-')}</td></tr>
+    </table>
+
+    <div class="rf-section">শিক্ষা ও পেশা</div>
+    <table class="rf-table">
+      <tr><td class="lbl">পেশা</td><td>${esc(s.Profession || '-')}</td></tr>
+      <tr><td class="lbl">অত্র প্রতিষ্ঠানে সর্বশেষ অধ্যয়নকৃত শ্রেণী</td><td>${esc(s.LastClass || '-')}</td></tr>
+      <tr><td class="lbl">দাখিল ব্যাচ (সাল)</td><td>${esc(s.DakhilBatch || '-')}</td></tr>
+      <tr><td class="lbl">সর্বশেষ শিক্ষাগত যোগ্যতা (ক্লাস)</td><td>${esc(s.HighestEducationClass || '-')}</td></tr>
+      <tr><td class="lbl">সর্বশেষ শিক্ষাগত যোগ্যতা (প্রতিষ্ঠান)</td><td>${esc(s.HighestEducationInstitute || '-')}</td></tr>
+    </table>
+
+    <div class="rf-section">যোগাযোগ ও অন্যান্য</div>
+    <table class="rf-table">
+      <tr><td class="lbl">Facebook ID</td><td>${esc(s.Facebook || '-')}</td></tr>
+      <tr><td class="lbl">E-mail</td><td>${esc(s.Email || '-')}</td></tr>
+      <tr><td class="lbl">মন্তব্য</td><td>${esc(s.Comment || '-')}</td></tr>
+      <tr><td class="lbl">শিক্ষার্থী মৃত?</td><td>${esc(s.IsDeceased || 'না')}</td></tr>
+    </table>
+
+    <div class="rf-sign-row">
+      <div class="rf-sign-box">${sigHtml}<div class="rf-sign-line">শিক্ষার্থীর স্বাক্ষর</div></div>
+      <div class="rf-sign-box"><div class="rf-sign-line">অনুমোদনকারীর স্বাক্ষর</div></div>
+    </div>
+    <script>window.print();<\/script>
+    </body></html>
+  `);
+  w.document.close();
 }
 
-async function deleteStudentRecord(idx) {
-  const s = STATE.students[idx];
-  if (!s) return;
-  if (!confirm(`আপনি কি নিশ্চিত "${s.Name}" এর রেজিষ্ট্রেশন মুছে ফেলতে চান? এই কাজটি ফিরিয়ে নেওয়া যাবে না।`)) return;
-  const password = STATE.isDemoMode ? '' : prompt('মুছে ফেলার জন্য ব্যবস্থাপনার পাসওয়ার্ড দিন:');
-  if (!STATE.isDemoMode && password === null) return;
-
-  try {
-    if (STATE.isDemoMode) {
-      STATE.students.splice(idx, 1);
-      showToast('ডেমো মোডে মুছে ফেলা হয়েছে');
-    } else {
-      await API.deleteStudent(s.ID, password);
-      STATE.students.splice(idx, 1);
-      showToast('রেজিষ্ট্রেশন মুছে ফেলা হয়েছে');
-      await refreshDashboardData();
-    }
-    renderStudentRegList();
-  } catch (err) {
-    showToast('সমস্যা হয়েছে: ' + err.message, true);
-  }
-}
 
 async function handleStudentPhotoUpload(input, target) {
   const file = input.files[0];
@@ -2819,6 +2883,7 @@ function val(id) {
 function showStudentPrintCopy(data, allowEdit) {
   if (allowEdit === undefined) allowEdit = true;
   document.getElementById('studentFormWrap').style.display = 'none';
+  document.getElementById('studentFormToggleBar').style.display = 'none';
   updateStudentFormToggleBtn();
   const wrap = document.getElementById('studentPrintWrap');
   wrap.style.display = 'block';
@@ -2898,6 +2963,7 @@ function startEditStudent(idx) {
 
   document.getElementById('studentFormWrap').style.display = 'block';
   document.getElementById('studentPrintWrap').style.display = 'none';
+  document.getElementById('studentFormToggleBar').style.display = '';
   updateStudentFormToggleBtn();
 
   document.getElementById('sType').value = s.Type || '';
@@ -3083,6 +3149,7 @@ function resetTeacherForm() {
   document.getElementById('teacherFormError').classList.remove('show');
   document.getElementById('teacherFormWrap').style.display = 'block';
   document.getElementById('teacherPrintWrap').style.display = 'none';
+  document.getElementById('teacherFormToggleBar').style.display = '';
   document.getElementById('tSubmitBtn').textContent = 'সাবমিট করুন';
   const resultsBox = document.getElementById('tSearchResults');
   if (resultsBox) { resultsBox.innerHTML = ''; resultsBox.style.display = 'none'; }
@@ -3115,6 +3182,7 @@ function toggleTeacherFormVisibility() {
 function initTeacherRegisterView() {
   document.getElementById('teacherFormWrap').style.display = 'none';
   document.getElementById('teacherPrintWrap').style.display = 'none';
+  document.getElementById('teacherFormToggleBar').style.display = '';
   editingTeacherIdx = null;
   updateTeacherFormToggleBtn();
   renderTeacherRegList();
@@ -3153,7 +3221,6 @@ function renderTeacherRegList() {
               <div class="reg-list-actions">
                 <button class="btn btn-primary btn-sm" onclick="startEditTeacher(${idx})">✎ এডিট</button>
                 <button class="btn btn-gold btn-sm" onclick="printTeacherFromList(${idx})">🖨️ প্রিন্ট</button>
-                <button class="btn btn-danger btn-sm" onclick="deleteTeacherRecord(${idx})">🗑️ ডিলেট</button>
               </div>
             </td>
           </tr>`;
@@ -3166,30 +3233,91 @@ function renderTeacherRegList() {
 function printTeacherFromList(idx) {
   const t = STATE.teachers[idx];
   if (!t) return;
-  showTeacherPrintCopy(t, false);
-}
+  const info = STATE.forumInfo || {};
+  const w = window.open('', '_blank');
+  const logoHtml = info.LogoURL
+    ? `<img src="${esc(info.LogoURL)}" style="width:100%;height:100%;object-fit:cover;">`
+    : '';
+  const photoHtml = t.PhotoURL ? `<img src="${esc(t.PhotoURL)}">` : '';
+  const sigHtml = t.SignatureURL ? `<img src="${esc(t.SignatureURL)}">` : '';
+  w.document.write(`
+    <html><head><title>শিক্ষক রেজিষ্ট্রেশন ফরম — ${esc(t.Name)}</title>
+    <style>
+      @page { size: A4 portrait; margin: 0.5in; }
+      * { box-sizing: border-box; }
+      body { font-family:'Noto Sans Bengali','Hind Siliguri',sans-serif; color:#1a1a1a; padding:0; margin:0; }
+      .rf-header { text-align:center; border-bottom:2px solid #1a1a5c; padding-bottom:10px; margin-bottom:16px; position:relative; }
+      .rf-logo { position:absolute; top:0; left:0; width:64px; height:64px; border:1.5px solid #1a1a5c; border-radius:50%; overflow:hidden; display:flex; align-items:center; justify-content:center; font-weight:800; color:#1a1a5c; }
+      .rf-forum { font-size:20px; font-weight:800; color:#1a1a5c; }
+      .rf-institute { font-size:14px; font-weight:600; margin-top:2px; }
+      .rf-address { font-size:12px; color:#555; }
+      .rf-title { font-size:16px; font-weight:700; margin-top:8px; text-decoration:underline; }
+      .rf-photo { position:absolute; top:0; right:0; width:90px; height:108px; border:1.5px solid #1a1a5c; overflow:hidden; display:flex; align-items:center; justify-content:center; font-size:11px; color:#888; }
+      .rf-photo img { width:100%; height:100%; object-fit:cover; }
+      .rf-section { background:#e1eef0; color:#1a1a5c; font-weight:700; padding:6px 10px; margin:14px 0 6px; font-size:13.5px; border-radius:4px; }
+      table.rf-table { width:100%; border-collapse:collapse; margin-bottom:4px; }
+      table.rf-table td { padding:6px 8px; font-size:13px; border-bottom:1px dotted #bbb; vertical-align:top; }
+      table.rf-table td.lbl { width:34%; color:#555; font-weight:600; }
+      .rf-sign-row { display:flex; justify-content:space-between; margin-top:46px; }
+      .rf-sign-box { text-align:center; width:210px; }
+      .rf-sign-box img { max-height:44px; display:block; margin:0 auto 4px; }
+      .rf-sign-line { border-top:1px solid #333; margin-top:26px; padding-top:4px; font-size:12px; }
+    </style></head><body>
+    <div class="rf-header">
+      <div class="rf-logo">${logoHtml || 'ফো'}</div>
+      <div class="rf-forum">${esc(info.ForumName || '')}</div>
+      <div class="rf-institute">${esc(info.InstituteName || '')}</div>
+      <div class="rf-address">${esc(info.Address || '')}</div>
+      <div class="rf-title">শিক্ষক রেজিষ্ট্রেশন ফরম</div>
+      <div class="rf-photo">${photoHtml || 'ছবি নেই'}</div>
+    </div>
 
-async function deleteTeacherRecord(idx) {
-  const t = STATE.teachers[idx];
-  if (!t) return;
-  if (!confirm(`আপনি কি নিশ্চিত "${t.Name}" এর রেজিষ্ট্রেশন মুছে ফেলতে চান? এই কাজটি ফিরিয়ে নেওয়া যাবে না।`)) return;
-  const password = STATE.isDemoMode ? '' : prompt('মুছে ফেলার জন্য ব্যবস্থাপনার পাসওয়ার্ড দিন:');
-  if (!STATE.isDemoMode && password === null) return;
+    <div class="rf-section">মৌলিক তথ্য</div>
+    <table class="rf-table">
+      <tr><td class="lbl">রেজিষ্ট্রেশন নং</td><td>${esc(t.RegNo || '-')}</td></tr>
+      <tr><td class="lbl">ধরন</td><td>${esc(t.Type || '-')}</td></tr>
+      <tr><td class="lbl">নাম</td><td>${esc(t.Name || '-')}</td></tr>
+      <tr><td class="lbl">পিতার নাম</td><td>${esc(t.FatherName || '-')}</td></tr>
+      <tr><td class="lbl">পদবি</td><td>${esc(t.Designation || '-')}</td></tr>
+      <tr><td class="lbl">মোবাইল নং</td><td>${esc(t.Mobile || '-')}</td></tr>
+      <tr><td class="lbl">বৈবাহিক অবস্থা</td><td>${esc(t.MaritalStatus || '-')}</td></tr>
+    </table>
 
-  try {
-    if (STATE.isDemoMode) {
-      STATE.teachers.splice(idx, 1);
-      showToast('ডেমো মোডে মুছে ফেলা হয়েছে');
-    } else {
-      await API.deleteTeacher(t.ID, password);
-      STATE.teachers.splice(idx, 1);
-      showToast('রেজিষ্ট্রেশন মুছে ফেলা হয়েছে');
-      await refreshDashboardData();
-    }
-    renderTeacherRegList();
-  } catch (err) {
-    showToast('সমস্যা হয়েছে: ' + err.message, true);
-  }
+    <div class="rf-section">ঠিকানা</div>
+    <table class="rf-table">
+      <tr><td class="lbl">গ্রাম</td><td>${esc(t.Village || '-')}</td></tr>
+      <tr><td class="lbl">ডাকঘর</td><td>${esc(t.PostOffice || '-')}</td></tr>
+      <tr><td class="lbl">ইউনিয়ন</td><td>${esc(t.Union || '-')}</td></tr>
+      <tr><td class="lbl">উপজেলা</td><td>${esc(t.Upazila || '-')}</td></tr>
+      <tr><td class="lbl">জেলা</td><td>${esc(t.Thana || '-')}</td></tr>
+      <tr><td class="lbl">রক্তের গ্রুপ</td><td>${esc(t.BloodGroup || '-')}</td></tr>
+    </table>
+
+    <div class="rf-section">চাকরি সংক্রান্ত তথ্য</div>
+    <table class="rf-table">
+      <tr><td class="lbl">যোগদানের তারিখ</td><td>${esc(formatDateOnly(t.JoiningDate))}</td></tr>
+      ${t.Type === 'প্রাক্তন' ? `<tr><td class="lbl">অবসর তারিখ</td><td>${esc(formatDateOnly(t.RetirementDate))}</td></tr>` : ''}
+      <tr><td class="lbl">চাকরির মেয়াদ</td><td>${esc(t.ServiceLength || '-')}</td></tr>
+      <tr><td class="lbl">সর্বশেষ শিক্ষাগত যোগ্যতা (ক্লাস)</td><td>${esc(t.HighestEducationClass || '-')}</td></tr>
+      <tr><td class="lbl">সর্বশেষ শিক্ষাগত যোগ্যতা (প্রতিষ্ঠান)</td><td>${esc(t.HighestEducationInstitute || '-')}</td></tr>
+    </table>
+
+    <div class="rf-section">যোগাযোগ ও অন্যান্য</div>
+    <table class="rf-table">
+      <tr><td class="lbl">Facebook ID</td><td>${esc(t.Facebook || '-')}</td></tr>
+      <tr><td class="lbl">E-mail</td><td>${esc(t.Email || '-')}</td></tr>
+      <tr><td class="lbl">মন্তব্য</td><td>${esc(t.Comment || '-')}</td></tr>
+      <tr><td class="lbl">শিক্ষক মৃত?</td><td>${esc(t.IsDeceased || 'না')}</td></tr>
+    </table>
+
+    <div class="rf-sign-row">
+      <div class="rf-sign-box">${sigHtml}<div class="rf-sign-line">শিক্ষকের স্বাক্ষর</div></div>
+      <div class="rf-sign-box"><div class="rf-sign-line">অনুমোদনকারীর স্বাক্ষর</div></div>
+    </div>
+    <script>window.print();<\/script>
+    </body></html>
+  `);
+  w.document.close();
 }
 
 function toggleRetirementField() {
@@ -3332,6 +3460,7 @@ async function submitTeacherForm(e) {
 function showTeacherPrintCopy(data, allowEdit) {
   if (allowEdit === undefined) allowEdit = true;
   document.getElementById('teacherFormWrap').style.display = 'none';
+  document.getElementById('teacherFormToggleBar').style.display = 'none';
   updateTeacherFormToggleBtn();
   const wrap = document.getElementById('teacherPrintWrap');
   wrap.style.display = 'block';
@@ -3410,6 +3539,7 @@ function startEditTeacher(idx) {
 
   document.getElementById('teacherFormWrap').style.display = 'block';
   document.getElementById('teacherPrintWrap').style.display = 'none';
+  document.getElementById('teacherFormToggleBar').style.display = '';
   updateTeacherFormToggleBtn();
 
   document.getElementById('tType').value = t.Type || '';
@@ -3918,8 +4048,8 @@ function downloadEventRegCard(regId) {
       }
 
       .evc-outer {
-        width: 8.5in;
-        height: 5.5in;
+        width: 7.27in;
+        height: 5.345in;
         max-width: 100%;
         margin: 0 auto;
         border: 4px solid #1a1a5c;
@@ -4071,11 +4201,11 @@ function downloadEventRegCard(regId) {
         font-family: inherit;
       }
 
-      @page { size: 8.5in 5.5in; margin: 0; }
+      @page { size: A4 portrait; margin: 0.5in; }
       @media print {
         body { padding: 0; background: #fff; margin: 0; }
         .evc-print-actions { display: none; }
-        .evc-outer { width: 8.5in; height: 5.5in; margin: 0; }
+        .evc-outer { width: 7.27in; height: 5.345in; margin: 0 auto; }
       }
     </style>
     </head><body>
@@ -5797,10 +5927,36 @@ function filterAdminEditRecords() {
         <div class="person-name">${esc(p.Name)}</div>
         <div class="person-meta">রেজি. নং: ${esc(p.RegNo || '-')}</div>
         <div class="person-meta">${esc(meta)}</div>
-        <button class="btn btn-primary btn-sm" onclick="${fnName}(${idx})">✎ এডিট করুন</button>
+        <div style="display:flex;gap:6px;margin-top:8px">
+          <button class="btn btn-primary btn-sm" style="flex:1;margin-top:0" onclick="${fnName}(${idx})">✎ এডিট</button>
+          <button class="btn btn-danger btn-sm" style="flex:1;margin-top:0" onclick="deleteRecordFromAdmin('${type}', ${idx})">🗑️ ডিলেট</button>
+        </div>
       </div>
     </div>`;
   }).join('');
+}
+
+async function deleteRecordFromAdmin(type, idx) {
+  const list = type === 'student' ? STATE.students : STATE.teachers;
+  const p = list[idx];
+  if (!p) return;
+  if (!confirm(`আপনি কি নিশ্চিত "${p.Name}" এর রেজিষ্ট্রেশন মুছে ফেলতে চান? এই কাজটি ফিরিয়ে নেওয়া যাবে না।`)) return;
+
+  try {
+    if (STATE.isDemoMode) {
+      list.splice(idx, 1);
+      showToast('ডেমো মোডে মুছে ফেলা হয়েছে');
+    } else {
+      if (type === 'student') await API.deleteStudent(p.ID, adminPassword);
+      else await API.deleteTeacher(p.ID, adminPassword);
+      list.splice(idx, 1);
+      showToast('রেজিষ্ট্রেশন মুছে ফেলা হয়েছে');
+      await refreshDashboardData();
+    }
+    filterAdminEditRecords();
+  } catch (err) {
+    showToast('সমস্যা হয়েছে: ' + err.message, true);
+  }
 }
 
 

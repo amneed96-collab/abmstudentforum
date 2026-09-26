@@ -226,7 +226,7 @@ function doPost(e) {
     const PROTECTED = [
       'saveForumInfo', 'saveCommittee', 'saveSpecialCommittee', 'changePassword', 'addEvent', 'confirmEventRegistration',
       'addIncome', 'updateIncome', 'deleteIncome', 'addExpense', 'updateExpense', 'deleteExpense',
-      'addFeeSetting', 'confirmFeePayment', 'rejectFeePayment'
+      'addFeeSetting', 'confirmFeePayment', 'rejectFeePayment', 'deleteStudent', 'deleteTeacher'
     ];
     if (PROTECTED.includes(action)) {
       if (!checkAdminPassword(body.password)) {
@@ -246,6 +246,12 @@ function doPost(e) {
         break;
       case 'updateTeacher':
         result = updateRowById(SHEETS.TEACHERS, body.data);
+        break;
+      case 'deleteStudent':
+        result = deleteRowById(SHEETS.STUDENTS, body.id);
+        break;
+      case 'deleteTeacher':
+        result = deleteRowById(SHEETS.TEACHERS, body.id);
         break;
       case 'saveForumInfo':
         result = saveKeyValueSheet(SHEETS.FORUM_INFO, body.data);

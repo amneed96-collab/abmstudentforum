@@ -961,6 +961,10 @@ button { font-family: inherit; cursor: pointer; }
   background: var(--paper-raised);
 }
 
+.reg-toggle-bar { margin-bottom: 18px; }
+.table-list-wrap { margin-top: 8px; }
+.reg-list-actions { display: flex; gap: 6px; justify-content: center; flex-wrap: wrap; }
+
 .empty-state {
   text-align: center;
   padding: 50px 20px;
@@ -1035,6 +1039,7 @@ button { font-family: inherit; cursor: pointer; }
 .print-copy {
   background-color: #fff;
   border: 3px solid #1a1a5c;
+  border-radius: 16px;
   padding: 4px;
   width: 8.5in;
   height: 5.5in;
@@ -1042,8 +1047,9 @@ button { font-family: inherit; cursor: pointer; }
   margin: 0 auto;
   box-shadow: var(--shadow-lg);
   box-sizing: border-box;
+  overflow: hidden;
 }
-.pc-inner { border: 1px solid #1a1a5c; padding: 14px 26px 18px; height: 100%; box-sizing: border-box; display: flex; flex-direction: column; }
+.pc-inner { border: 1px solid #1a1a5c; border-radius: 12px; padding: 14px 26px 18px; height: 100%; box-sizing: border-box; display: flex; flex-direction: column; }
 
 .pc-header-row { display: flex; align-items: flex-start; gap: 16px; }
 .pc-logo-box-print {
@@ -1117,7 +1123,7 @@ button { font-family: inherit; cursor: pointer; }
 @media print {
   .site-header, .site-nav, .site-footer, .print-actions, .no-print { display: none !important; }
   body { background: #fff; margin: 0; }
-  .print-copy { border: 3px solid #1a1a5c; box-shadow: none; width: 8.5in; height: 5.5in; margin: 0; }
+  .print-copy { border: 3px solid #1a1a5c; border-radius: 16px; box-shadow: none; width: 8.5in; height: 5.5in; margin: 0; }
   .page-section { padding: 0; }
 }
 
@@ -1444,7 +1450,11 @@ button { font-family: inherit; cursor: pointer; }
   <section id="view-studentRegister" class="view-panel">
     <div class="page-section">
 
-      <div id="studentFormWrap">
+      <div class="reg-toggle-bar">
+        <button type="button" class="btn btn-primary" id="studentFormToggleBtn" onclick="toggleStudentFormVisibility()">➕ নতুন রেজিষ্ট্রেশন ফরম</button>
+      </div>
+
+      <div id="studentFormWrap" style="display:none;">
         <form id="studentForm" class="form-card reg-form-card" onsubmit="submitStudentForm(event)">
           <div class="form-letterhead">
             <div class="lh-logo-box" id="lhLogo1">ফো</div>
@@ -1549,6 +1559,19 @@ button { font-family: inherit; cursor: pointer; }
       </div>
 
       <div id="studentPrintWrap" style="display:none;"></div>
+
+      <div id="studentRegListWrap" class="table-list-wrap">
+        <div class="form-section-divider" style="margin:22px 0 14px">রেজিষ্ট্রেশনকৃত শিক্ষার্থীদের তালিকা</div>
+        <div class="filter-bar" style="margin-bottom:14px">
+          <input type="text" id="studentRegListSearch" placeholder="নাম দিয়ে খুঁজুন..." oninput="renderStudentRegList()">
+          <select id="studentRegListTypeFilter" onchange="renderStudentRegList()">
+            <option value="">সব ধরন</option>
+            <option value="প্রাক্তন">প্রাক্তন</option>
+            <option value="বর্তমান">বর্তমান</option>
+          </select>
+        </div>
+        <div id="studentRegListGrid"></div>
+      </div>
     </div>
   </section>
 
@@ -1573,7 +1596,11 @@ button { font-family: inherit; cursor: pointer; }
   <section id="view-teacherRegister" class="view-panel">
     <div class="page-section">
 
-      <div id="teacherFormWrap">
+      <div class="reg-toggle-bar">
+        <button type="button" class="btn btn-primary" id="teacherFormToggleBtn" onclick="toggleTeacherFormVisibility()">➕ নতুন রেজিষ্ট্রেশন ফরম</button>
+      </div>
+
+      <div id="teacherFormWrap" style="display:none;">
         <form id="teacherForm" class="form-card reg-form-card" onsubmit="submitTeacherForm(event)">
           <div class="form-letterhead">
             <div class="lh-logo-box" id="lhLogo2">ফো</div>
@@ -1670,6 +1697,19 @@ button { font-family: inherit; cursor: pointer; }
       </div>
 
       <div id="teacherPrintWrap" style="display:none;"></div>
+
+      <div id="teacherRegListWrap" class="table-list-wrap">
+        <div class="form-section-divider" style="margin:22px 0 14px">রেজিষ্ট্রেশনকৃত শিক্ষকদের তালিকা</div>
+        <div class="filter-bar" style="margin-bottom:14px">
+          <input type="text" id="teacherRegListSearch" placeholder="নাম দিয়ে খুঁজুন..." oninput="renderTeacherRegList()">
+          <select id="teacherRegListTypeFilter" onchange="renderTeacherRegList()">
+            <option value="">সব ধরন</option>
+            <option value="প্রাক্তন">প্রাক্তন</option>
+            <option value="বর্তমান">বর্তমান</option>
+          </select>
+        </div>
+        <div id="teacherRegListGrid"></div>
+      </div>
     </div>
   </section>
 
@@ -2311,6 +2351,8 @@ const API = {
   addTeacher(data) { return this.post('addTeacher', { data }); },
   updateStudent(data) { return this.post('updateStudent', { data }); },
   updateTeacher(data) { return this.post('updateTeacher', { data }); },
+  deleteStudent(id, password) { return this.post('deleteStudent', { id, password }); },
+  deleteTeacher(id, password) { return this.post('deleteTeacher', { id, password }); },
 
   checkPassword(password) { return this.get('checkPassword', { password }); },
 
@@ -2538,6 +2580,108 @@ function resetStudentForm() {
   const resultsBox = document.getElementById('sSearchResults');
   if (resultsBox) { resultsBox.innerHTML = ''; resultsBox.style.display = 'none'; }
   previewNextStudentRegNo();
+  updateStudentFormToggleBtn();
+}
+
+// রেজিষ্ট্রেশন ফরম টগল বাটন — ক্লিক করলে দেখাবে, আবার ক্লিক করলে বন্ধ হবে
+function updateStudentFormToggleBtn() {
+  const wrap = document.getElementById('studentFormWrap');
+  const btn = document.getElementById('studentFormToggleBtn');
+  if (!wrap || !btn) return;
+  const open = wrap.style.display !== 'none';
+  btn.textContent = open ? '✖ ফরম বন্ধ করুন' : '➕ নতুন রেজিষ্ট্রেশন ফরম';
+}
+
+function toggleStudentFormVisibility() {
+  const wrap = document.getElementById('studentFormWrap');
+  if (wrap.style.display !== 'none') {
+    wrap.style.display = 'none';
+    updateStudentFormToggleBtn();
+  } else {
+    document.getElementById('studentPrintWrap').style.display = 'none';
+    resetStudentForm();
+  }
+}
+
+// পাতা প্রথমবার লোড হলে ফরম বন্ধ অবস্থায় থাকবে, নিচে তালিকা দেখাবে
+function initStudentRegisterView() {
+  document.getElementById('studentFormWrap').style.display = 'none';
+  document.getElementById('studentPrintWrap').style.display = 'none';
+  editingStudentIdx = null;
+  updateStudentFormToggleBtn();
+  renderStudentRegList();
+}
+
+function renderStudentRegList() {
+  const grid = document.getElementById('studentRegListGrid');
+  if (!grid) return;
+  const q = (document.getElementById('studentRegListSearch')?.value || '').toLowerCase().trim();
+  const typeFilter = document.getElementById('studentRegListTypeFilter')?.value || '';
+  const list = STATE.students.filter(s => {
+    const matchSearch = !q || (s.Name || '').toLowerCase().includes(q) || (s.RegNo || '').toLowerCase().includes(q);
+    const matchType = !typeFilter || s.Type === typeFilter;
+    return matchSearch && matchType;
+  });
+
+  if (list.length === 0) {
+    grid.innerHTML = '<div class="empty-state">কোনো শিক্ষার্থী পাওয়া যায়নি।</div>';
+    return;
+  }
+
+  grid.innerHTML = `
+    <div style="overflow-x:auto">
+    <table class="finance-list-table">
+      <thead><tr><th>ক্রম</th><th>নাম</th><th>রেজি. নং</th><th>ধরন</th><th>মোবাইল</th><th>একশন</th></tr></thead>
+      <tbody>
+        ${list.map((s, i) => {
+          const idx = STATE.students.indexOf(s);
+          return `<tr>
+            <td>${toBn(i + 1)}</td>
+            <td class="name-col">${esc(s.Name)}</td>
+            <td>${esc(s.RegNo || '-')}</td>
+            <td>${esc(s.Type)}</td>
+            <td>${esc(s.Mobile)}</td>
+            <td>
+              <div class="reg-list-actions">
+                <button class="btn btn-primary btn-sm" onclick="startEditStudent(${idx})">✎ এডিট</button>
+                <button class="btn btn-gold btn-sm" onclick="printStudentFromList(${idx})">🖨️ প্রিন্ট</button>
+                <button class="btn btn-danger btn-sm" onclick="deleteStudentRecord(${idx})">🗑️ ডিলেট</button>
+              </div>
+            </td>
+          </tr>`;
+        }).join('')}
+      </tbody>
+    </table>
+    </div>`;
+}
+
+function printStudentFromList(idx) {
+  const s = STATE.students[idx];
+  if (!s) return;
+  showStudentPrintCopy(s, false);
+}
+
+async function deleteStudentRecord(idx) {
+  const s = STATE.students[idx];
+  if (!s) return;
+  if (!confirm(`আপনি কি নিশ্চিত "${s.Name}" এর রেজিষ্ট্রেশন মুছে ফেলতে চান? এই কাজটি ফিরিয়ে নেওয়া যাবে না।`)) return;
+  const password = STATE.isDemoMode ? '' : prompt('মুছে ফেলার জন্য ব্যবস্থাপনার পাসওয়ার্ড দিন:');
+  if (!STATE.isDemoMode && password === null) return;
+
+  try {
+    if (STATE.isDemoMode) {
+      STATE.students.splice(idx, 1);
+      showToast('ডেমো মোডে মুছে ফেলা হয়েছে');
+    } else {
+      await API.deleteStudent(s.ID, password);
+      STATE.students.splice(idx, 1);
+      showToast('রেজিষ্ট্রেশন মুছে ফেলা হয়েছে');
+      await refreshDashboardData();
+    }
+    renderStudentRegList();
+  } catch (err) {
+    showToast('সমস্যা হয়েছে: ' + err.message, true);
+  }
 }
 
 async function handleStudentPhotoUpload(input, target) {
@@ -2650,6 +2794,7 @@ async function submitStudentForm(e) {
     STATE.lastStudentSubmission = data;
     editingStudentIdx = null;
     showStudentPrintCopy(data);
+    renderStudentRegList();
   } catch (err) {
     errorBox.textContent = 'সমস্যা হয়েছে: ' + err.message;
     errorBox.classList.add('show');
@@ -2674,6 +2819,7 @@ function val(id) {
 function showStudentPrintCopy(data, allowEdit) {
   if (allowEdit === undefined) allowEdit = true;
   document.getElementById('studentFormWrap').style.display = 'none';
+  updateStudentFormToggleBtn();
   const wrap = document.getElementById('studentPrintWrap');
   wrap.style.display = 'block';
 
@@ -2752,6 +2898,7 @@ function startEditStudent(idx) {
 
   document.getElementById('studentFormWrap').style.display = 'block';
   document.getElementById('studentPrintWrap').style.display = 'none';
+  updateStudentFormToggleBtn();
 
   document.getElementById('sType').value = s.Type || '';
   document.getElementById('sGender').value = s.Gender || '';
@@ -2941,6 +3088,108 @@ function resetTeacherForm() {
   if (resultsBox) { resultsBox.innerHTML = ''; resultsBox.style.display = 'none'; }
   toggleRetirementField();
   previewNextTeacherRegNo();
+  updateTeacherFormToggleBtn();
+}
+
+// রেজিষ্ট্রেশন ফরম টগল বাটন — ক্লিক করলে দেখাবে, আবার ক্লিক করলে বন্ধ হবে
+function updateTeacherFormToggleBtn() {
+  const wrap = document.getElementById('teacherFormWrap');
+  const btn = document.getElementById('teacherFormToggleBtn');
+  if (!wrap || !btn) return;
+  const open = wrap.style.display !== 'none';
+  btn.textContent = open ? '✖ ফরম বন্ধ করুন' : '➕ নতুন রেজিষ্ট্রেশন ফরম';
+}
+
+function toggleTeacherFormVisibility() {
+  const wrap = document.getElementById('teacherFormWrap');
+  if (wrap.style.display !== 'none') {
+    wrap.style.display = 'none';
+    updateTeacherFormToggleBtn();
+  } else {
+    document.getElementById('teacherPrintWrap').style.display = 'none';
+    resetTeacherForm();
+  }
+}
+
+// পাতা প্রথমবার লোড হলে ফরম বন্ধ অবস্থায় থাকবে, নিচে তালিকা দেখাবে
+function initTeacherRegisterView() {
+  document.getElementById('teacherFormWrap').style.display = 'none';
+  document.getElementById('teacherPrintWrap').style.display = 'none';
+  editingTeacherIdx = null;
+  updateTeacherFormToggleBtn();
+  renderTeacherRegList();
+}
+
+function renderTeacherRegList() {
+  const grid = document.getElementById('teacherRegListGrid');
+  if (!grid) return;
+  const q = (document.getElementById('teacherRegListSearch')?.value || '').toLowerCase().trim();
+  const typeFilter = document.getElementById('teacherRegListTypeFilter')?.value || '';
+  const list = STATE.teachers.filter(t => {
+    const matchSearch = !q || (t.Name || '').toLowerCase().includes(q) || (t.RegNo || '').toLowerCase().includes(q);
+    const matchType = !typeFilter || t.Type === typeFilter;
+    return matchSearch && matchType;
+  });
+
+  if (list.length === 0) {
+    grid.innerHTML = '<div class="empty-state">কোনো শিক্ষক পাওয়া যায়নি।</div>';
+    return;
+  }
+
+  grid.innerHTML = `
+    <div style="overflow-x:auto">
+    <table class="finance-list-table">
+      <thead><tr><th>ক্রম</th><th>নাম</th><th>রেজি. নং</th><th>ধরন</th><th>মোবাইল</th><th>একশন</th></tr></thead>
+      <tbody>
+        ${list.map((t, i) => {
+          const idx = STATE.teachers.indexOf(t);
+          return `<tr>
+            <td>${toBn(i + 1)}</td>
+            <td class="name-col">${esc(t.Name)}</td>
+            <td>${esc(t.RegNo || '-')}</td>
+            <td>${esc(t.Type)}</td>
+            <td>${esc(t.Mobile)}</td>
+            <td>
+              <div class="reg-list-actions">
+                <button class="btn btn-primary btn-sm" onclick="startEditTeacher(${idx})">✎ এডিট</button>
+                <button class="btn btn-gold btn-sm" onclick="printTeacherFromList(${idx})">🖨️ প্রিন্ট</button>
+                <button class="btn btn-danger btn-sm" onclick="deleteTeacherRecord(${idx})">🗑️ ডিলেট</button>
+              </div>
+            </td>
+          </tr>`;
+        }).join('')}
+      </tbody>
+    </table>
+    </div>`;
+}
+
+function printTeacherFromList(idx) {
+  const t = STATE.teachers[idx];
+  if (!t) return;
+  showTeacherPrintCopy(t, false);
+}
+
+async function deleteTeacherRecord(idx) {
+  const t = STATE.teachers[idx];
+  if (!t) return;
+  if (!confirm(`আপনি কি নিশ্চিত "${t.Name}" এর রেজিষ্ট্রেশন মুছে ফেলতে চান? এই কাজটি ফিরিয়ে নেওয়া যাবে না।`)) return;
+  const password = STATE.isDemoMode ? '' : prompt('মুছে ফেলার জন্য ব্যবস্থাপনার পাসওয়ার্ড দিন:');
+  if (!STATE.isDemoMode && password === null) return;
+
+  try {
+    if (STATE.isDemoMode) {
+      STATE.teachers.splice(idx, 1);
+      showToast('ডেমো মোডে মুছে ফেলা হয়েছে');
+    } else {
+      await API.deleteTeacher(t.ID, password);
+      STATE.teachers.splice(idx, 1);
+      showToast('রেজিষ্ট্রেশন মুছে ফেলা হয়েছে');
+      await refreshDashboardData();
+    }
+    renderTeacherRegList();
+  } catch (err) {
+    showToast('সমস্যা হয়েছে: ' + err.message, true);
+  }
 }
 
 function toggleRetirementField() {
@@ -3070,6 +3319,7 @@ async function submitTeacherForm(e) {
     STATE.lastTeacherSubmission = data;
     editingTeacherIdx = null;
     showTeacherPrintCopy(data);
+    renderTeacherRegList();
   } catch (err) {
     errorBox.textContent = 'সমস্যা হয়েছে: ' + err.message;
     errorBox.classList.add('show');
@@ -3082,6 +3332,7 @@ async function submitTeacherForm(e) {
 function showTeacherPrintCopy(data, allowEdit) {
   if (allowEdit === undefined) allowEdit = true;
   document.getElementById('teacherFormWrap').style.display = 'none';
+  updateTeacherFormToggleBtn();
   const wrap = document.getElementById('teacherPrintWrap');
   wrap.style.display = 'block';
 
@@ -3159,6 +3410,7 @@ function startEditTeacher(idx) {
 
   document.getElementById('teacherFormWrap').style.display = 'block';
   document.getElementById('teacherPrintWrap').style.display = 'none';
+  updateTeacherFormToggleBtn();
 
   document.getElementById('tType').value = t.Type || '';
   toggleRetirementField();
@@ -3728,7 +3980,7 @@ function downloadEventRegCard(regId) {
       .evc-institute-address { font-size: 12px; color: #2a2a2a; margin-top: 0px; line-height: 1.15; }
 
       .evc-photo-box {
-        width: 92px; height: 112px;
+        width: 92px; height: 92px;
         border: 2px solid #1a1a5c;
         flex-shrink: 0;
         overflow: hidden;
@@ -3742,7 +3994,7 @@ function downloadEventRegCard(regId) {
         font-family: 'Hind Siliguri', sans-serif;
       }
 
-      .evc-event-badge-wrap { text-align: center; margin-top: 6px; }
+      .evc-event-badge-wrap { text-align: center; margin-top: 2px; }
       .evc-event-badge {
         display: inline-block;
         background: #1a1a5c;
@@ -3751,6 +4003,7 @@ function downloadEventRegCard(regId) {
         font-weight: 700;
         padding: 6px 24px;
         border: 2px solid #d4a24e;
+        border-radius: 10px;
       }
 
       .evc-divider { border-top: 2px solid #1a1a1a; margin-top: 8px; }
@@ -5763,8 +6016,8 @@ function showView(viewId) {
   if (viewId === 'committeePage') renderCommitteeCards();
   if (viewId === 'studentPortal') renderStudentPortal();
   if (viewId === 'teacherPortal') renderTeacherPortal();
-  if (viewId === 'studentRegister') { if (window._skipFormReset) { window._skipFormReset = false; previewNextStudentRegNo(); } else resetStudentForm(); }
-  if (viewId === 'teacherRegister') { if (window._skipFormReset) { window._skipFormReset = false; previewNextTeacherRegNo(); } else resetTeacherForm(); }
+  if (viewId === 'studentRegister') { if (window._skipFormReset) { window._skipFormReset = false; previewNextStudentRegNo(); updateStudentFormToggleBtn(); renderStudentRegList(); } else initStudentRegisterView(); }
+  if (viewId === 'teacherRegister') { if (window._skipFormReset) { window._skipFormReset = false; previewNextTeacherRegNo(); updateTeacherFormToggleBtn(); renderTeacherRegList(); } else initTeacherRegisterView(); }
   if (viewId === 'events') renderEventsList();
   if (viewId === 'income') initFinanceView('income');
   if (viewId === 'expense') initFinanceView('expense');
